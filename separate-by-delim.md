@@ -1,8 +1,8 @@
-
-
 # `separate()` with delimiters
 
-FROM QUARTO! \## Overview
+2024-10-03
+
+## Overview
 
 Often times we have to work with variables that have a delimited “list”
 of items stored as a single string. This means our data look like this
