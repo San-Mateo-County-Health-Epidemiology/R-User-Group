@@ -1,0 +1,108 @@
+---
+output: github_document
+format:
+  toc: true
+---
+# `separate()` with delimiters
+
+## Overview
+
+Often times we have to work with variables that have a delimited "list" of items stored as a single string. This means our data look like this `"94401, 94402, 94403, 94404"`, instead of this `c("94401", "94402", "94403", "94404")`.
+
+More often than not, we want to split the string so that each value is either its own entry in a list or its own variable in a data set. The class of the data (list or data set) informs the method we should use to split the data.
+
+## Splitting lists
+
+To split a list, I really like the `str_split()` function from the `stringr` package (part of the tidyverse ecosystem), but you can also use the `strsplit()` function in base R.
+
+When splitting lists by a delimiter, you might need to use regular expressions. The [stringr cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf) offers a quick introduction to regular expressions and provides some examples on how to use them.
+
+### stringr()
+
+Here we have a string of zip codes that we want to convert into a list of zip codes where each entry in the list is one of the zip codes. We can use `str_split()` to convert the string from a list of 1 to a list of 4. `\\s` is a regular expression that means "any whitespace". So this code will split the inputted string each time it encounters whitespace.
+
+```{r warning = FALSE, message = FALSE}
+#| warning: false
+library(tidyverse)
+
+zips <- "94401 94402 94403 94404"
+zips_split <- unlist(str_split(zips, "\\s"))
+zips_split
+```
+
+You can confirm the string has been split because the initial list is length 1 and the split list is length 4.
+
+```{r}
+length(zips)
+length(zips_split)
+```
+
+### base R
+
+We can do the same thing using the `strsplit()` function from base R. In this case, the two functions seem to operate the same way and can be used interchangeably.
+
+```{r}
+zips <- "94401 94402 94403 94404"
+zips_split_br <- unlist(strsplit(zips, "\\s"))
+```
+
+## Splitting variables
+
+If you have a variable in a data set that contains a delimited "list", using `str_split()` embeds a list within a variable, which can make the variable difficult to work with. Instead, you probably want to use `separate()` to split each item in the "list" into its own variable.
+
+The help text for `separate()` is quite extensive and I won't rehash that here. Instead, I'll share a method I use for quickly identifying how many variables I need to create to split.
+
+Here we'll look at an example where we have a variable that has the names of the COVID vaccines each person received. The vaccine names are separated by commas:
+
+```{r}
+data <- data.frame(
+  id = 1:10,
+  vax_info = c("Moderna, Moderna, Moderna", 
+               "Moderna, Moderna, Moderna", 
+               "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Pfizer, Pfizer, Pfizer", 
+               "Pfizer, Pfizer, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Moderna, Moderna, Pfizer, Pfizer Bivalent Booster, Pfizer BioNTech", 
+               "Pfizer, Pfizer", 
+               "J&J, Pfizer, Pfizer Bivalent Booster, Pfizer BioNTech", 
+               "Pfizer, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster, Pfizer Bivalent Booster")
+)
+```
+
+To figure out how many columns you need, you could manually count the entries in each row, find the row with the most entries and then create that many new column names for `separate()`. This would take a bit of work, especially if you have a large dataset. Luckily, there is a quicker way!
+
+First, count the number of delimiters - in this case commas - there are in each row using `str_count()` (also from the `stringr` package). Then use `summarize()` and `pull()` (both from `dplyr`) to find the maximum number of delimiters in the dataset. Add 1 to get the maximum number of entries:
+
+```{r}
+max_num <- data %>%
+  mutate(sep_ct = str_count(vax_info, "\\,")) %>%
+  summarize(max = max(sep_ct) + 1) %>%
+  pull(max)
+max_num
+```
+
+Now that you have the maximum number of entries you can create the new variables using `paste0()`. A word about `paste0()`. If you try to `paste0()` two lists of different lengths, `paste0()` will recycle the elements of the shorter list to match the number of elements in the longer list. Ex:
+
+```{r}
+paste0(letters[1:2], 1:7)
+```
+
+Here, we can use that to our advantage. Instead of writing out the variables (`c("var_1", "var_2", "var_3", ...)`) we can use `paste0()` to create them for us:
+
+```{r eval=FALSE}
+vars <- paste0("vax_", 1:max_num)
+vars
+```
+
+Now, we can use that in `separate()` to split our list variable into unique columns!
+
+```{r}
+data1 <- data %>%
+  separate(col = vax_info,
+           into = paste0("vax_", 1:max_num),
+           sep = ",\\s",
+           fill = "right",
+           remove = FALSE)
+str(data1)
+```
