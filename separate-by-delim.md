@@ -1,7 +1,8 @@
 
+
 # `separate()` with delimiters
 
-## Overview
+FROM QUARTO! \## Overview
 
 Often times we have to work with variables that have a delimited “list”
 of items stored as a single string. This means our data look like this
@@ -41,7 +42,7 @@ zips_split <- unlist(str_split(zips, "\\s"))
 zips_split
 ```
 
-    ## [1] "94401" "94402" "94403" "94404"
+    [1] "94401" "94402" "94403" "94404"
 
 You can confirm the string has been split because the initial list is
 length 1 and the split list is length 4.
@@ -50,13 +51,13 @@ length 1 and the split list is length 4.
 length(zips)
 ```
 
-    ## [1] 1
+    [1] 1
 
 ``` r
 length(zips_split)
 ```
 
-    ## [1] 4
+    [1] 4
 
 ### base R
 
@@ -120,7 +121,7 @@ max_num <- data %>%
 max_num
 ```
 
-    ## [1] 6
+    [1] 6
 
 Now that you have the maximum number of entries you can create the new
 variables using `paste0()`. A word about `paste0()`. If you try to
@@ -132,7 +133,7 @@ longer list. Ex:
 paste0(letters[1:2], 1:7)
 ```
 
-    ## [1] "a1" "b2" "a3" "b4" "a5" "b6" "a7"
+    [1] "a1" "b2" "a3" "b4" "a5" "b6" "a7"
 
 Here, we can use that to our advantage. Instead of writing out the
 variables (`c("var_1", "var_2", "var_3", ...)`) we can use `paste0()` to
@@ -156,12 +157,12 @@ data1 <- data %>%
 str(data1)
 ```
 
-    ## 'data.frame':    10 obs. of  8 variables:
-    ##  $ id      : int  1 2 3 4 5 6 7 8 9 10
-    ##  $ vax_info: chr  "Moderna, Moderna, Moderna" "Moderna, Moderna, Moderna" "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster" "Pfizer, Pfizer, Pfizer" ...
-    ##  $ vax_1   : chr  "Moderna" "Moderna" "Moderna" "Pfizer" ...
-    ##  $ vax_2   : chr  "Moderna" "Moderna" "Moderna" "Pfizer" ...
-    ##  $ vax_3   : chr  "Moderna" "Moderna" "Pfizer" "Pfizer" ...
-    ##  $ vax_4   : chr  NA NA "Pfizer" NA ...
-    ##  $ vax_5   : chr  NA NA "Pfizer Bivalent Booster" NA ...
-    ##  $ vax_6   : chr  NA NA NA NA ...
+    'data.frame':   10 obs. of  8 variables:
+     $ id      : int  1 2 3 4 5 6 7 8 9 10
+     $ vax_info: chr  "Moderna, Moderna, Moderna" "Moderna, Moderna, Moderna" "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster" "Pfizer, Pfizer, Pfizer" ...
+     $ vax_1   : chr  "Moderna" "Moderna" "Moderna" "Pfizer" ...
+     $ vax_2   : chr  "Moderna" "Moderna" "Moderna" "Pfizer" ...
+     $ vax_3   : chr  "Moderna" "Moderna" "Pfizer" "Pfizer" ...
+     $ vax_4   : chr  NA NA "Pfizer" NA ...
+     $ vax_5   : chr  NA NA "Pfizer Bivalent Booster" NA ...
+     $ vax_6   : chr  NA NA NA NA ...

@@ -1,12 +1,8 @@
 ---
-output: github_document
-theme: cosmo
-format:
-  html:
-    self-contained: true
+format: gfm
 ---
 # `separate()` with delimiters
-
+FROM QUARTO!
 ## Overview
 
 Often times we have to work with variables that have a delimited "list" of items stored as a single string. This means our data look like this `"94401, 94402, 94403, 94404"`, instead of this `c("94401", "94402", "94403", "94404")`.
