@@ -1,0 +1,100 @@
+---
+title: "dynamic selecting of variables"
+format: html
+editor: visual
+---
+
+## Overview
+
+Sometimes you want to keep specific variables but you don't want to have to type out each variable name. Other times, if you're working with a dataset 
+
+```{r}
+library(tidyverse)
+library(palmerpenguins) # this loads the penguins data set 
+
+# look at the data
+str(penguins)
+```
+
+## Basic use of the `select()` function 
+
+We typically use `select()` to pull certain variables out of a data set and we typically reference each variable we want to keep by name. 
+```{r}
+penguins %>%
+  select(species, island, body_mass_g)
+```
+This works, but can get onerous when you're selecting a lot of variables and can also cause issues if you're trying to automate data processing and there's a risk the variable names might change. 
+
+Luckily, `dplyr`'s `select()` function offers some helper functions to make your life easier!
+
+## `dplyr` helper functions
+
+### `everything()` 
+
+Lets say you want to keep all the variables in your data set, but you want to reorder them. You want the `year` variable to go first, followed by `sex` and then everything else should go to the right of that. Instead of manually typing out each variable name, you can use `everything()`: 
+
+```{r}
+penguins %>%
+  select(year, sex, everything())
+```
+
+### `last_col()`
+
+You can also move variables around by position, but be careful with this. If variables are added to or removed from your dataset, then you might end up moving unexpected variables. 
+
+If you want to move a column in a specific position, you can use the `last_col()` helper. If you don't pass any arguements to the `last_col()` function, it will move the last column: 
+
+```{r}
+penguins %>%
+  select(species, last_col(), everything())
+```
+If you want to move a different variable you pass the position of that variable relative to the last column into the `last_col()` function. This is how you'd move the second to last column: 
+
+```{r}
+penguins %>%
+  select(species, last_col(1L), everything())
+```
+### regular indexing
+You can also move things around using the column number:
+
+```{r}
+penguins %>%
+  select(3:ncol(.), 1:2)
+```
+
+
+## select data by type ----
+## normally we write functions like this `is.Date()` (with parentheses), but here you can't use parentheses after the function
+sample_data %>%
+  select(where(is.Date))
+
+sample_data %>%
+  select(where(is.Date) | where(is.POSIXct))
+
+sample_data %>%
+  select(record_id, (where(is.Date) | where(is.POSIXct)))
+
+## selecting by fragnents of variable names ----
+sample_data %>%
+  select(matches("interview|create"))
+
+## selecting some or all variables from a list ----
+race_vars <- c("race", "ethnicity", "race1")
+
+## requires that all of the variables in the list are in your dataset
+sample_data %>%
+  select(all_of(race_vars))
+
+## will just get any variables from the list that it can
+sample_data %>%
+  select(any_of(race_vars))
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
