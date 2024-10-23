@@ -1,0 +1,29 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# R-User-Group
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This repository contains markdown files for topics we've discussed during the R user group. Feel free to peruse the index or search for posts using the GitHub search functionality. 
+
+Each topic has two files: a `.qmd` (Quarto) file and a `.md` (markdown) file. The `.md` file is rendered from the `.qmd` file. If you look through the `quarto-markdowns` folder you'll see one of each file for each topic. 
+
+----------------------------------------------------------------
+
+## Topics: 
+
+| Date     | Script                                 |
+|----------| -------------------------------------  |
+|2024-10-03| [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-docs/separate-by-delim.md) |
