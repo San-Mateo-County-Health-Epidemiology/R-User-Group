@@ -10,6 +10,7 @@ If you're lucky, R will recognize a date (Date) or a date/time (POSIXct) when it
 
 
 ```{r}
+#| warning: false
 library(tidyverse)
 library(lubridate)
 ```
@@ -59,7 +60,7 @@ class(date2_date)
 date3 <- "January, 01, 2000"
 date3_date <- as.Date(date3, format = "%B, %d, %Y")
 date3_date
-````
+```
 
 ### Date conversion example 4
 
@@ -81,35 +82,44 @@ excel_date <- as.Date(as.numeric(excel), origin = "1899-12-30")
 excel_date
 ```
 
+### Within R
 
-## formatting dates to print out
-format(Sys.Date(), format = "%d %B %Y")
+R stores dates as the number of days since 1/1/1970 and stores date/times (POSIXct) as the number of seconds since 1/1/1970. 
+
+```{r}
+within_r <- "15000"
+r_date <- as.Date(as.numeric(within_r), origin = "1970-01-01")
+r_date
+```
+### Timezones
+
+Sometimes when you're converting a date/time (POSIXct) you need to specify the timezone for which the time was recorded. You do this with the `tz` argument in the `as.POSIXct()` function. You can also change the timezone of a POSIXct variable after it's been set with the `with_tz()` function. 
+
+```{r}
+# date/time as a string
+date_time <- "2021-01-01T18:00:00"
+class(date_time)
+
+# convert to a POSIXct in GMT
+date_time_gmt <- as.POSIXct(date_time, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT")
+date_time_gmt
+
+# convert to PDT
+date_time_pdt <- with_tz(date_time_gmt, tzone = "US/Pacific")
+date_time_pdt
+```
+
+## Formatting dates for reports
+
+If you're including dates in a report or chart and want them to look a specific way, you can use the `format()` function. Like the `as.Date()` function, you use the `format` argument to specify which part of the date should go where. 
+
+### Formatting example 1
+
+```{r}
+format(Sys.Date(), format = "%B %d, %Y")
+```
+### Formatting example 2
+
+```{r}
 format(Sys.Date(), format = "%m/%d/%Y")
-
-sample_data2 <- sample_data %>%
-  select(record_id, episode_date) %>%
-  mutate(episode_date_print = format(episode_date, format = "%m/%d/%Y"))
-
-str(sample_data2)
-
-## converting dates in R
-### if you want make your data long and you have dates + characters that you combine into one column, it will convert the dates into the number of days since 1/1/1970 and the posixct into the number of seconds from 1/1/1970
-sample_data1 <- sample_data %>%
-  select(record_id, matches("create_date|sex")) %>%
-  gather(variable, value, matches("create_date|sex")) %>% 
-  mutate(date_time = as.POSIXct(as.numeric(value), origin = "1970-01-01"),
-         date = as.Date(as.numeric(value), origin = "1970-01-01"))
-
-## timezones
-date_time_gmt <- "2021-01-01T18:00:00"
-
-# all in one
-date_time_pdt_all <- with_tz(as.POSIXct(date_time_gmt, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT"), tzone = "US/Pacific")
-
-# step 1 - convert to posixct
-class(date_time_gmt)
-date_time_pdt_1 <- as.POSIXct(date_time_gmt, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT")
-
-# step 2 - convert to PDT
-date_time_pdt_2 <- with_tz(date_time_pdt_1, tzone = "US/Pacific")
-date_time_pdt_2
+```

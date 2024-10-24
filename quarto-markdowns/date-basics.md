@@ -1,0 +1,189 @@
+# Date basics
+
+2022-05-05
+
+## Overview
+
+If you’re lucky, R will recognize a date (Date) or a date/time (POSIXct)
+when it’s imported. But many times you won’t be lucky and will need to
+know how to convert what is imported into a date.
+
+``` r
+library(tidyverse)
+library(lubridate)
+```
+
+## Converting strings to dates
+
+To convert a string to a date you’ll use either `as.Date()` (for dates)
+or `as.POSIXct()` (for date-times) and within either function, you’ll
+use the `format` argument.
+
+The `format` step tells R where to look for each piece of the date as it
+tries to convert the string into a date. So if you specify
+`format = "%d/%m/%Y`, R will expect the inputted string to follow the
+pattern DD/MM/YYYY. There is a comprehensive table of how to format
+different pieces of a date
+[here](https://www.r-bloggers.com/2013/08/date-formats-in-r/), but
+generally these will get you quite far:
+
+| conversion | Description                           |
+|------------|---------------------------------------|
+| %d         | 2 digit day                           |
+| %m         | 2 digit month                         |
+| %b or %h   | abbreviated month, ex: Jan, Feb       |
+| %B         | full month, ex: January, February     |
+| %y         | two digit year, ex: 12, 14, 98        |
+| %Y         | four digit year, ex: 2012, 2014, 1998 |
+
+Once a variable is stored as a date in R, it will be formatted as
+YYYY-MM-DD
+
+### Date conversion example 1
+
+``` r
+date1 <- "01/01/1900"
+class(date1)
+```
+
+    [1] "character"
+
+``` r
+date1_date <- as.Date(date1, format = "%d/%m/%Y")
+date1_date
+```
+
+    [1] "1900-01-01"
+
+``` r
+class(date1_date)
+```
+
+    [1] "Date"
+
+### Date conversion example 2
+
+``` r
+date2 <- "Jan01-00"
+class(date2)
+```
+
+    [1] "character"
+
+``` r
+date2_date <- as.Date(date2, format = "%b%d-%y")
+date2_date
+```
+
+    [1] "2000-01-01"
+
+``` r
+class(date2_date)
+```
+
+    [1] "Date"
+
+### Date conversion example 3
+
+``` r
+date3 <- "January, 01, 2000"
+date3_date <- as.Date(date3, format = "%B, %d, %Y")
+date3_date
+```
+
+    [1] "2000-01-01"
+
+### Date conversion example 4
+
+``` r
+date4 <- "2000yr01mn01dt"
+date4_date <- as.Date(date4, format = "%Yyr%mmn%ddt")
+date4_date
+```
+
+    [1] "2000-01-01"
+
+## Dealing with dates from other sources
+
+### Excel
+
+If you read a date in from excel and there’s one bad date in the column,
+it convert everything to a number that is the number of days since
+12/30/1899. You can fix this by adding the `origin` argument to the
+`as.Date()` function.
+
+``` r
+excel <- "42000"
+excel_date <- as.Date(as.numeric(excel), origin = "1899-12-30")
+excel_date
+```
+
+    [1] "2014-12-27"
+
+### Within R
+
+R stores dates as the number of days since 1/1/1970 and stores
+date/times (POSIXct) as the number of seconds since 1/1/1970.
+
+``` r
+within_r <- "15000"
+r_date <- as.Date(as.numeric(within_r), origin = "1970-01-01")
+r_date
+```
+
+    [1] "2011-01-26"
+
+### Timezones
+
+Sometimes when you’re converting a date/time (POSIXct) you need to
+specify the timezone for which the time was recorded. You do this with
+the `tz` argument in the `as.POSIXct()` function. You can also change
+the timezone of a POSIXct variable after it’s been set with the
+`with_tz()` function.
+
+``` r
+# date/time as a string
+date_time <- "2021-01-01T18:00:00"
+class(date_time)
+```
+
+    [1] "character"
+
+``` r
+# convert to a POSIXct in GMT
+date_time_gmt <- as.POSIXct(date_time, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT")
+date_time_gmt
+```
+
+    [1] "2021-01-01 18:00:00 GMT"
+
+``` r
+# convert to PDT
+date_time_pdt <- with_tz(date_time_gmt, tzone = "US/Pacific")
+date_time_pdt
+```
+
+    [1] "2021-01-01 10:00:00 PST"
+
+## Formatting dates for reports
+
+If you’re including dates in a report or chart and want them to look a
+specific way, you can use the `format()` function. Like the `as.Date()`
+function, you use the `format` argument to specify which part of the
+date should go where.
+
+### Formatting example 1
+
+``` r
+format(Sys.Date(), format = "%B %d, %Y")
+```
+
+    [1] "October 24, 2024"
+
+### Formatting example 2
+
+``` r
+format(Sys.Date(), format = "%m/%d/%Y")
+```
+
+    [1] "10/24/2024"
