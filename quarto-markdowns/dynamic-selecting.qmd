@@ -1,14 +1,19 @@
 ---
 title: "dynamic selecting of variables"
-format: html
+format: gfm
 editor: visual
 ---
 
 ## Overview
 
-Sometimes you want to keep specific variables but you don't want to have to type out each variable name. Other times, if you're working with a dataset 
+Sometimes you want to keep specific variables but you don't want to have to type out each variable name. Other times, you're working with a data set that might change and you don't want to refer to variables by name. 
+
+`dplyr`'s `select()` function has some helper functions that will allow you to select the variables you want in a flexible and concise way!
+
+These examples will use the [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) data set. 
 
 ```{r}
+#| warning: false
 library(tidyverse)
 library(palmerpenguins) # this loads the penguins data set 
 
@@ -18,10 +23,11 @@ str(penguins)
 
 ## Basic use of the `select()` function 
 
-We typically use `select()` to pull certain variables out of a data set and we typically reference each variable we want to keep by name. 
+We typically use `select()` to pull variables out of a data set by name.  
 ```{r}
 penguins %>%
-  select(species, island, body_mass_g)
+  select(species, island, body_mass_g) %>%
+  head(5)
 ```
 This works, but can get onerous when you're selecting a lot of variables and can also cause issues if you're trying to automate data processing and there's a risk the variable names might change. 
 
@@ -29,13 +35,48 @@ Luckily, `dplyr`'s `select()` function offers some helper functions to make your
 
 ## `dplyr` helper functions
 
+### `all_of()`
+
+If there is a minimum set of variables you want to select, you can wrap the list in `all_of()`. This is also the default behavior of `select()`. Every variable listed in `select()` must exist in the data set when you're using `all_of()`. 
+
+```{r}
+vars <- c("species", "island", "year")
+
+penguins %>%
+  select(all_of(vars)) %>%
+  head(5)
+```
+
+### `any_of()`
+
+`any_of()` is really handy if your data set might change and you just want to pull any variables that are available in the data set. If you list a variable that isn't in the data set, you won't get an error. 
+
+```{r}
+vars <- c("age", "sex", "year")
+
+penguins %>%
+  select(any_of(vars)) %>%
+  head(5)
+```
+
+### `matches()`
+
+`matches()` lets you select variables using regular expressions. This is great if you are looking for variables with a known pattern and don't want to manually list them all out. 
+
+```{r}
+penguins %>%
+  select(matches("bill|_mm$")) %>%
+  head(5)
+```
+
 ### `everything()` 
 
 Lets say you want to keep all the variables in your data set, but you want to reorder them. You want the `year` variable to go first, followed by `sex` and then everything else should go to the right of that. Instead of manually typing out each variable name, you can use `everything()`: 
 
 ```{r}
 penguins %>%
-  select(year, sex, everything())
+  select(year, sex, everything()) %>%
+  head(5)
 ```
 
 ### `last_col()`
@@ -46,55 +87,43 @@ If you want to move a column in a specific position, you can use the `last_col()
 
 ```{r}
 penguins %>%
-  select(species, last_col(), everything())
+  select(species, last_col(), everything()) %>%
+  head(5)
 ```
 If you want to move a different variable you pass the position of that variable relative to the last column into the `last_col()` function. This is how you'd move the second to last column: 
 
 ```{r}
 penguins %>%
-  select(species, last_col(1L), everything())
+  select(species, last_col(1L), everything()) %>%
+  head(5)
 ```
-### regular indexing
+### (non-dplyr) indexing
 You can also move things around using the column number:
 
 ```{r}
 penguins %>%
-  select(3:ncol(.), 1:2)
+  select(3:ncol(.), 1:2) %>%
+  head(5)
 ```
 
+### `where()`
 
-## select data by type ----
-## normally we write functions like this `is.Date()` (with parentheses), but here you can't use parentheses after the function
-sample_data %>%
-  select(where(is.Date))
-
-sample_data %>%
-  select(where(is.Date) | where(is.POSIXct))
-
-sample_data %>%
-  select(record_id, (where(is.Date) | where(is.POSIXct)))
-
-## selecting by fragnents of variable names ----
-sample_data %>%
-  select(matches("interview|create"))
-
-## selecting some or all variables from a list ----
-race_vars <- c("race", "ethnicity", "race1")
-
-## requires that all of the variables in the list are in your dataset
-sample_data %>%
-  select(all_of(race_vars))
-
-## will just get any variables from the list that it can
-sample_data %>%
-  select(any_of(race_vars))
-```
-
-You can add options to executable code like this
+Instead of selecting by position, you can select by data type with the `where()` function. This is great if you want to perform an operation on all numeric values, change the case of all character values or pull out all date variables to a separate table. 
 
 ```{r}
-#| echo: false
-2 * 2
-```
+penguins %>%
+  select(where(is.integer)) %>%
+  head(5)
 
-The `echo: false` option disables the printing of code (only output is displayed).
+penguins %>%
+  select(where(is.factor) | where(is.double)) %>%
+  head(5)
+
+```
+You can combine the `where()` functions with "regular" selection by variable name, too.
+
+```{r}
+penguins %>%
+  select(year, where(is.factor)) %>%
+  head(5)
+```
