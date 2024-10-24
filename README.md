@@ -22,3 +22,4 @@ each topic.
 | Date | Script |
 |----|----|
 | 2024-10-03 | [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-docs/separate-by-delim.md) |
+| 2023-03-23 | [dynamically selecting variables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dynamic-selecting.md) |
