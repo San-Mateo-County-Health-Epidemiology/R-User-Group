@@ -69,6 +69,21 @@ syntax: `#| eval: false`.
 A full list of options lives
 [here](https://quarto.org/docs/computations/execution-options.html).
 
+### Rendering to HTML
+
+When you render an R Markdown to HTML, it generates an HTML file that
+you can share with other people. By default, Quarto doesn’t do that. If
+you want to be able to share an HTML file from Quarto, you need to add
+this to your YAML
+
+``` r
+---
+format:
+  html:
+    embed-resources: true
+---
+```
+
 ### Other benefits
 
 Quarto works with Python, Julia and a bunch of other languages. Since we
