@@ -1,0 +1,57 @@
+---
+format: gfm
+title: "Quarto overview"
+date: "2024-10-31"
+---
+
+## Overview
+
+Think of Quarto as the new version of R Markdown. It has all the functionality of R Markdown plus some really cool upgrades.
+
+We aren't going to ask you to convert your R Markdown files into Quarto files, but when you go to create new R Markdown files, you should consider using Quarto. Posit will continue supporting R Markdown but will focus on adding new features to Quarto.
+
+Note: Quarto should be included in your R Studio installation - you don't need to install it separately.
+
+Full details about Quarto live [here](https://quarto.org/).
+
+## Some important changes/improvements:
+
+### Visual mode
+
+This is also an option in R Markdown, so it's not a reason to switch to Quarto, but it's a really cool feature! In the upper left corner of your Quarto doc, you can switch between **Source** and **Visual** modes.
+
+![](images/quarto-visual-mode.png)
+
+**Source** mode is what you're probably used to from using R Markdown. **Visual** mode offers a preview of your document and has a toolbar to help you with formatting text, inserting images and adding links. If you bold text in the **Visual** mode, then you'll see the edited source text in the **Source** mode.
+
+### Typst vs LaTeX for PDFs
+
+When you knit an R Markdown file to PDF, you typically have to use a LaTeX distribution like MikTeX or tinytex. These tend to be finnicky and difficult to use.
+
+Posit has introduced **typst** as an alternative to LaTeX for rendering to PDF from Quarto. It promises to be easier to use than LaTeX! Full details are [here](https://quarto.org/docs/output-formats/typst.html)
+
+### Code evaluation options
+
+In R Markdown, we can decide to run a code chunk, display code, warnings and messages using the little gear in the upper right corner of the code chunk.
+
+In Quarto, these options are denoted in either the YAML at the top or using a `#|` in the top of a code chunk. In the YAML, you specify the default behavior for the document. Here the default would be that none of the code in the document is actually run:
+
+```{r}
+#| eval: false
+---
+title: "My Document"
+execute:
+  echo: false
+---
+```
+
+If you want to override the default behavior for a given code chunk, you can add the options you want to the top of the code chunk using this syntax: `#| eval: false`. 
+
+A full list of options lives [here](https://quarto.org/docs/computations/execution-options.html).
+
+
+### Other benefits
+
+Quarto works with Python, Julia and a bunch of other languages. Since we primarily use R, this isn't a huge deal to us, but it's great in the event any of us branch out!
+
+You can also make presentations from Quarto. I made one and it lives [here](https://github.com/San-Mateo-County-Health-Epidemiology/redcap_apis_and_r). 
