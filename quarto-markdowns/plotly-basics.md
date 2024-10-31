@@ -9,21 +9,21 @@ interactive graphs. Unfortunately, you can’t display rendered charts
 when knitting gfm markdowns hosted on GitHub (as this one is) but if you
 want to see how plotly works, you can run this code in your own R
 session. When you run it yourself, take some time to play around with
-the rendered! You can hover over data to see values, zoom in and out and
-even toggle values on and off.
+the rendered charts! You can hover over data to see values, zoom in and
+out and even toggle values on and off.
 
 This is just an overview of how to use plotly. When you want to create
 future plotly charts, you should use the [plotly
 website](https://plotly.com/r/) for examples. It’s really well done and
-has lots of code to copy!
+has lots of code to copy.
 
 *Note: when you look for plotly help online, be sure to include “R” in
 your search (ex: “R plotly how to add title”) as there is also a plotly
-package for python. *
+package for python.*
 
 ## Usage
 
-We’re going to walk through how to make a basic scatterplot.
+We’re going to walk through how to make a basic scatter plot.
 
 ``` r
 library(tidyverse)
