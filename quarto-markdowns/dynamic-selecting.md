@@ -1,5 +1,5 @@
 # Dynamically selecting variables
-
+Beth Jump
 2023-03-23
 
 ## Overview

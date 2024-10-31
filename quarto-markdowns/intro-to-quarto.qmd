@@ -1,6 +1,7 @@
 ---
 format: gfm
 title: "Quarto overview"
+author: "Beth Jump"
 date: "2024-10-31"
 ---
 

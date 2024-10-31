@@ -1,6 +1,7 @@
 ---
 format: gfm
 title: "`separate()` with delimiters"
+author: "Beth Jump"
 date: "2024-10-03"
 ---
 
