@@ -1,5 +1,5 @@
 # Date basics
-
+Beth Jump
 2022-05-05
 
 ## Overview
@@ -178,7 +178,7 @@ date should go where.
 format(Sys.Date(), format = "%B %d, %Y")
 ```
 
-    [1] "October 24, 2024"
+    [1] "October 31, 2024"
 
 ### Formatting example 2
 
@@ -186,4 +186,4 @@ format(Sys.Date(), format = "%B %d, %Y")
 format(Sys.Date(), format = "%m/%d/%Y")
 ```
 
-    [1] "10/24/2024"
+    [1] "10/31/2024"

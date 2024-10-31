@@ -1,6 +1,7 @@
 ---
 format: gfm
 title: "Date basics"
+author: "Beth Jump"
 date: "2022-05-05"
 ---
 
