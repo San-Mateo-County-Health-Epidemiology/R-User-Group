@@ -25,7 +25,7 @@ This is also an option in R Markdown, so it’s not a reason to switch to
 Quarto, but it’s a really cool feature! In the upper left corner of your
 Quarto doc, you can switch between **Source** and **Visual** modes.
 
-![](images/quarto-visual-mode.png)
+![](images/intro-to-quarto_visual-mode.png)
 
 **Source** mode is what you’re probably used to from using R Markdown.
 **Visual** mode offers a preview of your document and has a toolbar to
