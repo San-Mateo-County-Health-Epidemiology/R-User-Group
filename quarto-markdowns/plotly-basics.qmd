@@ -1,15 +1,15 @@
 ---
-format:
-  html:
-    embed-resources: true
+format: gfm
 title: "plotly basics"
 author: "Beth Jump"
 date: "2022-07-14"
+execute:
+  eval: false
 ---
 
 ## Overview
 
-While `ggplot2` is wonderful for static charts, `plotly` is amazing for interactive graphs. When you look at the rendered charts below, play around with them! You can hover over data to see values, zoom in and out and even toggle values on and off.  
+While `ggplot2` is wonderful for static charts, `plotly` is amazing for interactive graphs. Unfortunately, you can't display rendered charts when knitting gfm markdowns hosted on GitHub (as this one is) but if you want to see how plotly works, you can run this code in your own R session. When you run it yourself, take some time to play around with the rendered! You can hover over data to see values, zoom in and out and even toggle values on and off.  
 
 This is just an overview of how to use plotly. When you want to create future plotly charts, you should use the [plotly website](https://plotly.com/r/) for examples. It's really well done and has lots of code to copy! 
 
@@ -54,6 +54,7 @@ penguins %>%
 ```
 
 If you don't love the default colors, you can change them manually:
+
 ```{r}
 penguins %>%
   plot_ly() %>%
@@ -65,7 +66,7 @@ penguins %>%
             colors = c("green", "orange", "blue"))
 ```
 
-You can also easily add labels to your chart. 
+You can add labels to your chart using `layout()`. You can specify the text, font size, font family, color, etc. within the `title`, `xaxis` and `yaxis` arguments. Below we've specified the font size for the `xaxis`:
 
 ```{r}
 penguins %>%
@@ -77,6 +78,6 @@ penguins %>%
             color = ~species,
             colors = c("green", "orange", "blue")) %>%
   layout(title = "Flipper and bill length of Palmer Penguins", 
-         xaxis = list(title = "Bill Length (mm)"),
+         xaxis = list(title = list(text = "Bill Length (mm)", font = list(size = 14))),
          yaxis = list(title = "Flipper Length (mm)"))
 ```
