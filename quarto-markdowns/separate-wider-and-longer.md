@@ -1,0 +1,132 @@
+# `separate_wider` and `separate_longer` functions
+Eamonn Hartmann, Hanley Kingston, Beth Jump
+2024-10-18
+
+## Overview
+
+The `separate()` function from `tidyr` has been superceded by variations
+of the `separate_wider()` and `separate_longer()` functions. According
+to the help text, `separate()` won’t go away but it will only be updated
+for critical bug fixes.
+
+## Usage
+
+We’ll walk through examples of how to use each function.
+
+### `separate_wider_position()`
+
+Hanley here!
+
+### `separate_wider_delim()`
+
+This example feels really similar to how we typically use `separate()`.
+`separate_wider_delim()` will separate a variable into the specified
+columns based on a delimiter. In this example we’re splitting based on a
+comma.
+
+Note that unlike with `separate()` in `separate_wider_delim()` we use
+the `too_few` argument (instead of the `fill` argument) to specify what
+we want to do when there aren’t enough values in a variable.
+
+``` r
+vaccines <- data.frame(
+  id = 1:10,
+  vax_info = c("Moderna, Moderna, Moderna", 
+               "Moderna, Moderna, Moderna", 
+               "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Pfizer, Pfizer, Pfizer", 
+               "Pfizer, Pfizer, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Moderna, Moderna, Pfizer, Pfizer Bivalent Booster, Pfizer BioNTech", 
+               "Pfizer, Pfizer", 
+               "J&J, Pfizer, Pfizer Bivalent Booster, Pfizer BioNTech", 
+               "Pfizer, Pfizer, Pfizer, Pfizer Bivalent Booster", 
+               "Moderna, Moderna, Pfizer, Pfizer, Pfizer Bivalent Booster, Pfizer Bivalent Booster")
+)
+
+vaccines %>% 
+  separate_wider_delim(cols = vax_info, 
+                       delim = ",", 
+                       names = paste0("vax_", 1:6), 
+                       too_few = "align_start")
+```
+
+    # A tibble: 10 × 7
+          id vax_1   vax_2      vax_3                      vax_4         vax_5 vax_6
+       <int> <chr>   <chr>      <chr>                      <chr>         <chr> <chr>
+     1     1 Moderna " Moderna" " Moderna"                  <NA>          <NA>  <NA>
+     2     2 Moderna " Moderna" " Moderna"                  <NA>          <NA>  <NA>
+     3     3 Moderna " Moderna" " Pfizer"                  " Pfizer"     " Pf…  <NA>
+     4     4 Pfizer  " Pfizer"  " Pfizer"                   <NA>          <NA>  <NA>
+     5     5 Pfizer  " Pfizer"  " Pfizer"                  " Pfizer"     " Pf…  <NA>
+     6     6 Moderna " Moderna" " Pfizer"                  " Pfizer Biv… " Pf…  <NA>
+     7     7 Pfizer  " Pfizer"   <NA>                       <NA>          <NA>  <NA>
+     8     8 J&J     " Pfizer"  " Pfizer Bivalent Booster" " Pfizer Bio…  <NA>  <NA>
+     9     9 Pfizer  " Pfizer"  " Pfizer"                  " Pfizer Biv…  <NA>  <NA>
+    10    10 Moderna " Moderna" " Pfizer"                  " Pfizer"     " Pf… " Pf…
+
+### `separate_wider_regex()`
+
+`separate_wider_regex()` allows you to split up a string based on string
+patterns. It might be useful if you’re handling something with a defined
+pattern, like emails, but probably won’t be the first `separate()`
+function you reach for.
+
+``` r
+emails <- data.frame(
+  id = 1:4,
+  email = c("pumpkins@yahoo.com", "love4squash@gmail.com", "sp00kys3ason@hotmail.com", "black_cats@aol.com")
+)
+
+emails %>% 
+  separate_wider_regex(cols = email, 
+                       patterns = c(usename = "^[A-Za-z0-9_]*", 
+                                    sep_1 = "\\@", 
+                                    domain = "[A-Za-z]*", 
+                                    sep_2 = "\\.", 
+                                    type = "[A-Za-z]*$"), 
+                       too_few = "align_start")
+```
+
+    # A tibble: 4 × 6
+         id usename      sep_1 domain  sep_2 type 
+      <int> <chr>        <chr> <chr>   <chr> <chr>
+    1     1 pumpkins     @     yahoo   .     com  
+    2     2 love4squash  @     gmail   .     com  
+    3     3 sp00kys3ason @     hotmail .     com  
+    4     4 black_cats   @     aol     .     com  
+
+### `separate_longer_delim()`
+
+Eamonn here!
+
+### separate_longer_position()
+
+This version of `separate_longer()` is probably useful in a very
+specific situation, but I can’t think of a time when I would use it. It
+will split a variable into strings of a given length specified by the
+`width =` argument.
+
+Here’s an example anyway. If you think of something better, please let
+us know!
+
+``` r
+birth_dates <- data.frame(
+  id = 1:4,
+  dob = c("20011220", "19911031", "20120415", "19870202")
+)
+
+birth_dates %>% 
+  separate_longer_position(cols = dob, 
+                           width = 4, 
+                           keep_empty = TRUE)
+```
+
+      id  dob
+    1  1 2001
+    2  1 1220
+    3  2 1991
+    4  2 1031
+    5  3 2012
+    6  3 0415
+    7  4 1987
+    8  4 0202
