@@ -1,7 +1,7 @@
 ---
+format: gfm
 title: "Getting data into R"
-format: html
-editor: visual
+date: 2024-11-13
 ---
 
 ## Overview
@@ -42,10 +42,36 @@ You can read [here](https://blog.postman.com/what-are-http-methods/?_gl=1*ahg91n
 
 We typically use the GET command when working with APIs as we are typically pulling data in instead of creating or updating existing data. 
 
-When you fetch data from an API, it usually comes in a .csv (comma separated) or JSON (JavaScript object notation) format. A .csv will feel familiar, but JSON.  
+When you fetch data from an API, it usually comes in a .csv (comma separated) or JSON (JavaScript object notation) format. 
+
+A .csv will feel familiar, but JSON is a bit different as JSON formatted data will often have tables nested within columns. This is actually really great because it allows for relational tables to be sent as a single object, but can be tough to deal with in R. If you get data in a JSON, you should use the `jsonlite` package. 
+
+Some useful code:
+
+```{r}
+#| eval: false
+library(httr)
+
+# fetch the data 
+url <- ""
+api_response <- GET(url = url,
+                    encode = "json")
+
+# look at the response 
+http_status(api_response) 
+
+# get the data into a data frame
+data <- jsonlite::fromJSON(rawToChar(api_response$content)) %>%
+  jsonlite::flatten() 
+
+# sometimes you might need to get a list or data frame out of a variable. You can usually do that with unnest:
+data %>%
+  unnest(cols = c(variable), names_repair = "minimal")
+```
 
 ### Drivers
 
+A driver is a way to connect to a database from your R session. There are different types of drivers but we typically use ODBC drivers. 
 
 ## Semi-automated access to files instead of data
 ### sFTP

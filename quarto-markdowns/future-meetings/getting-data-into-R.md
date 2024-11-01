@@ -1,0 +1,99 @@
+# Getting data into R
+
+2024-10-31
+
+## Overview
+
+There are many ways to import data in your R session. The way you access
+data largely depends on where the data come from and the options
+available to you, but whenever you have a choice in how you get data,
+you should always try to use the most automated method.
+
+Methods:
+
+**Automated direct access to data**  
+APIs - allow you to fetch a specific dataset right from the source  
+- ex: `tidycensus` API  
+- ex: API to send data in and out of Box
+
+Drivers to connect to cloud databases  
+- ex: ODBC driver to connect to CDPH’s vaccine database in Snowflake  
+- ex: ODBC driver to connect to our data storage in Azure
+
+**Semi-automated access to files instead of data**  
+sFTP - secure file transfer protocol  
+- ex: picking up RODS files each morning from folder where ISD drops
+files from the sFTP  
+picking up files from a specific place with a specific naming
+convention  
+- ex: picking up the newest CalCONNECT download knowing that we download
+those files once a week
+
+**Manual**  
+Using the file name and the `rio` package to import a specific file.
+
+## Automated direct access to data
+
+### APIs
+
+Application Programming Interfaces (APIs) are a method of sending and
+receiving data. APIs calls can look different, but broadly all APIs use
+the same main verbs for sending and receiving data:
+
+- GET: to fetch data  
+- POST: to create new data
+- PUT/PATCH: to update existing data
+- DELETE: to delete data
+
+You can read
+[here](https://blog.postman.com/what-are-http-methods/?_gl=1*ahg91n*_gcl_au*MTM4OTg1NDE3Ni4xNzI3NzM4Nzky*_ga*MTQ0MDY1ODA0MS4xNzI3NzM4Nzky*_ga_CX7P9K6W67*MTczMDM4OTM5MC4yLjAuMTczMDM4OTM5MC42MC4wLjA.)
+for more details.
+
+We typically use the GET command when working with APIs as we are
+typically pulling data in instead of creating or updating existing data.
+
+When you fetch data from an API, it usually comes in a .csv (comma
+separated) or JSON (JavaScript object notation) format.
+
+A .csv will feel familiar, but JSON is a bit different as JSON formatted
+data will often have tables nested within columns. This is actually
+really great because it allows for relational tables to be sent as a
+single object, but can be tough to deal with in R. If you get data in a
+JSON, you should use the `jsonlite` package.
+
+Some useful code:
+
+``` r
+library(httr)
+
+# fetch the data 
+url <- ""
+api_response <- GET(url = url,
+                    encode = "json")
+
+# look at the response 
+http_status(api_response) 
+
+# get the data into a data frame
+data <- jsonlite::fromJSON(rawToChar(api_response$content)) %>%
+  jsonlite::flatten() 
+
+# sometimes you might need to get a list or data frame out of a variable. You can usually do that with unnest:
+data %>%
+  unnest(cols = c(variable), names_repair = "minimal")
+```
+
+### Drivers
+
+## Semi-automated access to files instead of data
+
+### sFTP
+
+### Picking up files from a specific place with a specific naming convention
+
+## Manual
+
+### Importing by file name
+
+- using `file.choose()` to find the file you want and importing it into
+  R
