@@ -57,17 +57,16 @@ benchmark_read <- data.frame(summary(microbenchmark(
 ) %>%
   rename_with(~paste0("read_", .x))
 
-file_sizes <- file.info(list.files()) %>%
+file_sizes <- file.info(list.files(pattern = "^data_.*")) %>%
   data.frame() %>%
   rownames_to_column("file") %>%
   mutate(size_kb = size/1000) %>%
   select(file, size_kb)
-
-file_info <- file_sizes %>%
+  
+file_type_comp <- file_sizes %>%
   mutate(file_type = str_extract(file, "\\.[A-Za-z]*")) %>%
-  select(-file) %>%
-  select(file_type, everything()) %>%
+  select(file_type, everything(), - file) %>%
   left_join(benchmark_write, by = c("file_type" = "write_expr")) %>%
   left_join(benchmark_read, by = c("file_type" = "read_expr")) 
 
-save(file_info, file = "quarto-markdowns/data/file-type-comparison.RDS")
+save(file_type_comp, file = "quarto-markdowns/data/file-type-comparison.RDS")
