@@ -57,12 +57,12 @@ benchmark_read <- data.frame(summary(microbenchmark(
 ) %>%
   rename_with(~paste0("read_", .x))
 
-file_sizes <- file.info(list.files()) %>%
+file_sizes <- file.info(list.files(pattern = "^data_.*")) %>%
   data.frame() %>%
   rownames_to_column("file") %>%
   mutate(size_kb = size/1000) %>%
   select(file, size_kb)
-
+  
 file_info <- file_sizes %>%
   mutate(file_type = str_extract(file, "\\.[A-Za-z]*")) %>%
   select(-file) %>%
