@@ -15,7 +15,22 @@ We’ll walk through examples of how to use each function.
 
 ### `separate_wider_position()`
 
-Hanley here!
+``` r
+phone_data <- data.frame(
+  name = c("bob", "Jo", "Josie"),
+  phone = c(18034567819, 11231234596, 12345678901))
+
+separate_wider_position(phone_data,
+               cols = phone,
+               widths = c("county" = 1, "areacode" = 3, "prefix" = 3, "num" = 4))
+```
+
+    # A tibble: 3 × 5
+      name  county areacode prefix num  
+      <chr> <chr>  <chr>    <chr>  <chr>
+    1 bob   1      803      456    7819 
+    2 Jo    1      123      123    4596 
+    3 Josie 1      234      567    8901 
 
 ### `separate_wider_delim()`
 
@@ -95,6 +110,30 @@ emails %>%
     3     3 sp00kys3ason @     hotmail .     com  
     4     4 black_cats   @     aol     .     com  
 
+Annother example of `separate_wider_regex()`…
+
+``` r
+phone_data <- data.frame(
+  name = c("bob", "Jo", "Josie"),
+  phone = c("+1 (803) 456-7819", "+1 (123) 123-4596", "+1 (234) 567-8901"))
+
+separate_wider_regex(phone_data,
+                     cols = phone,
+                     #The full pattern must be represented in the regex but only named components become columns
+                     patterns = c("\\+", "country" = "[0-9]", 
+                                  " \\(", "areacode" = "[0-9]{3}", "\\)",
+                                  " ", "prefix" = "[0-9]{3}",
+                                  "-", "num" = "[0-9]{4}"), 
+                     too_few = "align_start")
+```
+
+    # A tibble: 3 × 5
+      name  country areacode prefix num  
+      <chr> <chr>   <chr>    <chr>  <chr>
+    1 bob   1       803      456    7819 
+    2 Jo    1       123      123    4596 
+    3 Josie 1       234      567    8901 
+
 ### `separate_longer_delim()`
 
 `separate_longer_delim()` allows you to split up a string based on a
@@ -114,7 +153,7 @@ separate_icd_codes <- data %>%
   filter(discharge_diagnosis != "")
 ```
 
-### separate_longer_position()
+### `separate_longer_position()`
 
 This version of `separate_longer()` is probably useful in a very
 specific situation, but I can’t think of a time when I would use it. It
