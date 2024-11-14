@@ -2,7 +2,7 @@
 format: gfm
 title: "`separate_wider` and `separate_longer` functions"
 author: "Eamonn Hartmann, Hanley Kingston, Beth Jump"
-date: "2024-10-18"
+date: "2024-10-17"
 ---
 
 ## Overview

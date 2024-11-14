@@ -1,6 +1,6 @@
 # `separate_wider` and `separate_longer` functions
 Eamonn Hartmann, Hanley Kingston, Beth Jump
-2024-10-18
+2024-10-17
 
 ## Overview
 
@@ -110,7 +110,7 @@ emails %>%
     3     3 sp00kys3ason @     hotmail .     com  
     4     4 black_cats   @     aol     .     com  
 
-Annother example of `separate_wider_regex()`…
+Another example of `separate_wider_regex()`…
 
 ``` r
 phone_data <- data.frame(
