@@ -20,7 +20,7 @@ library(lubridate)
 
 To convert a string to a date you'll use either `as.Date()` (for dates) or `as.POSIXct()` (for date-times) and within either function, you'll use the `format` argument.
 
-The `format` step tells R where to look for each piece of the date as it tries to convert the string into a date. So if you specify `format = "%d/%m/%Y`, R will expect the inputted string to follow the pattern DD/MM/YYYY. There is a comprehensive table of how to format different pieces of a date [here](https://www.r-bloggers.com/2013/08/date-formats-in-r/), but generally these will get you quite far:
+The `format` step tells R where to look for each piece of the date as it tries to convert the string into a date. So if you specify `format = "%d/%m/%Y`, R will expect the inputted string to follow the pattern DD/MM/YYYY. There is a comprehensive table of how to format different pieces of a date [here](https://clock.r-lib.org/reference/posixt-formatting.html), but generally these will get you quite far:
 
 | conversion | Description                       |
 |------------|-----------------------------------|
