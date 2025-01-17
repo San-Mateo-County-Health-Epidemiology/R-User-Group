@@ -21,6 +21,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2024-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
 | 2024-10-31 | [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
 | 2024-10-17 | [`separate()` wider and longer by delim, regex, & position](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-wider-and-longer.md) |
 | 2024-10-03 | [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-by-delim.md) |
