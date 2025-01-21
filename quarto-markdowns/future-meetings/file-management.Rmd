@@ -1,0 +1,47 @@
+---
+format: gfm
+title: "File management"
+author: "Beth Jump"
+date: "2022-05-05"
+---
+
+# Overview
+
+While not central to our work as epidemiologists, knowing some basic file management in R can save you time and allow you to do some pretty cool things.
+
+We'll go over some basic functions that hopefully make working with files from R a bit easier for you!
+
+# Finding files
+
+## `file.choose()`
+
+Before you do anything in R, you need to import data into R and this often involves using a file path. You can either type out the path or you can use the `file.choose()` function. Run the code in your console and a File Explorer window will open. Navigate to the file you want to import into R, select **Open** and the path of the file will appear in the console!
+
+*Note: if you do manually type a path, you should either use a double back slash `\\` or a single forward slash `/`. A single back slash in R is an "escape character" and R will get cranky if you try to use one in a file path. More about escape characters [here](https://www.w3schools.com/r/r_strings_esc.asp). *
+
+## `here` package
+
+If you don't want to use a full file path or you don't have an exact file path, you can use the `here` function from the [`here`](https://here.r-lib.org/) package. 
+
+This is really useful if you have an R project and want to read data in from a `data/` directory into a quarto or R markdown that is stored somewhere else. If you use a full file path, the data needs to be stored in the same directory or a sub-directory of where your markdown file lives. With `here::here()` the data can live anywhere in the project!!
+
+# Viewing, moving + deleting files and directories
+
+**file**: single file with an extension, ie: .pdf, .docx, .Rmd, .qmd, etc
+**directory**: also known as a folder. Contains files or can be empty
+
+## Viewing files and directories
+
+## Deleting files and directories
+
+## Moving files and directories
+
+
+# Working with directories
+
+get current directory
+
+
+Move one directory up
+
+Move on directory down
