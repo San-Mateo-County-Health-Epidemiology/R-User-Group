@@ -1,6 +1,6 @@
 # File management
 Beth Jump
-2025-01-22
+2025-01-23
 
 # Overview
 
@@ -74,15 +74,17 @@ list.files()
      [1] "data"                          "date-basics.md"               
      [3] "date-basics.qmd"               "dynamic-selecting.md"         
      [5] "dynamic-selecting.qmd"         "file-management.md"           
-     [7] "file-management.rmarkdown"     "file-management.Rmd"          
-     [9] "file-type-comparison.md"       "file-type-comparison.qmd"     
-    [11] "file-type-comparison_files"    "future-meetings"              
-    [13] "images"                        "intro-to-quarto.md"           
-    [15] "intro-to-quarto.qmd"           "plotly-basics.md"             
-    [17] "plotly-basics.qmd"             "r-scripts"                    
-    [19] "separate-by-delim.md"          "separate-by-delim.qmd"        
-    [21] "separate-wider-and-longer.md"  "separate-wider-and-longer.qmd"
-    [23] "tidyverse-practice.md"         "tidyverse-practice.qmd"       
+     [7] "file-management.qmd"           "file-management.rmarkdown"    
+     [9] "file-management.Rmd"           "file-type-comparison.md"      
+    [11] "file-type-comparison.qmd"      "file-type-comparison_files"   
+    [13] "future-meetings"               "images"                       
+    [15] "intro-to-quarto.md"            "intro-to-quarto.qmd"          
+    [17] "paramaters_example.md"         "paramaters_example.qmd"       
+    [19] "plotly-basics.md"              "plotly-basics.qmd"            
+    [21] "r-scripts"                     "separate-by-delim.md"         
+    [23] "separate-by-delim.qmd"         "separate-wider-and-longer.md" 
+    [25] "separate-wider-and-longer.qmd" "tidyverse-practice.md"        
+    [27] "tidyverse-practice.qmd"       
 
 You can add arguments to make your search more specific. Here we are
 looking for any .qmd (Quarto) files in any directory or sub directory of
@@ -101,15 +103,17 @@ list.files(pattern = "*.qmd",
            full.names = T)
 ```
 
-    [1] "./date-basics.qmd"                        
-    [2] "./dynamic-selecting.qmd"                  
-    [3] "./file-type-comparison.qmd"               
-    [4] "./future-meetings/getting-data-into-R.qmd"
-    [5] "./intro-to-quarto.qmd"                    
-    [6] "./plotly-basics.qmd"                      
-    [7] "./separate-by-delim.qmd"                  
-    [8] "./separate-wider-and-longer.qmd"          
-    [9] "./tidyverse-practice.qmd"                 
+     [1] "./date-basics.qmd"                        
+     [2] "./dynamic-selecting.qmd"                  
+     [3] "./file-management.qmd"                    
+     [4] "./file-type-comparison.qmd"               
+     [5] "./future-meetings/getting-data-into-R.qmd"
+     [6] "./intro-to-quarto.qmd"                    
+     [7] "./paramaters_example.qmd"                 
+     [8] "./plotly-basics.qmd"                      
+     [9] "./separate-by-delim.qmd"                  
+    [10] "./separate-wider-and-longer.qmd"          
+    [11] "./tidyverse-practice.qmd"                 
 
 Sometimes it’s enough to just know what files are in your directory, but
 often you need more information. You can wrap your `list.files()` call
@@ -126,9 +130,11 @@ file.info(list.files(pattern = "*.qmd",
                                                size isdir mode               mtime
     ./date-basics.qmd                          3843 FALSE  666 2024-11-14 11:21:28
     ./dynamic-selecting.qmd                    4164 FALSE  666 2024-10-31 11:51:50
+    ./file-management.qmd                      7905 FALSE  666 2025-01-23 09:24:29
     ./file-type-comparison.qmd                 9609 FALSE  666 2024-11-04 14:17:40
     ./future-meetings/getting-data-into-R.qmd  3343 FALSE  666 2024-10-31 09:37:27
     ./intro-to-quarto.qmd                      3210 FALSE  666 2024-10-31 14:37:50
+    ./paramaters_example.qmd                   1362 FALSE  666 2025-01-22 16:46:52
     ./plotly-basics.qmd                        3461 FALSE  666 2024-10-31 14:50:28
     ./separate-by-delim.qmd                    4997 FALSE  666 2024-10-31 11:51:59
     ./separate-wider-and-longer.qmd            5063 FALSE  666 2024-11-14 10:14:09
@@ -136,23 +142,27 @@ file.info(list.files(pattern = "*.qmd",
                                                             ctime
     ./date-basics.qmd                         2024-10-23 18:56:38
     ./dynamic-selecting.qmd                   2024-10-23 16:20:00
+    ./file-management.qmd                     2025-01-23 09:24:04
     ./file-type-comparison.qmd                2024-11-04 14:17:40
     ./future-meetings/getting-data-into-R.qmd 2024-10-31 08:36:28
     ./intro-to-quarto.qmd                     2024-10-31 09:28:20
+    ./paramaters_example.qmd                  2025-01-22 16:46:52
     ./plotly-basics.qmd                       2024-10-31 14:07:40
     ./separate-by-delim.qmd                   2024-10-23 15:38:16
     ./separate-wider-and-longer.qmd           2024-10-24 08:32:54
     ./tidyverse-practice.qmd                  2024-10-24 11:19:56
                                                             atime exe
-    ./date-basics.qmd                         2025-01-22 16:43:18  no
-    ./dynamic-selecting.qmd                   2025-01-22 16:43:18  no
-    ./file-type-comparison.qmd                2025-01-22 16:43:18  no
-    ./future-meetings/getting-data-into-R.qmd 2025-01-22 16:43:18  no
-    ./intro-to-quarto.qmd                     2025-01-22 16:43:18  no
-    ./plotly-basics.qmd                       2025-01-22 16:43:18  no
-    ./separate-by-delim.qmd                   2025-01-22 16:43:18  no
-    ./separate-wider-and-longer.qmd           2025-01-22 16:43:18  no
-    ./tidyverse-practice.qmd                  2025-01-22 16:43:18  no
+    ./date-basics.qmd                         2025-01-23 09:24:08  no
+    ./dynamic-selecting.qmd                   2025-01-23 09:24:08  no
+    ./file-management.qmd                     2025-01-23 09:24:31  no
+    ./file-type-comparison.qmd                2025-01-23 09:24:08  no
+    ./future-meetings/getting-data-into-R.qmd 2025-01-23 09:24:08  no
+    ./intro-to-quarto.qmd                     2025-01-23 09:24:08  no
+    ./paramaters_example.qmd                  2025-01-23 09:24:08  no
+    ./plotly-basics.qmd                       2025-01-23 09:24:24  no
+    ./separate-by-delim.qmd                   2025-01-23 09:24:08  no
+    ./separate-wider-and-longer.qmd           2025-01-23 09:24:08  no
+    ./tidyverse-practice.qmd                  2025-01-23 09:24:08  no
 
 ## Moving files from R
 

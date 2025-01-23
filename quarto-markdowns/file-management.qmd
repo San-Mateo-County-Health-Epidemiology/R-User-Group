@@ -1,0 +1,188 @@
+---
+format: gfm
+title: "File management"
+author: "Beth Jump"
+date: "2025-01-23"
+---
+
+# Overview
+
+While not central to our work as epidemiologists, knowing some basic file management in R can save you time and allow you to do some pretty cool things.
+
+We'll go over some basic functions that hopefully make working with files from R a bit easier!
+
+# Finding files
+
+## `file.choose()`
+
+Before you do anything in R, you need to import data into R and this often involves using a file path. You can either type out the path or you can use the `file.choose()` function. Run the `file.choose()` in your console and a File Explorer window will open. Navigate to the file you want to import into R, select **Open** and the path of the file will appear in the console!
+
+*Note: if you do manually type a path, you should either use a double back slash `\\` or a single forward slash `/`. A single back slash in R is an "escape character" and R will get cranky if you try to use one in a file path. More about escape characters [here](https://www.w3schools.com/r/r_strings_esc.asp).*
+
+## `here` package
+
+If you don't want to use a full file path or you don't have an exact file path, you can use the `here` function from the [`here`](https://here.r-lib.org/) package. 
+
+This is really useful if you have an R project and want to read data in from a `data/` directory into a quarto or R markdown that is stored somewhere else. If you use a full file path, the data needs to be stored in the same directory or a sub-directory of where your markdown file lives. With `here::here()` the data can live anywhere in the project!!
+
+# Manipulating files and directories
+
+Let's start with some basic terminology: 
+
+**file**: single file with an extension, ie: .pdf, .docx, .Rmd, .qmd, etc  
+**directory**: also known as a folder. Contains files or can be empty
+
+We'll go through these in detail, but here is an index of the functions covered in this file. All of these are base R functions.
+
+| Function | Purpose                       |
+|----------|-------------------------------|
+| `list.files()` | lists all the files in a directory |
+| `list.dirs()`  | lists all the directories in a directory |
+| `file.info()`  | gives you information about a file or set of files |
+| `getwd()`      | returns your current working directory |
+| `setwd()`      | allows you to specify a different working directory |
+| `dir.create()` | creates a directory |
+| `unlink()`     | deletes a directory |
+| `file.copy()`  | copies a file from one place to another |
+| `file.remove()`| deletes a file      | 
+
+## Viewing files and directories
+
+This will tell you what files are in your current directory
+
+```{r}
+list.files()
+```
+
+You can add arguments to make your search more specific. Here we are looking for any .qmd (Quarto) files in any directory or sub directory of the current directory
+
+* `pattern = "*.qmd"` specifies that we're interested in any `.qmd` file   
+* `recursive = T` specifies that we want to look in the current directory and in any sub-directories. `recursive = F` is the default. It only looks in the current directory  
+* `full.names = T` returns full file paths for the files  
+
+```{r}
+list.files(pattern = "*.qmd",
+           recursive = T,
+           full.names = T)
+```
+
+Sometimes it's enough to just know what files are in your directory, but often you need more information. You can wrap your `list.files()` call with `file.info()`. This gives you additional information about each file including: size, create, modified and accessed time and an indicator for whether or not the file is a file or a directory.
+
+```{r}
+file.info(list.files(pattern = "*.qmd",
+           recursive = T,
+           full.names = T))
+```
+
+## Moving files from R
+
+Let's say we want to save the `palmerpenguins::penguins()` data set for use within this repository. We  will load the data, make a directory and save the data to that directory.
+
+First we'll load the `palmerpenguins::penguins()` data into our environment and will save it as an object called `penguins`
+
+```{r}
+penguins <- palmerpenguins::penguins
+```
+Then we'll create a directory in which to store the data using `dir.create()`:
+
+```{r}
+dir.create("data-penguins")
+list.dirs()
+```
+Lastly, we'll save the `penguins` data in the directory we just created:
+
+```{r}
+saveRDS(penguins,
+        file = "data-penguins/penguins.RDS")
+
+list.files(path = "data-penguins")
+```
+
+After doing this, we realize that there already is a `data` folder in our directory:
+
+```{r}
+list.dirs()
+```
+We want to move the `penguins` data into the `data/` folder and then want to delete the original file we wrote and the directory we created. 
+
+We can use `file.copy()` to copy the file from the `data-penguins/` folder to the `data/` folder:
+
+```{r}
+file.copy(from = "data-penguins/penguins.RDS",
+          to = "data/penguins.RDS")
+list.files(path = "data")
+```
+
+Then we'll delete the file from the wrong folder with `file.remove()`:
+
+```{r}
+# remove the file saved in the wrong directory
+file.remove("data-penguins/penguins.RDS")
+list.files(path = "data-penguins")
+```
+
+And lastly we'll delete the directory with `unlink()`. Note that you need to include the `recursive = T` argument for `unlink()` to remove the directory. 
+
+```{r}
+# delete the directory
+unlink("data-penguins", 
+       recursive = T)
+list.dirs()
+```
+
+That's it! You likely won't use this workflow to move a single file, but if you want to move a lot of files, this is a great option. 
+
+```{r}
+#| eval: true
+#| echo: false
+#| include: false
+
+file.remove("data/penguins.RDS")
+```
+
+Note: `file.copy()` works with all sorts of files! We use this when we render the ED Census `.pdf` report each morning. There's a "bug" that throws an error if you want to render an R Markdown to a file path that has spaces in it. You can get around this by rendering your markdown to a path without spaces, copying the file to the correction location and then deleting the original file. We render the ED Census report to a path without spaces, then copy it into the DSAT folder and then delete it from the original location! 
+
+# Working with directories
+
+## Basics 
+If you're working within a GitHub repo or R project, the working directory should be the highest directory in the project. This is the directory that has the `.gitignore` and `.Rproj` files. You don't need to use `setwd()` to specify this, R will default to that directory.
+
+If you're not working with a GitHub repo or R project, you will probably need to manually set your working directory with `setwd()`.
+
+You can always check your working directory with `getwd()`
+
+```{r}
+getwd()
+```
+## Navigating directories 
+
+You can set "absolute" or "relative" directories in R. 
+
+An absolute directory is a specific path. You can use the `setwd()` function or you can to to Session > Set Working Directory > Choose Directory and set the directory using a point and click interface.
+
+![](images/set-working-directory.png){width=500}
+
+A relative directory is a directory that is specified in relation to the home directory. You can also set relative directories with `setwd()`
+
+This is our current directory:
+
+```{r}
+getwd()
+```
+
+Now lets move one directory down (to a folder further from the main project). To do this, we need to specify the directory name(s) where we want to go:
+
+```{r}
+setwd("data")
+getwd()
+list.files()
+```
+
+Now lets move two directories up (closer to the main project). Note that here we don't need to specify the directories by name. `..` means move to the parent of the current directory.
+
+```{r}
+setwd("../../")
+getwd()
+```
+
+There's a nice explanation of directory shorthand in R [here](https://stackoverflow.com/questions/37380961/moving-down-a-folder-in-working-directory)
