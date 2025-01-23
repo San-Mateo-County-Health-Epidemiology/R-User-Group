@@ -24,7 +24,7 @@ tries to convert the string into a date. So if you specify
 `format = "%d/%m/%Y`, R will expect the inputted string to follow the
 pattern DD/MM/YYYY. There is a comprehensive table of how to format
 different pieces of a date
-[here](https://www.r-bloggers.com/2013/08/date-formats-in-r/), but
+[here](https://clock.r-lib.org/reference/posixt-formatting.html), but
 generally these will get you quite far:
 
 | conversion | Description                           |
@@ -178,7 +178,7 @@ date should go where.
 format(Sys.Date(), format = "%B %d, %Y")
 ```
 
-    [1] "October 31, 2024"
+    [1] "November 14, 2024"
 
 ### Formatting example 2
 
@@ -186,4 +186,4 @@ format(Sys.Date(), format = "%B %d, %Y")
 format(Sys.Date(), format = "%m/%d/%Y")
 ```
 
-    [1] "10/31/2024"
+    [1] "11/14/2024"
