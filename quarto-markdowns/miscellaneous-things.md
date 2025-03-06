@@ -74,7 +74,7 @@ excel_files <- file.info(list.files(path = "Data Requests/PHE",
   data.frame()
 ```
 
-## Git commands in the terminal
+## 3. Git commands in the terminal
 
 More details
 [here](https://github.com/San-Mateo-County-Health-Epidemiology/.github-private/blob/main/profile/git-commands-terminal.md)
