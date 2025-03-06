@@ -2,7 +2,8 @@
 Beth Jump
 2025-03-26
 
-Here we’ll look at some miscellaneous things that hopefully are helpful.
+Here we’ll look at some miscellaneous R things including: using pipes,
+looking for files and Git commands from the terminal
 
 ## 1. `%>%` vs `|>`
 
@@ -72,3 +73,8 @@ excel_files <- file.info(list.files(path = "Data Requests/PHE",
                                     recursive = T)) %>%
   data.frame()
 ```
+
+## Git commands in the terminal
+
+More details
+[here](https://github.com/San-Mateo-County-Health-Epidemiology/.github-private/blob/main/profile/git-commands-terminal.md)
