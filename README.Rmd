@@ -26,6 +26,7 @@ Each topic has two files: a `.qmd` (Quarto) file and a `.md` (markdown) file. Th
 
 | Date     | Script                                 |
 |----------| -------------------------------------  |
+| 2025-03-05 | [miscellaneous things](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/miscellaneous-things.md) |
 | 2025-01-23 | [file management](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-management.md) |
 | 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
 |2024-10-31| [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
