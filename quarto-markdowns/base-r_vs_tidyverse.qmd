@@ -7,7 +7,7 @@ date: "2025-03-17"
 
 # Overview
 
-Broadly speaking, there are two methods for coding in R: base R and tidyverse (though [some say](https://research.library.gsu.edu/R/base_tidyverse) data.table is a third method). Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed separately. One day, a new ecosystem of packages could replace the tidyverse, but as of now, that seems unlikely.
+Broadly speaking, there are two methods for coding in R: base R and tidyverse. Data.table is another method, but it's generally only used in big data processing. For more about data.table, see [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html). Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed separately.
 
 FYI, in Python there are a couple "tidyverse-esq" sets of packages: pandas and polars. Neither is great so some people use one and some use the other. In R, tidyverse is so good that it's been pretty widely adopted.
 
@@ -15,13 +15,25 @@ FYI, in Python there are a couple "tidyverse-esq" sets of packages: pandas and p
 
 Base R tends to be faster and better for manipulating vectors whereas tidyverse has clearer syntax, is better for data manipulation and makes prettier plots. If you already use and like tidyverse, there is no reason to switch to base R! It's just good to know the basics of base R in case you need to use it.  
 
+We'll compare base R and tidyverse for:
+
+* data set manipulation
+* string manipulation
+
+Then we'll talk about things that are the same and focus on the `apply` functions from base R. 
+
 ## Base R
 
 * The structure of R objects is really important in base R. A list has one dimension and so you fetch items from a list with the index ie `list[2]`. A data frame has two dimensions and you fetch data from a data frame list this: `data[rows, columns]`
 * All variables must be referenced in relation to the data frame in which they belong. You use a `$` to fetch a variable from a data frame. Ex: `data$variable`. 
 * There is no "chaining" of functions like there is in tidyverse.
 
-# Examples
+## tidyverse
+
+* All chains or functions start with a data frame and then R assumes that all variables referenced exist in the original data frame. 
+* Because tidyverse was developed cohesively, the syntax for functions is generally consistent across all tidyverse functions (except the `+` with ggplot). This is unlike base R (think about the functions for manipulating files, ie `dir.create()` to make a directory. and `unlink()` to delete a directory.)
+
+# Data set manipulation
 
 In these examples we'll use the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/) data set. 
 
@@ -36,23 +48,50 @@ data <- palmerpenguins::penguins
 str(penguins)
 
 ## Selecting columns
+```{r}
 data[, 1:2]
 
 data[, c("species", "island", "sex")]
+```
 
 ## Selecting rows
+```{r}
 data[1:10,]
-
+```
 ## Filtering data
+```{r}
 data[data$sex == "male" & !is.na(data$sex),]
-
+```
 ## Making new variables
+```{r}
 data$sex_new <- ifelse(is.na(data$sex),
                        "unknown",
                        as.character(data$sex))
 unique(data$sex_new)
+```
+## summarize
+```{r}
+```
+
 
 ## Plotting 
 plot(x = data$bill_length_mm,
      y = data$flipper_length_mm,
      type = "p")
+
+
+# String manipulation
+
+gsub vs stringr
+
+# Things that are the same
+
+Some things in base R have no equivalent in tidyverse because they don't need to. Think of:
+
+* loops
+* if and where statements
+* ???
+
+# A note about `apply`
+
+Some of the most common functions you'll see from base R are the `apply` functions
