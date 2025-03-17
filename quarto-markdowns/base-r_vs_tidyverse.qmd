@@ -1,0 +1,58 @@
+---
+format: gfm
+title: "Base R vs tidyverse"
+author: "Beth Jump"
+date: "2025-03-17"
+---
+
+# Overview
+
+Broadly speaking, there are two methods for coding in R: base R and tidyverse (though [some say](https://research.library.gsu.edu/R/base_tidyverse) data.table is a third method). Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed separately. One day, a new ecosystem of packages could replace the tidyverse, but as of now, that seems unlikely.
+
+FYI, in Python there are a couple "tidyverse-esq" sets of packages: pandas and polars. Neither is great so some people use one and some use the other. In R, tidyverse is so good that it's been pretty widely adopted.
+
+# Basic differences
+
+Base R tends to be faster and better for manipulating vectors whereas tidyverse has clearer syntax, is better for data manipulation and makes prettier plots. If you already use and like tidyverse, there is no reason to switch to base R! It's just good to know the basics of base R in case you need to use it.  
+
+## Base R
+
+* The structure of R objects is really important in base R. A list has one dimension and so you fetch items from a list with the index ie `list[2]`. A data frame has two dimensions and you fetch data from a data frame list this: `data[rows, columns]`
+* All variables must be referenced in relation to the data frame in which they belong. You use a `$` to fetch a variable from a data frame. Ex: `data$variable`. 
+* There is no "chaining" of functions like there is in tidyverse.
+
+# Examples
+
+In these examples we'll use the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/) data set. 
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+data <- palmerpenguins::penguins
+```
+
+
+str(penguins)
+
+## Selecting columns
+data[, 1:2]
+
+data[, c("species", "island", "sex")]
+
+## Selecting rows
+data[1:10,]
+
+## Filtering data
+data[data$sex == "male" & !is.na(data$sex),]
+
+## Making new variables
+data$sex_new <- ifelse(is.na(data$sex),
+                       "unknown",
+                       as.character(data$sex))
+unique(data$sex_new)
+
+## Plotting 
+plot(x = data$bill_length_mm,
+     y = data$flipper_length_mm,
+     type = "p")
