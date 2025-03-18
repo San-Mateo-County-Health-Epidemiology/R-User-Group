@@ -3,13 +3,16 @@ format: gfm
 title: "Base R vs tidyverse"
 author: "Beth Jump"
 date: "2025-03-17"
+execute: 
+  warning: false
+  error: false
 ---
 
 # Overview
 
-Broadly speaking, there are two methods for coding in R: base R and tidyverse. Data.table is another method, but it's generally only used in big data processing. For more about data.table, see [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html). Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed separately.
+Here we'll compare the two most common ways of coding in R: base R and tidyverse. Note that data.table is another method, but it's generally only used in big data processing so we're not going to focus on it here. For more about data.table, see [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html). 
 
-FYI, in Python there are a couple "tidyverse-esq" sets of packages: pandas and polars. Neither is great so some people use one and some use the other. In R, tidyverse is so good that it's been pretty widely adopted.
+Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed and don't come with the "base" installation of R.
 
 # Basic differences
 
@@ -24,7 +27,9 @@ Then we'll talk about things that are the same and focus on the `apply` function
 
 ## Base R
 
-* The structure of R objects is really important in base R. A list has one dimension and so you fetch items from a list with the index ie `list[2]`. A data frame has two dimensions and you fetch data from a data frame list this: `data[rows, columns]`
+* The structure of R objects is really important in base R.   
+  * A list has one dimension and you fetch items from a list with the index ie `list[2]`.   
+  * A data frame has two dimensions and you fetch data from a data frame list this: `data[rows, columns]`  
 * All variables must be referenced in relation to the data frame in which they belong. You use a `$` to fetch a variable from a data frame. Ex: `data$variable`. 
 * There is no "chaining" of functions like there is in tidyverse.
 
@@ -32,8 +37,9 @@ Then we'll talk about things that are the same and focus on the `apply` function
 
 * All chains or functions start with a data frame and then R assumes that all variables referenced exist in the original data frame. 
 * Because tidyverse was developed cohesively, the syntax for functions is generally consistent across all tidyverse functions (except the `+` with ggplot). This is unlike base R (think about the functions for manipulating files, ie `dir.create()` to make a directory. and `unlink()` to delete a directory.)
-
-# Data set manipulation
+* A quick work about tidyverse syntax. All tidyverse functions have the data frame as the first argument. This can be specified one of two equivalent ways:
+  * `data %>% select(col)`  
+  * `select(data, col)`  
 
 In these examples we'll use the [`palmerpenguins`](https://allisonhorst.github.io/palmerpenguins/) data set. 
 
@@ -44,35 +50,107 @@ library(palmerpenguins)
 data <- palmerpenguins::penguins
 ```
 
+# Data set manipulation
 
-str(penguins)
+## Looking at a data set
+
+### Base R
+```{r}
+str(data)
+```
+
+### tidyverse
+```{r}
+glimpse(data)
+```
 
 ## Selecting columns
+
+### Base R
+
 ```{r}
+# by position
 data[, 1:2]
 
+# by name (note the variable names are in quotes)
 data[, c("species", "island", "sex")]
 ```
 
+### tidyverse
+
+```{r}
+# by position 
+data %>%
+  select(1:2)
+
+# by name
+data %>%
+  select(species, island, sex)
+```
+
 ## Selecting rows
+
+### Base R
 ```{r}
 data[1:10,]
 ```
-## Filtering data
+
+### tidyverse
 ```{r}
+data %>%
+  slice(1:10)
+```
+
+## Filtering data
+
+### Base R
+```{r}
+# note that filters go in the "rows" position because you're filtering based on row values. 
 data[data$sex == "male" & !is.na(data$sex),]
 ```
+
+### tidyverse
+```{r}
+data %>%
+  filter(sex == "male" & !is.na(sex))
+```
 ## Making new variables
+
+### Base R
 ```{r}
 data$sex_new <- ifelse(is.na(data$sex),
                        "unknown",
                        as.character(data$sex))
 unique(data$sex_new)
 ```
-## summarize
+
+### tidyverse
+
 ```{r}
+data %>%
+  mutate(sex_new = case_when(is.na(sex) ~ "unknown",
+                             TRUE ~ as.character(sex))) %>%
+  distinct(sex_new)
 ```
 
+## summarize
+
+### Base R
+```{r}
+# with the summary function 
+summary(data$species)
+summary(data$bill_length_mm)
+
+# if you need a specific measure
+mean(data$flipper_length_mm, na.rm = T)
+```
+### tidyverse
+```{r}
+# here you can really only use summarize which is more typing than base R
+data %>% 
+  summarize(mean_bill = mean(bill_length_mm, na.rm = T),
+            mean_flip = mean(flipper_length_mm, na.rm = T))
+```
 
 ## Plotting 
 plot(x = data$bill_length_mm,
