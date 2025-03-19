@@ -12,11 +12,16 @@ execute:
 
 Here we'll compare the two most common ways of coding in R: base R and tidyverse. Note that data.table is another method, but it's generally only used in big data processing so we're not going to focus on it here. For more about data.table, see [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html). 
 
-Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed and don't come with the "base" installation of R.
+Base R involves coding with only the functions that are native to R while tidyverse is a set of packages that need to be installed and don't come with the "base" installation of R. If you already use and like tidyverse, there is no reason to switch to base R! It's just good to know the basics of base R in case you need to use it. 
+You might need/want to use base R when:
+
+* you're developing a package. It's easier to use base R that to include other packages as dependencies
+* statistical things are often written in base R because they rely heavily on vectors
+* if you're running R code somewhere you don't have a lot of control over which packages are installed 
 
 # Basic differences
 
-Base R tends to be faster and better for manipulating vectors whereas tidyverse has clearer syntax, is better for data manipulation and makes prettier plots. If you already use and like tidyverse, there is no reason to switch to base R! It's just good to know the basics of base R in case you need to use it.  
+Base R tends to be faster and better for manipulating vectors whereas tidyverse has clearer syntax, is better for data manipulation and makes prettier plots. 
 
 We'll compare base R and tidyverse for:
 
@@ -153,13 +158,24 @@ data %>%
 ```
 
 ## Plotting 
+
+### Base R
+```{r}
 plot(x = data$bill_length_mm,
      y = data$flipper_length_mm,
      type = "p")
+```
 
+### tidyverse
+```{r}
+ggplot(data) +
+  geom_point(aes(x = bill_length_mm,
+                 y = flipper_length_mm))
+```
 
 # String manipulation
 
+If you 
 gsub vs stringr
 
 # Things that are the same
