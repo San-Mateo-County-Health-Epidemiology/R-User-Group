@@ -3,20 +3,23 @@ Hanley Kingston
 2025-01-09
 
 When run as a stand-along script, the parameters specified in the yaml
-will be loaded as named elements in a list named params.
+will be loaded as named elements in a list named params. When rendered
+using the render() function in another script, updated params can be
+passed as a named list to the params argument, and the above params will
+be used as defaults.
 
 ## Save params as their own objects
 
 ``` r
 person <- params$person
 message <- params$message
-happy_tone <- params$happy_tone
+exclamation <- params$exclamation
 ```
 
 ## Write string using parameter inputs
 
 ``` r
-cat(paste0(person, ",\n", message, ifelse(happy_tone == TRUE, "!", "."), "\n\n"))
+cat(paste0(person, ",\n", message, ifelse(exclamation == TRUE, "!", "."), "\n\n"))
 ```
 
     Simba,
@@ -39,7 +42,7 @@ rmarkdown::render(
   params = list(
     person = "<person(s)>",
     message = "<message(s)>",
-    happy_tone = "<T/F>"),
+    exclamation = "<T/F>"),
   envir = new.env())
 ```
 
@@ -54,4 +57,9 @@ through a for-loop, see: r-scripts//render_parameters_example.R
 - Do not use rm(list = ls()). This will erase the parameters passed in
   the yaml
 
-- For R Markdown, use !r instead of !expr to pass an object to params
+- params accepts strings and booleans. To pass other types of R objects
+  to params, use !expr for quarto and !r for R Markdown. For example…
+
+  - list_param: !expr list(“thing2”, “thing1”, 48)
+
+  - vector_param: !r c(1,3,4)
