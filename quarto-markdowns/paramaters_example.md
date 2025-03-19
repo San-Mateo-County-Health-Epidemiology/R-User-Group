@@ -8,7 +8,7 @@ using the render() function in another script, updated params can be
 passed as a named list to the params argument, and the above params will
 be used as defaults.
 
-## Save params as their own objects
+## Save param elements as their own objects
 
 ``` r
 person <- params$person
@@ -19,17 +19,16 @@ exclamation <- params$exclamation
 ## Write string using parameter inputs
 
 ``` r
-cat(paste0(person, ",\n", message, ifelse(exclamation == TRUE, "!", "."), "\n\n"))
+cat(paste0(person, ", ", message,
+           ifelse(exclamation == TRUE, "!", "."), "\n\n"),
+    sep = "")
 ```
 
-    Simba,
-    Hello!
+    Simba, Hello!
 
-     Mowgli,
-    Hello!
+    Mowgli, Hello!
 
-     Mufasa,
-    Hello!
+    Mufasa, Hello!
 
 ## Rendering using a separate script
 
@@ -54,8 +53,8 @@ through a for-loop, see: r-scripts//render_parameters_example.R
 
 ## Other notes
 
-- Do not use rm(list = ls()). This will erase the parameters passed in
-  the yaml
+- Do not use rm(list = ls()) in the .wmd or .Rmd. This will erase the
+  parameters passed in the yaml or through the render() function.
 
 - params accepts strings and booleans. To pass other types of R objects
   to params, use !expr for quarto and !r for R Markdown. For example…
@@ -63,3 +62,7 @@ through a for-loop, see: r-scripts//render_parameters_example.R
   - list_param: !expr list(“thing2”, “thing1”, 48)
 
   - vector_param: !r c(1,3,4)
+
+- you can use parameters in the report title with Title: “My_report”
+
+  - params must be defined BEFORE title in the yaml
