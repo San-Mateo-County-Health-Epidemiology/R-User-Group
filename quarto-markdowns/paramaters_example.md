@@ -63,6 +63,8 @@ through a for-loop, see: r-scripts//render_parameters_example.R
 
   - vector_param: !r c(1,3,4)
 
-- you can use parameters in the report title with Title: “My_report”
+- you can reference parameters in the report title like this:
+
+  <img src="images/clipboard-4015420709.png" width="363" />
 
   - params must be defined BEFORE title in the yaml
