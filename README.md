@@ -21,6 +21,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-03-20 | [base R vs tidyverse](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_vs_tidyverse.md) |
 | 2025-03-05 | [miscellaneous things](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/miscellaneous-things.md) |
 | 2025-01-23 | [file management](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-management.md) |
 | 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
@@ -65,7 +66,8 @@ aren’t available but it generally meets our needs. It will generate a
 
 Other things:
 
-- If you want to add images to your Quarto doc, save them in the
-  `quarto-markdowns/images` folder. Prefix the image name with name of
-  your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is
-  called `intro-to-quarto_visual-mode.png`.
+- ## If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
+
+## Future meetings:
+
+2025-03-20: base R vs dplyr
