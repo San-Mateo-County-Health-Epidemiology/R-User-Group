@@ -3,6 +3,7 @@ format: gfm
 title: "Base R vs tidyverse"
 author: "Beth Jump"
 date: "2025-03-17"
+embed-resources: true
 execute: 
   warning: false
   error: false
@@ -175,8 +176,7 @@ ggplot(data) +
 
 # String manipulation
 
-If you 
-gsub vs stringr
+Basically, if you're using base R you want to use the `gsub` functions and if you're using tidyverse you want `stringr`. Both can use regular expressions and get you where you want to go!
 
 # Things that are the same
 
@@ -188,4 +188,4 @@ Some things in base R have no equivalent in tidyverse because they don't need to
 
 # A note about `apply`
 
-Some of the most common functions you'll see from base R are the `apply` functions
+Some of the most common functions you'll see from base R are the `apply` functions. Here is a [good overview](https://www.r-bloggers.com/2022/03/complete-tutorial-on-using-apply-functions-in-r/) on the apply functions in case you want to use them one day!
