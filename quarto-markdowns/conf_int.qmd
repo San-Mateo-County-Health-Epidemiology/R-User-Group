@@ -23,8 +23,7 @@ Notation:
 
 -   Confidence level: CI
 
-To manually calculate confidence intervals, begin by calculating the rate $$
-\frac{x}{n} $$
+To manually calculate confidence intervals, begin by calculating the rate
 
 ```{r}
 
@@ -38,9 +37,9 @@ q <- 1-rate
 
 ```
 
-Then, calculate the standard error, which is the standard deviation of the sampling distribution $$ \sqrt{p(1-p)/n} $$
+Then, calculate the standard error, which is the standard deviation of the sampling distribution
 
-Next, calculate the margin of error, which represents the amount of random sampling error $$ z*\sqrt{p(1-p)/n} $$
+Next, calculate the margin of error, which represents the amount of random sampling error
 
 If you are calculating a 95% confidence interval, use a z-score of 1.96 when calculating the margin of error (99% CI: 2.576, 90% CI: 1.645).
 
@@ -52,7 +51,7 @@ rate_me <- rate_se*1.96
 
 ```
 
-Finally, calculate the lower and upper confidence intervals and multiply by designated multiplier (e.g., 100,000). Formula: $$ (x/n-z*\sqrt{p(1-p)/n}),(x/n+z*\sqrt{p(1-p)/n}) $$
+Finally, calculate the lower and upper confidence intervals and multiply by designated multiplier (e.g., 100,000).
 
 ```{r}
 
