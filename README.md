@@ -21,6 +21,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-04-03 | [confidence interval calculation](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/conf_int.md) |
 | 2025-03-20 | [base R vs tidyverse](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_vs_tidyverse.md) |
 | 2025-03-05 | [miscellaneous things](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/miscellaneous-things.md) |
 | 2025-01-23 | [file management](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-management.md) |
