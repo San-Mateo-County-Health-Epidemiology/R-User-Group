@@ -4,8 +4,6 @@ Eamonn Hartmann
 
 - [How to calculate confidence intervals by
   hand](#how-to-calculate-confidence-intervals-by-hand)
-- [How to calculate confidence intervals for rates in
-  R](#how-to-calculate-confidence-intervals-for-rates-in-r)
 
 Confidence intervals display values that one would expect the true
 estimate to fall within if you replicate the analysis many times. If a
@@ -26,67 +24,41 @@ Notation:
 - Confidence level: CI
 
 To manually calculate confidence intervals, begin by calculating the
-rate $$
-\frac{x}{n} $$
+rate
 
 ``` r
-library(tidyverse)
+n <- 25
 
-smc_drug_rate <- 119/733081
+pop <- 100000
+
+rate <- n/pop
+
+q <- 1-rate
 ```
 
 Then, calculate the standard error, which is the standard deviation of
-the sampling distribution $$ \sqrt{x / n^2} $$
+the sampling distribution
 
 Next, calculate the margin of error, which represents the amount of
-random sampling error $$ z*\sqrt{x / n^2}) $$
+random sampling error
 
 If you are calculating a 95% confidence interval, use a z-score of 1.96
 when calculating the margin of error (99% CI: 2.576, 90% CI: 1.645).
 
 ``` r
-smc_drug_rate_se <- sqrt(119/ (733081)^2)
+rate_se <- sqrt((rate*q)/pop)
 
-smc_drug_rate_me <- smc_drug_rate_se*1.96
+rate_me <- rate_se*1.96
 ```
 
 Finally, calculate the lower and upper confidence intervals and multiply
-by designated multiplier (e.g., 100,000). Formula:
-$$ (x/n-z*\sqrt{x / n^2}),(x/n+z*\sqrt{x / n^2}) $$
+by designated multiplier (e.g., 100,000).
 
 ``` r
-smc_drug_rate_lower_ci <- round((smc_drug_rate - smc_drug_rate_me)*100000, digits = 1)
+rate_lower_ci <- round((rate - rate_me)*100000, digits = 2)
 
-smc_drug_rate_upper_ci <- round((smc_drug_rate + smc_drug_rate_me)*100000, digits = 1)
+rate_upper_ci <- round((rate + rate_me)*100000, digits = 2)
 
-smc_drug_rate_ci_manual <- data.frame(lower_ci = smc_drug_rate_lower_ci,
-                                      upper_ci = smc_drug_rate_upper_ci)
-```
-
-## How to calculate confidence intervals for rates in R
-
-The prop.test function can be utilized to test the null hypothesis that
-the proportions in one or more groups are the same. The function allows
-for specification of the alternative hypothesis (one-sided or two-sided)
-and the size of the confidence interval.
-
-``` r
-smc_2023_prop_test <- data.frame(deaths = 119,
-                                    smc_pop = 733081) 
-
-prop_test <- prop.test(smc_2023_prop_test$deaths, smc_2023_prop_test$smc_pop, conf.level = 0.95)
-```
-
-The results produce a list of the test statistic, parameter, p-value,
-estimate, and confidence intervals. To extract the confidence interval
-only, use Base R (\$conf.int) to further specify the lower and upper
-confidence interval values by specifying \[1\] or \[2\]. If you are
-multiplying your rate, make sure to multiple your confidence interval by
-the same value to ensure statistical congruency.
-
-``` r
-smc_2023_drug_rate_ci <- smc_2023_prop_test %>%
-    mutate(crude_rate = round(deaths/smc_pop*100000, digits = 2),
-            lower_ci = round(prop.test(deaths, smc_pop, conf.level = 0.95)$conf.int[1]*100000, digits = 2), 
-            upper_ci = round(prop.test(deaths, smc_pop, conf.level = 0.95)$conf.int[2]*100000, digits = 2))
+rate_ci_manual <- data.frame(lower_ci = rate_lower_ci,
+                                      upper_ci = rate_upper_ci)
 ```
