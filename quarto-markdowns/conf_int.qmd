@@ -1,0 +1,66 @@
+---
+title: "Confidence Intervals"
+author: "Eamonn Hartmann"
+date: "2025-04-03"
+format: gfm
+editor: visual
+execute: 
+  warning: false
+toc: true
+---
+
+Confidence intervals display values that one would expect the true estimate to fall within if you replicate the analysis many times. If a study has a 95% confidence interval, then the true value would exist within the confidence interval 95% of the time if you were to replicate the analysis.
+
+## How to calculate confidence intervals by hand
+
+Notation:
+
+-   Number of events: x
+
+-   Sample size: n
+
+-   z-score: z
+
+-   Confidence level: CI
+
+To manually calculate confidence intervals, begin by calculating the rate $$
+\frac{x}{n} $$
+
+```{r}
+
+n <- 25
+
+pop <- 100000
+
+rate <- n/pop
+
+q <- 1-rate
+
+```
+
+Then, calculate the standard error, which is the standard deviation of the sampling distribution $$ \sqrt{p(1-p)/n} $$
+
+Next, calculate the margin of error, which represents the amount of random sampling error $$ z*\sqrt{p(1-p)/n} $$
+
+If you are calculating a 95% confidence interval, use a z-score of 1.96 when calculating the margin of error (99% CI: 2.576, 90% CI: 1.645).
+
+```{r}
+
+rate_se <- sqrt((rate*q)/pop)
+
+rate_me <- rate_se*1.96
+
+```
+
+Finally, calculate the lower and upper confidence intervals and multiply by designated multiplier (e.g., 100,000). Formula: $$ (x/n-z*\sqrt{p(1-p)/n}),(x/n+z*\sqrt{p(1-p)/n}) $$
+
+```{r}
+
+rate_lower_ci <- round((rate - rate_me)*100000, digits = 2)
+
+rate_upper_ci <- round((rate + rate_me)*100000, digits = 2)
+
+rate_ci_manual <- data.frame(lower_ci = rate_lower_ci,
+                                      upper_ci = rate_upper_ci)
+
+```
