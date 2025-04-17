@@ -143,7 +143,7 @@ the timezone of a POSIXct variable after it’s been set with the
 
 ``` r
 # date/time as a string
-date_time <- "2021-01-01T18:00:00"
+date_time <- "2022-01-01T18:00:00"
 class(date_time)
 ```
 
@@ -155,7 +155,7 @@ date_time_gmt <- as.POSIXct(date_time, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT")
 date_time_gmt
 ```
 
-    [1] "2021-01-01 18:00:00 GMT"
+    [1] "2022-01-01 18:00:00 GMT"
 
 ``` r
 # convert to PDT
@@ -163,7 +163,7 @@ date_time_pdt <- with_tz(date_time_gmt, tzone = "US/Pacific")
 date_time_pdt
 ```
 
-    [1] "2021-01-01 10:00:00 PST"
+    [1] "2022-01-01 10:00:00 PST"
 
 ## Formatting dates for reports
 
@@ -178,7 +178,7 @@ date should go where.
 format(Sys.Date(), format = "%B %d, %Y")
 ```
 
-    [1] "November 14, 2024"
+    [1] "April 17, 2025"
 
 ### Formatting example 2
 
@@ -186,4 +186,4 @@ format(Sys.Date(), format = "%B %d, %Y")
 format(Sys.Date(), format = "%m/%d/%Y")
 ```
 
-    [1] "11/14/2024"
+    [1] "04/17/2025"
