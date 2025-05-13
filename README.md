@@ -67,7 +67,7 @@ aren’t available but it generally meets our needs. Render your `.qmd` file so 
 
 Other things:
 
-- ## If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
+- If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
 
 ## Future meetings:
 
