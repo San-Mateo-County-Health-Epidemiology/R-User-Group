@@ -55,8 +55,8 @@ date: "YYYY-MM-DD of the R User Group"
 
 `format: gfm` tells R the output should be a “GitHub Flavored Markdown”.
 A GFM is a basic HTML output, so some features (like including tab sets)
-aren’t available but it generally meets our needs. It will generate a
-`.md` (markdown) file that is the rendered version of the Quarto doc.
+aren’t available but it generally meets our needs. Render your `.qmd` file so it generates an
+`.md` (markdown) file. This is the "finished" version. 
 
 2.  Once you’ve finished your Quarto doc and have pushed the `.qmd` and
     `.md` to GitHub, update the table on the `README.Rmd` file to
