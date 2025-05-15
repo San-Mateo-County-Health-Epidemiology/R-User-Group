@@ -1,6 +1,6 @@
 # Saving data for downstream analyses
 Beth Jump
-2022-05-05
+2025-05-15
 
 ## Overview
 
@@ -88,3 +88,80 @@ and is also a bit easier to track what you’re doing when you can see the
 date of the file in the path.
 
 ## Content
+
+When you’re saving data for future analyses, you also need to think
+about what is actually in the files. Some things to take into
+consideration:
+
+- Confidentiality
+- File structure
+- Future analyses
+
+### Confidentiality
+
+In any file you save, you should ways include the minimum necessary
+information. If you’re saving data for a report about COVID case
+demographics, you likely don’t need to include patient name or unique
+identifiers in the data for that report, you probably just need age
+group, sex, and race/ethnicity.
+
+Whenever possible, you should save a frequency table of the variables
+you want instead of a line list. A frequency table takes up less space
+and also shares less information than a line list.
+
+You can easily make a frequency table with `dplyr::count()`, though you
+might want to change the format a bit with `tidyr::pivot_wider()` and
+`tidyr::pivot_longer()`.
+
+If there are a lot of small cells, you still might risk sharing
+unintended information. Here you might consider breaking your data up
+into multiple tables, especially if the data could be “exposed” to an
+ended user (like they might be in Power BI).
+
+### File structure
+
+Once you set up a process where you generate a file that is used in
+other analyses, you need to be careful not to change the structure
+(variables and variable types) as small changes can “break” downstream
+processes.
+
+One way to accommodate changes is by making sure variable categories are
+contained within a single column instead of as unique variables.
+
+Consider this data set of test data by result and date. This is fine
+until another test result (ex: indeterminate) appears in our data. That
+new result would add a variable and downstream analyses wouldn’t know to
+look for it.
+
+| date       | positive | negative | inconclusive |
+|------------|----------|----------|--------------|
+| 2021-01-01 | 100      | 1500     | 1            |
+| …          | ….       | …        | …            |
+
+It’s better to structure data this way. When an indeterminate result
+comes in, it will just add a row to the table instead of adding a
+variable.
+
+| date       | test_result  | count |
+|------------|--------------|-------|
+| 2021-01-01 | positive     | 100   |
+| 2021-01-01 | negative     | 1500  |
+| 2021-01-01 | inconclusive | 1     |
+| …          | …            | …     |
+
+### Future analyses
+
+You should also consider what analyses will be done with your data in
+future scripts and try to prepare for those. You obviously can’t prepare
+for everything, but you can make variables for downstream use.
+
+One example is race/ethnicity. Classifying race/ethnicity isn’t super
+straightforward, so it’s best to do it once and then save that category
+in the data meant for downstream use. This ensures everyone using that
+data is using the same race/ethnicity category and it is more efficient
+than having each person using the downstream re-create the
+race/ethnicity variable.
+
+One small way to do this is to create categories like age group and
+race/ethnicity in the first script. This ensures all downstream analyses
+will use those variables.
