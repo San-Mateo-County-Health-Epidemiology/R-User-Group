@@ -1,8 +1,9 @@
 ################################################
 #
-# 03b: render word markdown for parameters_example.Rmd
+# Render word markdown for parameters_example.Rmd - looping through multiple parameters
 #
 ################################################
+
 #clean data environment
 rm(list = ls())
 library(rmarkdown)
@@ -13,13 +14,13 @@ library(dplyr)
 people_names <- list(c("Tom", "Bob"), "Jerry")
 messages <- list("Happy birthday", "Get lost")
 
-# Render for each input ----------------------------------------
+# Render for each input (using rmarkdown) ----------------------------------------
 i <- 1
 for (person in people_names) {
   for(message in messages){
-    output_file <- paste0("Report", i, "_", Sys.Date(), ".docx") #by default, will save to the same location as the.qmd file
-    rmarkdown::render("./quarto-markdowns/paramaters_example.qmd", 
-                      output_file = output_file, 
+    output_file <- paste0("Report", i, "_", Sys.Date(), ".docx") 
+    rmarkdown::render("./quarto-markdowns/paramaters_example.qmd", #
+                      output_file = output_file, #Default output location is same as .qmd
                       params = list(person = person,
                                     message = message),
                                     #we don't provide the exclamation argument, so it will use the default (TRUE)
