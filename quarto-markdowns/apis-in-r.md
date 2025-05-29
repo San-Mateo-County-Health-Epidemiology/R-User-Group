@@ -134,7 +134,7 @@ key_set_with_value(service = "essence", # this is how you reference the username
 
 url <- "https://essence.syndromicsurveillance.org/nssp_essence/api/timeSeries?endDate=6Apr2024&medicalGrouping=injury&percentParam=noPercent&geographySystem=hospitaldhhsregion&datasource=va_hospdreg&detector=probrepswitch&startDate=7Jan2024&timeResolution=daily&medicalGroupingSystem=essencesyndromes&userId=455&aqtTarget=TimeSeries"
   
-api_response <- GET(csv_url, 
+api_response <- GET(url, 
                     authenticate(key_list("essence")[1,2], 
                                  key_get("essence", 
                                           key_list("essence")[1,2])))
