@@ -21,7 +21,7 @@ ways of fetching data with an API from R:
     tricky. You should do this if there isn’t a wrapper function
     available.
 
-## APIS with “wrapper” functions
+## APIs with “wrapper” functions
 
 “Wrapper” functions are functions that sit on top of other functions to
 make them easier to use in a given context. The best analogy I can think
