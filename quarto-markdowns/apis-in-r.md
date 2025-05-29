@@ -21,7 +21,7 @@ ways of fetching data with an API from R:
     tricky. You should do this if there isn’t a wrapper function
     available.
 
-## APIS with “wrapper” functions
+## APIs with “wrapper” functions
 
 “Wrapper” functions are functions that sit on top of other functions to
 make them easier to use in a given context. The best analogy I can think
@@ -134,7 +134,7 @@ key_set_with_value(service = "essence", # this is how you reference the username
 
 url <- "https://essence.syndromicsurveillance.org/nssp_essence/api/timeSeries?endDate=6Apr2024&medicalGrouping=injury&percentParam=noPercent&geographySystem=hospitaldhhsregion&datasource=va_hospdreg&detector=probrepswitch&startDate=7Jan2024&timeResolution=daily&medicalGroupingSystem=essencesyndromes&userId=455&aqtTarget=TimeSeries"
   
-api_response <- GET(csv_url, 
+api_response <- GET(url, 
                     authenticate(key_list("essence")[1,2], 
                                  key_get("essence", 
                                           key_list("essence")[1,2])))
