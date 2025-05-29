@@ -1,0 +1,238 @@
+# APIs in R
+Beth Jump
+2025-05-29
+
+## Overview
+
+Application programming interfaces (APIs) are a method of exchanging
+data from one source to another.
+
+For more details about APIs, take the [CSTE
+Learn](https://learn.cste.org/index.php?option=com_splms&view=course&id=176)
+course. This will give you a good background on APIs generally.
+
+Here we’ll look at code for APIs in R. Broadly speaking, there are two
+ways of fetching data with an API from R:
+
+1.  Using “wrapper” functions to fetch data from specific endpoints. Ex:
+    using REDCapAPI to get data from REDCap or using tidycensus
+    functions to get ACS and Census data.
+2.  Using notation from the `httr` package. This can get a little
+    tricky. You should do this if there isn’t a wrapper function
+    available.
+
+## APIS with “wrapper” functions
+
+“Wrapper” functions are functions that sit on top of other functions to
+make them easier to use in a given context. The best analogy I can think
+of is RStudio IDE vs R. The RStudio IDE doesn’t really add
+functionality - it just makes using R easier. That’s what a wrapped
+function does.
+
+In the context of APIs, wrapper functions make using APIs approachable
+because you just need to worry about the inputs and don’t need to worry
+about forming the actual request.
+
+### REDCap API
+
+There are a handful of packages that create functions to import and
+export data from REDCap. My favorite is
+[redcapAPI](https://github.com/cran/redcapAPI). That page also has a
+comparison of functionality across other REDCap packages.
+
+If you want to import data into a project with `redcapAPI`, you can use
+this code. You first specify your URL and token (the token is specific
+to you and to the project) and then you can use the relatively easy
+`importRecords()` package.
+
+``` r
+library(redcapAPI)
+
+url <- ""
+token <- ""
+
+con <- redcapConnection(url = url, 
+                        token = token) 
+
+importRecords(con,
+              data = ed_data,
+              overwriteBehavior = "normal",
+              returnContent = "count")
+```
+
+If you wanted to run this API without any wrapper functions, you could
+use this code. It has most of the same inputs but is a bit more verbose.
+This code was taken directly from REDCap’s API playground (check it
+out!!).
+
+``` r
+formData <- list("token"=token,
+                 content='record',
+                 action='import',
+                 format='csv',
+                 type='flat',
+                 overwriteBehavior='normal',
+                 forceAutoNumber='false',
+                 data='',
+                 returnContent='count',
+                 returnFormat='json'
+)
+response <- httr::POST(url, body = formData, encode = "form")
+result <- httr::content(response)
+print(result)
+```
+
+### ESSENCE
+
+ESSENCE queries are pretty straightforward API calls as you just need to
+specify the url and you can copy this straight from NSSP. This
+[guide](https://cdn.ymaws.com/www.cste.org/resource/resmgr/2016billets/RStudio_ESSENCE_API_Guide_D.html#rstudio-securely-saving-amc-credentials)
+is very helpful and easy to follow if you’re setting up ESSENCE APIs for
+the first time.
+
+There are some wrapper functions (`get_api_response()`) but you can also
+pretty easily make these calls with the `httr` package functions.
+
+This query was copied from the guide mentioned above. The url is taken
+straight from ESSENCE and you just need to create a `myProfile` object
+with your credentials.
+
+Getting ESSENCE data with wrapper functions:
+
+``` r
+library(Rnssp)
+library(tidyverse)
+library(lubridate)
+library(httr)
+library(jsonlite)
+
+myProfile <- create_profile()
+
+# rda option
+save(myProfile, file = "~/myProfile.rda") 
+
+url <- "https://essence.syndromicsurveillance.org/nssp_essence/api/timeSeries?endDate=6Apr2024&medicalGrouping=injury&percentParam=noPercent&geographySystem=hospitaldhhsregion&datasource=va_hospdreg&detector=probrepswitch&startDate=7Jan2024&timeResolution=daily&medicalGroupingSystem=essencesyndromes&userId=455&aqtTarget=TimeSeries"
+
+api_response <- get_api_response(url)
+api_response_json <- httr::content(api_response, as = "text")
+
+api_data <- jsonlite::fromJSON(api_response_json) %>%
+  pluck("timeSeriesData")
+
+glimpse(api_data)
+```
+
+Getting ESSENCE data without wrapper functions:
+
+``` r
+library(keyring)
+library(httr)
+
+key_set_with_value(service = "essence", # this is how you reference the username/pwd pair later
+                   username = "username", # put your username here
+                   password = "password") # put your password here 
+
+url <- "https://essence.syndromicsurveillance.org/nssp_essence/api/timeSeries?endDate=6Apr2024&medicalGrouping=injury&percentParam=noPercent&geographySystem=hospitaldhhsregion&datasource=va_hospdreg&detector=probrepswitch&startDate=7Jan2024&timeResolution=daily&medicalGroupingSystem=essencesyndromes&userId=455&aqtTarget=TimeSeries"
+  
+api_response <- GET(csv_url, 
+                    authenticate(key_list("essence")[1,2], 
+                                 key_get("essence", 
+                                          key_list("essence")[1,2])))
+
+data <- content(api_response, by = "csv/text") %>%
+  read_csv() %>%
+  mutate_all(as.character)
+```
+
+### tidycensus
+
+The [`tidycensus`](https://walker-data.com/tidycensus/) package is
+another great package of wrapper functions. While you could try to form
+these API calls on your own, using the package is much easier!
+
+Check out the website for examples.
+
+## APIs with `httr` notation
+
+Writing APIs without wrapper functions can get a little tedious. If you
+send a bad request, you might not know if the request was bad because of
+the formatting, the endpoint, your permissions, etc.
+
+If you need to set up an API from R and are stuck, feel free to reach
+out to me! I’d also recommend downloading
+[Postman](https://www.postman.com/api-evangelist/national-oceanic-and-atmospheric-administration-noaa/folder/tjtztxm/points-point)
+to play around with APIs. That link is to the NOAA APIs in Postman.
+
+### ReddiNet
+
+Getting data from ReddiNet is quite straightforward. ReddiNet gave us
+the URL and our authorization key. We hit the endpoint and get a JSON
+(Java Script Object Notation) object with all of our data.
+
+The data come through as a data set with nested tables in certain
+columns. We use the `jsonlite` package to parse the data into a series
+of tables we can use.
+
+``` r
+api_response <- GET(url = url,
+                    add_headers(Authorization = key),
+                    encode = "json")
+
+# convert from json to 2x2 and do basic cleaning ----
+edvol_today <- jsonlite::fromJSON(rawToChar(api_response$content)) %>%
+  jsonlite::flatten() %>%
+  select(name, matches("edvol"))
+```
+
+### SharePoint
+
+Getting data from SharePoint is a bit complicated. It involves getting a
+token, fetching the files from a site with that token and then
+identifying and downloading the desired file. This code is used to get
+the poison control PDF off SharePoint and onto our Epi drive each day.
+
+``` r
+library(httr)
+library(jsonlite) 
+library(tidyverse)
+
+# 1. access sharepoint data from the api ----
+## 1a. get the token ----
+token_req <- POST(site,
+                  body = list(
+                    client_id = client_id,
+                    client_secret = client_secret,
+                    scope = scope,
+                    grant_type = "client_credentials"),
+                  encode = "form")
+
+bearer_token <- paste0("Bearer ", unlist(content(token_req)$access_token))
+bearer_token
+
+## 1b. use the token to find our file ----
+### fetch all cpcs files ----
+site_id <- ""
+url <- paste0("https://graph.microsoft.com/v1.0/sites/", site_id, "/drives/drive_id/root/search(q='{CPCS}')")
+response <- GET(url = url,
+    add_headers(Authorization = bearer_token))
+
+### filter to keep today's file (saved by PowerAutomate) ----
+data <- jsonlite::fromJSON(rawToChar(response$content))$value %>%
+  data.frame() %>%
+  filter(name == "CPCS DSAT Support San Mateo County.pdf" & 
+           as.Date(lastModifiedDateTime) == Sys.Date()) 
+
+file_id <- data %>%
+  pull(id)
+
+## 1c. download the pdf we want ----
+pdf_url <- paste0("https://graph.microsoft.com/v1.0/sites/", site_id, "/drives/drive_id/items/", file_id, "/content")
+
+### save it to the shared drive ----
+file_name <- paste0("Surveillance/DSAT/CPCS/PDFs/CPCS DSAT Support San Mateo County_", Sys.Date()-1, ".pdf")
+httr::GET(url = pdf_url,
+          add_headers(Authorization = bearer_token),
+          httr::write_disk(file_name, overwrite = T),
+          httr::progress()
+)
+```
