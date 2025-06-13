@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-06-12 | [Updating R and RStudio](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/updating-r-and-rstudio.md) |
 | 2025-05-29 | [APIs in R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/apis-in-r.md) |
 | 2025-05-15 | [saving data for downstream analyses](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/saving-data-for-downstream-analyses.md) |
 | 2025-04-17 | [overlapping date ranges in longitudinal data](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/identifying-and-consolidating-overlapping-date-ranges-longitudinal.md) |
