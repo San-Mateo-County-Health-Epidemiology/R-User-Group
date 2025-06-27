@@ -75,6 +75,8 @@ plot2 <- plot1 +
   theme_gg_smc(legend_loc = "none") +
   scale_x_continuous(breaks = c(2007, 2008, 2009)) + 
   expand_limits(x = c(2007, 2009.2))
+plot2
+```
 
 
 If you want your labels outside of the plot area:
