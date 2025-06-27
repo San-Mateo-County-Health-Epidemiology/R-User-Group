@@ -75,5 +75,26 @@ plot2 <- plot1 +
   theme_gg_smc(legend_loc = "none") +
   scale_x_continuous(breaks = c(2007, 2008, 2009)) + 
   expand_limits(x = c(2007, 2009.2))
+
+
+If you want your labels outside of the plot area:
+
+* use `coord_cartesian(clip = "off")` to allow plotting outside the plot margin.
+* then specify a larger right-side margin using the `plot.margin` argument in `theme`.
+* use `hjust` to shift your labels if need-be (a challenge here is that `hjust` shifts labels by a percent of the label length, so you may lose your left-justification if you set `hjust` to  a non-0 value).
+
+```{r}
+plot2 <- plot1 +
+  geom_text(data = labels,
+            aes(x = year, 
+                y = n,
+                label = species,
+                color = species),
+            hjust = -0.5,
+            fontface = "bold") + 
+  coord_cartesian(clip = "off")  + 
+  theme_gg_smc(legend_loc = "none") +
+  theme(plot.margin = margin(t=0,r=70,b=0,l=0)) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009))
 plot2
 ```
