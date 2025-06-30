@@ -60,7 +60,7 @@ Now we'll add them to our plot with `geom_text()`. A couple of things to note:
 * we have to specify which data we want to use (`data = labels`) because we're pulling the labels from the `labels` data frame and not the `penguins` data frame 
 * `hjust = 0` makes it so the label starts at the point mapped in the `aes()` argument. If you don't use this, your label will be centered on the point which can make it hard to read
 * `expand_limits()` allows you to expand the chart space past the default. This is helpful if the default space cuts off your labels. 
-* To expand your axis without specifying a specific range, use the `expand` argument in `scale_x_...`. For example, `expand = expansion(mult = c(0, 0.25))` will expand the x axis 25% and `expand = expansion(add = c(0,0.2))` will add 0.2 x units to the right side of the plot.
+* To expand your axis without specifying a specific range, use the `expand` argument in `scale_x_...()`. For example, `scale_x_continuous(expand = expansion(mult = c(0, 0.25)))` will expand the x axis 25% and `scale_x_continuous(expand = expansion(add = c(0,0.2)))` will add 0.2 x units to the right side of the plot.
 
 
 ```{r}
@@ -82,7 +82,7 @@ plot2
 If you want your labels outside of the plot area:
 
 * use `coord_cartesian(clip = "off")` to allow plotting outside the plot margin.
-* then specify a larger right-side margin using the `plot.margin` argument in `theme`.
+* then specify a larger right-side margin using the `plot.margin` argument in `theme()`.
 * use `hjust` to shift your labels if need-be (a challenge here is that `hjust` shifts labels by a percent of the label length, so you may lose your left-justification if you set `hjust` to  a non-0 value).
 
 ```{r}
