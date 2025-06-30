@@ -89,10 +89,11 @@ note:
 - `expand_limits()` allows you to expand the chart space past the
   default. This is helpful if the default space cuts off your labels.
 - To expand your axis without specifying a specific range, use the
-  `expand` argument in `scale_x_...`. For example,
-  `expand = expansion(mult = c(0, 0.25))` will expand the x axis 25% and
-  `expand = expansion(add = c(0,0.2))` will add 0.2 x units to the right
-  side of the plot.
+  `expand` argument in `scale_x_...()`. For example,
+  `scale_x_continuous(expand = expansion(mult = c(0, 0.25)))` will
+  expand the x axis 25% and
+  `scale_x_continuous(expand = expansion(add = c(0,0.2)))` will add 0.2
+  x units to the right side of the plot.
 
 ``` r
 plot2 <- plot1 +
@@ -116,13 +117,13 @@ If you want your labels outside of the plot area:
 - use `coord_cartesian(clip = "off")` to allow plotting outside the plot
   margin.
 - then specify a larger right-side margin using the `plot.margin`
-  argument in `theme`.
+  argument in `theme()`.
 - use `hjust` to shift your labels if need-be (a challenge here is that
   `hjust` shifts labels by a percent of the label length, so you may
   lose your left-justification if you set `hjust` to a non-0 value).
 
 ``` r
-plot2 <- plot1 +
+plot3 <- plot1 +
   geom_text(data = labels,
             aes(x = year, 
                 y = n,
@@ -134,7 +135,7 @@ plot2 <- plot1 +
   theme_gg_smc(legend_loc = "none") +
   theme(plot.margin = margin(t=0,r=70,b=0,l=0)) +
   scale_x_continuous(breaks = c(2007, 2008, 2009))
-plot2
+plot3
 ```
 
 ![](ggplot2_gog-and-labelling-plots_files/figure-commonmark/unnamed-chunk-5-1.png)
