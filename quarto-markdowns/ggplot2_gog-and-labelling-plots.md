@@ -122,7 +122,7 @@ If you want your labels outside of the plot area:
   lose your left-justification if you set `hjust` to a non-0 value).
 
 ``` r
-plot2 <- plot1 +
+plot3 <- plot1 +
   geom_text(data = labels,
             aes(x = year, 
                 y = n,
@@ -134,7 +134,7 @@ plot2 <- plot1 +
   theme_gg_smc(legend_loc = "none") +
   theme(plot.margin = margin(t=0,r=70,b=0,l=0)) +
   scale_x_continuous(breaks = c(2007, 2008, 2009))
-plot2
+plot3
 ```
 
 ![](ggplot2_gog-and-labelling-plots_files/figure-commonmark/unnamed-chunk-5-1.png)
