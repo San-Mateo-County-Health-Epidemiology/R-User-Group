@@ -14,14 +14,7 @@ library(tidyverse)
   
 ## Background
 
-R was originally created for statisticians and there are some very handy functions in base R and in the `stats` package which is included with the R installation.
-
-## `rep()`
-
-```{r}
-
-```
-
+R was originally created for statisticians and there are some very handy functions in base R and in the `stats` package (which is included with the R installation).
 
 ## `sample()`
 
@@ -44,6 +37,24 @@ dist <- sample(x = 0:5,
                replace = T,
                prob = c(10, 9, 5, rep(1, 3)))
 ```
+
+
+## `rep()`
+
+The `rep()` function just lets you repeat and element a given number of times. Let's say you want to make a variable and you need the value `"yellow"` included three times. Instead of typing: `c("yellow", "yellow", "yellow")` you can use:
+
+```{r}
+rep("yellow", 3)
+```
+
+You might not use this very often, but if you find yourself typing the same thing over and over consider using `rep()` instead!
+
+## `replicate()`
+
+`rep()` just repeats the same element or result over and over while `replicate()` will actually re-run code a specified number of times. We used `replicate()` when we [compared the size, read and save times of different types of files](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/a40a9f5eec3c8f3b3ba4b83cb5d0cfb35124ab8e/quarto-markdowns/r-scripts/file-type-comparison.R). 
+
+Here's a quick copmar
+
 
 
 
