@@ -4,7 +4,6 @@
 # R-User-Group
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 This repository contains markdown files for topics we’ve discussed
@@ -22,6 +21,8 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-07-24 | **draft!!** [`stats` distribution functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/stats-distribution-functions.md) |
+| 2025-07-10 | [base R functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_functions.md) |
 | 2025-06-26 | [Grammar of graphics & labelling plots](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/ggplot2_gog-and-labelling-plots.md) |
 | 2025-06-12 | [Updating R and RStudio](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/updating-r-and-rstudio.md) |
 | 2025-05-29 | [APIs in R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/apis-in-r.md) |
