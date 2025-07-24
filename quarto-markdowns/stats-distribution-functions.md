@@ -1,4 +1,4 @@
-# `stat` distribution functions
+# `stats` distribution functions
 Beth Jump
 2025-07-24
 
@@ -15,7 +15,8 @@ installation.
 Here we’ll go through four functions that you can use with normal
 distributions. There are corollaries of these functions for other
 distributions including: binomial, uniform, exponential, gamma, F,
-Cauchy, etc.
+Cauchy, etc. The functions are: `r_()`, `p_()`, `q_()` and `d()` (ex:
+`rnorm()`, `pnorm()`, `qnorm()` and `dnorm()`)
 
 A full list of functions is on the [`stats` package
 website](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html).
@@ -70,9 +71,9 @@ rnorm(10000, mean = 6, sd = 10) %>%
 
 ![](stats-distribution-functions_files/figure-commonmark/unnamed-chunk-3-1.png)
 
-If your data need to have a certain shape, using `rnorm()` (or one of
-the `_norm()` functions) is likely a better option than trying to play
-around with the parameters of `sample()`.
+If your data need to have a certain shape, using `r()` (or one of the
+`r_()` functions) is likely a better option than trying to play around
+with the parameters of `sample()`.
 
 ### pnorm()
 

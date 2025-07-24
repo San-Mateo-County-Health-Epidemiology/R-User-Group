@@ -1,6 +1,6 @@
 ---
 format: gfm
-title: "`stat` distribution functions"
+title: "`stats` distribution functions"
 author: "Beth Jump"
 date: "2025-07-24"
 execute: 
@@ -16,7 +16,7 @@ library(tidyverse)
 
 R was originally created for statisticians and there are some very handy functions in the `stats` package which is included with the R installation.
 
-Here we'll go through four functions that you can use with normal distributions. There are corollaries of these functions for other distributions including: binomial, uniform, exponential, gamma, F, Cauchy, etc.
+Here we'll go through four functions that you can use with normal distributions. There are corollaries of these functions for other distributions including: binomial, uniform, exponential, gamma, F, Cauchy, etc. The functions are: `r_()`, `p_()`, `q_()` and `d()` (ex: `rnorm()`, `pnorm()`, `qnorm()` and `dnorm()`)
 
 A full list of functions is on the [`stats` package website](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html). 
 
@@ -54,7 +54,7 @@ rnorm(10000, mean = 6, sd = 10) %>%
   geom_histogram(aes(x = var, y = ..density..))
 ```
 
-If your data need to have a certain shape, using `rnorm()` (or one of the `_norm()` functions) is likely a better option than trying to play around with the parameters of `sample()`. 
+If your data need to have a certain shape, using `r()` (or one of the `r_()` functions) is likely a better option than trying to play around with the parameters of `sample()`. 
 
 ### pnorm()
 
