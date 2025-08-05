@@ -3,6 +3,7 @@ format: gfm
 title: "plotly basics"
 author: "Beth Jump"
 date: "2022-07-14"
+embed-resources: true
 execute:
   eval: false
 ---
