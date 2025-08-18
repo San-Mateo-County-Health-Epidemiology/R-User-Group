@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-08-21 | [Healthy Places Index API function](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/healthy_places_index_api_function.md) |
 | 2025-08-07 | [R package overview](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/r-package-overview.md) |
 | 2025-07-24 | [`stats` distribution functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/stats-distribution-functions.md) |
 | 2025-07-10 | [base R functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_functions.md) |
@@ -77,7 +78,3 @@ so it generates an .md (markdown) file. This is the “finished” version.
 Other things:
 
 - ## If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
-
-## Future meetings:
-
-2025-03-20: base R vs dplyr
