@@ -80,6 +80,10 @@ Here we’ll loop through the variables saved above. We’ll save the year
 and indicator as variables in our data set and will append each API call
 so the data are stored in a long format.
 
+**You may run into rate limit errors when running the loop and might
+need to only pull a few indicators at a time. Sometimes this runs
+without error.**
+
 ``` r
 all_data <- data.frame()
 
@@ -97,11 +101,12 @@ for (i in 1:nrow(hpi_vars)) {
   
   data <- as.data.frame(fromJSON(rawToChar(res$content))) 
   
-  data1 <- data %>% # issue here!!!
+  data1 <- data %>% 
     mutate(year = paste(hpi_vars[i, 2]),
            indicator = paste(hpi_vars[i, 3]))
   
-  all_data <- rbind(all_data, data1)
+  all_data <- all_data %>%
+    bind_rows(data1)
 }
 ```
 
@@ -115,8 +120,7 @@ smc_data <- all_data %>%
                               percentile <= 0.5 & percentile > 0.25 ~ 2,
                               percentile <= 0.75 & percentile > 0.5 ~ 3,
                               percentile <= 1 & percentile > 0.75 ~ 4)) %>% 
-  filter(name %in% smc_censustracts$name) %>%
-  filter(str_detect(geoid, "0608"))
+   filter(name %in% smc_censustracts$name)
 ```
 
 ## Inputs to download and clean datasets for selected Decision Support indicators
