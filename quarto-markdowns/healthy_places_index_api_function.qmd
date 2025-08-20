@@ -49,7 +49,7 @@ Line 52 ("api_key") requires the user to input their own API key as a character 
 
 ```{r, eval=FALSE}
 url <- "https://api.healthyplacesindex.org/api/hpi"
-api_key <- "fec0ded4-89d4-47d6-8a88-5fd19fea1307"
+api_key <- "YOUR API KEY HERE"
 geography <- "tracts"
 
 year <- c("2019", "2019", "2019", "2019", "2019", "2019", "2020", "2020", "2019",
