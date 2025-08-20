@@ -7,17 +7,12 @@ execute:
   eval: FALSE
 ---
 
-```{r}
-library(tidyverse)
 
-data <- palmerpenguins::penguins
-```
+## Background 
 
-## Overview 
+A function is a bit of code that performs a specific task. Typically a function allows for the user to specify inputs using arguments. Let's run how functions work with `sample()` from base R. If you aren't familiar with `sample()` you can look at the help text by running `?sample` in the console.
 
-A function is a bit of code that performs a specific task. Typically a function allows for the user to specify inputs using arguments. Let's run through this using `sample()` from base R. If you aren't familiar with `sample()` you can look at the help text by running `?sample` in the console.
-
-Note: It is best practice to label your arguments when you use functions. If you label your arguments, then you don't need to worry about the order of the inputs. If you don't label them, you need to make sure your inputs are in the correct order. 
+It is best practice to label your arguments when you use functions. If you label your arguments, then you don't need to worry about the order of the inputs. If you don't label them, you need to make sure your inputs are in the correct order. 
 
 Let's sample from this list.
 ```{r}
@@ -25,29 +20,28 @@ list <- 1:10
 list
 ```
 
-
-The ideal way to use this function is by labelling the arguments and listing the arguments in the correct order: 
+The ideal way to use this function is by labeling the arguments and listing the arguments in the correct order: 
 ```{r}
 sample(x = list, 
        size = 2, 
        replace = F)
 ```
 
-You can also run this function with unlabelled arguments in the correct order ...
+You can also run this function with unlabeled arguments in the correct order ...
 ```{r}
 sample(list, 
        2, 
        F)
 ```
 
-... and can run this function with labelled arguments in the wrong order:
+... and can run this function with labeled arguments in the wrong order:
 ```{r}
 sample(replace = FALSE, 
        x = list, 
        size = 2)
 ```
 
-However you cannot run this function with unlabelled arguments in the wrong order:
+However you cannot run this function with unlabeled arguments in the wrong order:
 ```{r}
 #| eval: false
 sample(2, 
@@ -55,129 +49,82 @@ sample(2,
        FALSE)
 ```
 
-```{r}
-sample(x = c("orange", "blue", "yellow", "green"), 
-       size = 2, 
-       replace = F, 
-       prob = c(3, 3, 3, 1))
-```
+## Custom functions 
 
-## custom functions ---------------------
-# sometimes you want to write your own function. the same rules apply here!
+### Overview
+Sometimes you need to write your own function. The same rules about labeling arguments and the order of inputs apply here in functions you write. 
+
+Here is a function that multiplies the input by 2. It only takes one argument so we can run it with a labeled or unlabeled argument. 
+
+```{r}
 times_2 <- function(x) {
   x*2
 }
 
 times_2(5)
 times_2(x = 5)
+```
 
-# bad function
-## make sure your inputs are in your function and all of the variables in your function are defined!! 
+When writing a function, make sure your inputs are in your function and all of the variables in your function are defined. This function won't work:
+```{r}
+#| eval: false
 times_4 <- function(x) {
   y*4
 }
 
 times_4(2)
+```
 
-# function to keep the first x rows of a dataset, according to a given variable
-## first step: write the code directly, not as a function
-## code to get the first 5 episode dates in the dataset
-sample_data %>%
-  arrange(episode_date) %>%
-  slice(1:5) %>%
-  select(record_id, episode_date)
+For this to work, the input should be `y` or the function code should be `x*4`. 
 
-# need to think about what inputs you might want to vary 
-first_rows <- function(df, x, var) {
-  df1 <- df %>%
-    arrange(var) %>%
-    slice(1:x) %>%
-    select(record_id, var)
-  
-  df1
-}
+### Function writing process
+Let's say we want to write a function that keeps the first `n` rows of a data set when the data are sorted by a specified variable. Here's how I would approach this.
 
-# unlabelled, correct order (OK!)
-first_rows(sample_data, 5, "episode_date")
-
-# labelled, incorrect order (OK!)
-first_rows(x = 5, var = "episode_date", df = sample_data)
-
-# unlabelled, incorrect order (BAD)
-first_rows(5, "episode_date", sample_data)
-
-# when do you use functions?
-## recommendation: if you are running the same code more than once, it should be a function. But that isn't practical and also writing functions takes time and takes getting used to, so I usually write functions when I need to do the same thing in multiple scripts 
-## i usually use functions for things that are used super widely or for things that would be really annoying to keep in sync. SOmetimes it's easier to copy and paste though
-# let's write some functions!
+1. Write the code you want to use as if it were in a script and not in a function. 
 
 
-# custom functions
-
+```{r}
 library(tidyverse)
-library(lubridate)
 
-# load the data
-setwd("J:/")
-load("Presentations & Training\\R Resources\\R User Group\\data\\sample_data.Rda")
+data <- palmerpenguins::penguins
 
-# if you want to write a function, you use this syntax:
-new_function <- function(x){
-  x
+data %>%
+  arrange(bill_length_mm) %>%
+  slice(1:5) %>%
+  select(bill_length_mm, everything())
+```
+
+2. Review your code and consider which inputs you want to be able to specify in your function. In this example, we probably want to specify:
+
+    - the data frame (`df`)
+    - the number of rows to keep (`n`)
+    - the variable by which to sort (`sort_var`)
+
+3. Re-write the code from step 1 as a function. 
+
+```{r}
+top_rows <- function(df, n, sort_var) {
+  new <- df %>%
+    arrange(get(sort_var)) %>%
+    slice(1:n) %>%
+    select(sort_var, everything())
+  return(new)
 }
+```
 
-new_function(1)
-new_function("beth")
+4. Test the function by comparing the output from step 1 with the output from step 3:
 
-# you can specify as many inputs as you want!
-new_function1 <- function(x, y, z){
-  x*y/z
-}
+```{r}
+# step 1 code:
+data %>%
+  arrange(bill_length_mm) %>%
+  slice(1:5) %>%
+  select(bill_length_mm, everything())
 
-new_function1(6,5,2)
-new_function1(z = 2, y = 5, x = 6)
+# step 3 code:
+top_rows(df = data, n = 5, sort_var = "bill_length_mm")
+```
 
-# you can also put default options into your function:
-new_function2 <- function(x = 5, y = 6, z = 2){
-  x*y/z
-}
-new_function2()
+## Discussion - when should you write a new function?
 
-# you can also override the defaults!
-new_function2(z = 1)
-
-## ggplot function
-## if we want to make a line graph:
-### step 1. write teh code like normal
-ggplot(sample_data, aes(x= age, y = sex)) +
-  geom_line()
-
-## THIS WON"T WORK!!!
-gg_line <- function(data, x, y){
-  ggplot(data, aes(x = x, y = y)) +
-    geom_line()
-}
-
-gg_line(sample_data, age, sex)
-
-## THIS WILL WORK:
-gg_line <- function(data, x, y){
-  ggplot(data, aes(x = !!sym(x), y = !!sym(y))) +
-    geom_line()
-}
-
-gg_line(sample_data, "age", "sex")
-gg_line(sample_data, "episode_date", "sex")
-
-## if you want to make a frequency chart
-gg_count <- function(data, x){
-  data1 <- data %>%
-    count(!!sym(x))
-  
-  ggplot(data1, aes(x = !!sym(x), y = n)) +
-    geom_col()
-}
-
-gg_count(sample_data, "sex")
-gg_count(sample_data, "race_cat")
-
+The experts say that if you are running the same code more than once, it should be a function. I don't think that's super practical, so I usually write functions when I need to do the same thing in multiple scripts and want to keep the process in sync. 
