@@ -1,0 +1,89 @@
+---
+format: gfm
+title: "Functions - part 2"
+author: "Beth Jump"
+date: "2022-09-22"
+execute:
+  eval: FALSE
+---
+
+## Overview
+
+This is a continuation of `functions - part 1` from 2022-05-19 and goes over additional options when writing custom functions. 
+
+This is the basic syntax for writing a function. Here we have one input and the function just returns that input:
+
+```{r}
+new_function <- function(x){
+  x
+}
+
+new_function("hello")
+```
+
+You can add as many inputs as you need:
+
+```{r}
+new_function1 <- function(x, y, z){
+  x*y/z
+}
+
+new_function1(6, 5, 2)
+new_function1(z = 2, y = 5, x = 6)
+```
+
+## Additional options
+
+### Specifying default arguments
+
+
+# you can also put default options into your function:
+new_function2 <- function(x = 5, y = 6, z = 2){
+  x*y/z
+}
+new_function2()
+
+# you can also override the defaults!
+new_function2(z = 1)
+
+
+### Passing variables as arguments 
+## ggplot function
+## if we want to make a line graph:
+### step 1. write teh code like normal
+ggplot(sample_data, aes(x= age, y = sex)) +
+  geom_line()
+
+## THIS WON"T WORK!!!
+gg_line <- function(data, x, y){
+  ggplot(data, aes(x = x, y = y)) +
+    geom_line()
+}
+
+gg_line(sample_data, age, sex)
+
+## THIS WILL WORK:
+gg_line <- function(data, x, y){
+  ggplot(data, aes(x = !!sym(x), y = !!sym(y))) +
+    geom_line()
+}
+
+gg_line(sample_data, "age", "sex")
+gg_line(sample_data, "episode_date", "sex")
+
+## if you want to make a frequency chart
+gg_count <- function(data, x){
+  data1 <- data %>%
+    count(!!sym(x))
+  
+  ggplot(data1, aes(x = !!sym(x), y = n)) +
+    geom_col()
+}
+
+gg_count(sample_data, "sex")
+gg_count(sample_data, "race_cat")
+
+
+### Validating inputs within the functions
+
+
