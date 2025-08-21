@@ -1,0 +1,166 @@
+---
+title: "tidy data"
+format: gfm
+author: "Beth Jump"
+date: "2022-03-23"
+execute:
+  warning: false
+---
+
+## Background
+
+There's a great explanation [here](https://www.statology.org/long-vs-wide-data/#:~:text=A%20dataset%20can%20be%20written,repeat%20in%20the%20first%20column.) about wide vs long data. Tidy data sits somewhere between wide and long data. The guiding principle for tidy data is that each variable has its own column and each observation has its own row. More information on tidy data is here [here](https://r4ds.had.co.nz/tidy-data.html). Tidy data often closely resembles long data.  
+
+Your data will always be easier to work with in a tidy format. Instead of performing a calculation or function on a variable that is split across columns (like you would in a wide format), you can do a calculation on a single column. You should practice using `pivot_longer` to get your data into a tidy (long) format. 
+
+## Wide and tidy data in action 
+
+### Overview 
+
+Let's go through some examples of wide and tidy data with the `palmerpenguins::penguins` data set, This data is already in a tidy format: 
+
+```{r}
+library(tidyverse)
+
+data <- palmerpenguins::penguins
+head(data)
+```
+
+To illustrate wide vs tidy data, we'll look at the distribution of species by year. Here's our tidy version of those frequencies:
+
+```{r}
+data_long <- data %>%
+  count(year, species)
+data_long
+```
+
+
+Here's our wide version of the frequencies:
+
+```{r}
+data_wide <- data_long %>% 
+  pivot_wider(names_from = species, 
+              values_from = n)
+data_wide
+```
+Note: we often share data in a wide format because our data consumers aren't used to looking at long data. It's OK to share data in a wide format but it's best practice to work with data in a long format. 
+
+### Summarizing by year
+
+Let's see how we can get the total number of penguins identified **per year** with each of our data formats: 
+
+Here's how we could do it with wide data:
+
+```{r}
+data_wide %>%
+  rowwise() %>%
+  mutate(total_penguins = sum(Adelie, Chinstrap, Gentoo)) %>%
+  ungroup()
+```
+
+And here's how we could do it with long data:
+
+```{r}
+data_long %>%
+  group_by(year) %>%
+  summarize(total_penguins = sum(n),
+            .groups = "keep") %>%
+  ungroup()
+```
+
+They both required about the same amount of code, but the code in the long method is more flexible because it doesn't mention any species explicitly - it just uses the variable name `species`. If an additional species were added to this data set, the long code would still work while the wide code would need to be edited to include the additional species.  
+
+### Summarizing by species
+
+Now let's see how we can get the total number of penguins identified **by species** with each of our data formats: 
+
+With the wide table, we'd need to sum each species manually:
+
+```{r}
+data_wide %>%
+  mutate(adelie = sum(Adelie),
+         chinstrap = sum(Chinstrap),
+         gentoo = sum(Gentoo)) %>%
+  slice(1) %>%
+  select(adelie, chinstrap, gentoo)
+```
+
+With the long table, this is very easy. We can just take the code from the previous example and swap `group_by(year)` with `group_by(species)`:
+
+```{r}
+data_long %>%
+  group_by(species) %>%
+  summarize(total_penguins = sum(n),
+            .groups = "keep") %>%
+  ungroup()
+```
+
+## Working with tidy data 
+
+There are a few helpful functions to know when working with data in a tidy format:
+
+- `dplyr::lead()`: this pulls the value from the next row into the current one
+- `dplyr::lag()`: the inverse of lead, this pulls the value from the previous row into the current one
+- `dplyr::arrange()`: this sorts your data so you know where you're leading and lagging from
+- `zoo::rollmean()`: this allows you to calculate a rolling average for a variable
+- `dplyr::row_number()`: this tells you the row number of an observation within a group
+- `dplyr::n()`: this tells you the size of the group
+
+### `lead()` and `lag()`
+
+Let's say we want to know the change in penguins identified by year. We can use lead and lag to do this. First we'll calculate the total number of penguins identified by year: 
+
+```{r}
+spec_by_year <- data %>%
+  count(year)
+spec_by_year
+```
+
+Then we can use `lead()` or `lag()` to get the change:
+
+```{r}
+spec_by_year %>%
+  arrange(year) %>%
+  mutate(last_year_ct = lag(n),
+         change_from_last_year = n - last_year_ct)
+```
+
+We get an `NA` for the first row in `last_year_ct` because it is the first row in our data set and has nothing to `lag` from. If we were to do this same process but with `lead()` we would have an `NA` in the last row. 
+
+### `row_number()` and `n()`
+
+We can use `row_number()` and `n()` to identify the smallest and largest observations in a tidy data set.
+
+Which penguins have the largest and smalled `body_mass_g`?
+
+```{r}
+data %>%
+  arrange(body_mass_g) %>%
+  filter(!is.na(body_mass_g)) %>%
+  mutate(small_or_large = case_when(row_number() == 1 ~ "smallest",
+                                    row_number() == n() ~ "largest")) %>%
+  filter(!is.na(small_or_large))
+```
+
+### `rollmean()`
+
+If you're working with many years of data, you might need to calculate rolling means or sums. This is very easy when your data are in a tidy format. 
+
+We'll illustrate how to do this with the `palmerpenguins::penguins` data set, but you would typically apply this code to temporal or grouped data. I often use this to calculate life expectancy for a 3 or 5 year period. 
+
+Here's how to calculate a centered rolling average of `body_mass_g` for groups of 5:
+
+```{r}
+library(zoo)
+
+data %>%
+  select(species, island, sex, body_mass_g) %>% 
+  filter(!is.na(body_mass_g)) %>%
+  arrange(body_mass_g) %>%
+  mutate(roll_avg_5 = rollmean(body_mass_g,
+                               5, 
+                               na.pad = T,
+                               align = "center")) %>%
+  head(7)
+
+```
