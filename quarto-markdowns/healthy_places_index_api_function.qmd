@@ -74,6 +74,8 @@ hpi_vars <- data_frame("geography" = geography,
 
 Here we'll loop through the variables saved above. We'll save the year and indicator as variables in our data set and will append each API call so the data are stored in a long format. 
 
+**You may run into rate limit errors when running the loop and might need to only pull a few indicators at a time. Sometimes this runs without error.**
+
 ```{r, eval=FALSE}
 all_data <- data.frame()
 
@@ -91,11 +93,12 @@ for (i in 1:nrow(hpi_vars)) {
   
   data <- as.data.frame(fromJSON(rawToChar(res$content))) 
   
-  data1 <- data %>% # issue here!!!
+  data1 <- data %>% 
     mutate(year = paste(hpi_vars[i, 2]),
            indicator = paste(hpi_vars[i, 3]))
   
-  all_data <- rbind(all_data, data1)
+  all_data <- all_data %>%
+    bind_rows(data1)
 }
 ```
 
@@ -108,9 +111,7 @@ smc_data <- all_data %>%
                               percentile <= 0.5 & percentile > 0.25 ~ 2,
                               percentile <= 0.75 & percentile > 0.5 ~ 3,
                               percentile <= 1 & percentile > 0.75 ~ 4)) %>% 
-  filter(name %in% smc_censustracts$name) %>%
-  filter(str_detect(geoid, "0608"))
-
+   filter(name %in% smc_censustracts$name)
 ```
 
 ## Inputs to download and clean datasets for selected Decision Support indicators
@@ -210,6 +211,48 @@ decision_support_vars <- data_frame("geography" = geography_ds,
                        "year" = year_ds,
                        "indicator" = indicator_ds,
                        "format" = format_ds)
+
+```
+
+## Inputs to download and clean datasets for HPI and domain scores
+
+The HPI calculates a main HPI score, as well as scores for each of the domains. Here, we create indicator and year vectors that are relevant to those scores, as labeled throughout the following code chunk.
+
+The user will need to input their api_key here as well. Note that the URL here is the same as the HPI score one.
+
+```{r, eval = FALSE}
+url_score <- "https://api.healthyplacesindex.org/api/hpi"
+api_key <- "YOUR API KEY HERE"
+geography_score <- "tracts"
+year_score <- c("2022", # HPI Score
+                "2021", # Clean Environment Domain
+                "2021", # Economic Domain
+                "2021", # Education Domain
+                "2021", # Healthcare Access Domain
+                "2021", # Housing Domain
+                "2021", # Neighborhood Domain
+                "2021", # Social Domain
+                "2021" # Transportation Domain
+                )
+
+indicator_score <- c("hpiscore", # HPI score
+                     "clean_enviro", # Clean Environment Domain
+                     "economic", # Economic Domain
+                     "education", # Education Domain
+                     "insurance", # Healthcare Access Domain
+                     "housing", # Housing Domain
+                     "neighborhood", # Neighborhood Domain
+                     "social", # Social Domain
+                     "transportation" # Transportation Domain
+)
+
+format_score <- "json"
+
+# combine year and indicator data into dataframe
+score_vars <- data_frame("geography" = geography_score,
+                       "year" = year_score,
+                       "indicator" = indicator_score,
+                       "format" = format_score)
 
 ```
 
