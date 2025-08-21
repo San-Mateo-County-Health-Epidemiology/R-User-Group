@@ -87,7 +87,7 @@ without error.**
 ``` r
 all_data <- data.frame()
 
-for (i in 1:2) {
+for (i in 1:nrow(hpi_vars)) {
   
   print(paste0(hpi_vars[i, 3], ", ", hpi_vars[i, 2]))
   
