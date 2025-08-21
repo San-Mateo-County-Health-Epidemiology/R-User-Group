@@ -22,7 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
-| 2025-08-21 | [Healthy Places Index API function](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/healthy_places_index_api_function.md) |
+| 2025-08-21 | [Healthy Places Index API](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/healthy_places_index_api_function.md) |
 | 2025-08-07 | [R package overview](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/r-package-overview.md) |
 | 2025-07-24 | [`stats` distribution functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/stats-distribution-functions.md) |
 | 2025-07-10 | [base R functions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_functions.md) |
@@ -41,6 +41,7 @@ each topic.
 | 2024-10-03 | [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-by-delim.md) |
 | 2024-03-22 | [file type comparison](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-type-comparison.md) |
 | 2023-03-23 | [dynamically selecting variables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dynamic-selecting.md) |
+| 2022-09-22 | [functions part 2](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/functions-part-2.md) |
 | 2022-07-14 | [plotly basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/plotly-basics.md) |
 | 2022-05-19 | [functions part 1](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/functions-part-1.md) |
 | 2022-05-05 | [date basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/date-basics.md) |
