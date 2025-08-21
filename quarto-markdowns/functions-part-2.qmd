@@ -107,4 +107,37 @@ gg_dot(data, quo(body_mass_g), quo(flipper_length_mm))
 
 ### Validating inputs within the functions
 
-If your function is going to be widely used, you might want to consider 
+If your function is going to be widely used, you might want to consider including some code to validate that the inputs are what you expect. Two ways to do this:
+
+1. `stopifnot()`
+2. `rlang::argmatch()`
+
+#### `stopifnot()`
+
+This function will throw an error message if an input is not a number. 
+
+```{r}
+#| eval: false
+times_2 <- function(x) {
+  stopifnot(typeof(x) == "double")
+  x*2
+}
+
+times_2(5) # this will run
+times_2('hello') # this will throw an error
+```
+
+#### `rlang::argmatch()`
+
+This allows you to validate the actual values passed through an argument. This is a silly example, but this function will throw an error if you pass a color that is not a primary color. 
+
+```{r}
+#| eval: false
+primary_colors <- function(color) {
+  color <- rlang::arg_match(color, c("red","yellow", "blue"))
+  print(paste0(color, " is a primary color!"))
+}
+
+primary_colors("red") # this will work
+primary_colors("green") # this will throw an error 
+```

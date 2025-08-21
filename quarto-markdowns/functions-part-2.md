@@ -1,0 +1,156 @@
+# Functions - part 2
+Beth Jump
+2022-09-22
+
+## Overview
+
+This is a continuation of `functions - part 1` from 2022-05-19 and goes
+over additional options when writing custom functions.
+
+This is the basic syntax for writing a function. Here we have one input
+and the function just returns that input:
+
+``` r
+new_function <- function(x){
+  x
+}
+
+new_function("hello")
+```
+
+You can add as many inputs as you need:
+
+``` r
+new_function1 <- function(x, y, z){
+  x*y/z
+}
+
+new_function1(6, 5, 2)
+new_function1(z = 2, y = 5, x = 6)
+```
+
+## Additional options
+
+### Specifying default arguments
+
+To make the function a bit easier for users, you can specify defaults
+for arguments. Here we have defaults for each argument so the user can
+run the function without specifying anything:
+
+``` r
+new_function2 <- function(x = 5, y = 6, z = 2){
+  x*y/z
+}
+new_function2()
+```
+
+The user can easily override defaults by specifying their own value for
+an argument: \`# you can also override the defaults!
+
+``` r
+new_function2(z = 1)
+```
+
+### Passing variables as arguments
+
+#### Technical things
+
+If you want to specify a variable as an argument in a function that uses
+`tidyverse` or `ggplot2` syntax, you need to use some special functions
+and syntax. These include:
+
+- `!!`: “bang bang” operator. A good explanation of how to use that is
+  [here](https://www.r-bloggers.com/2019/07/bang-bang-how-to-program-with-dplyr/)
+- `quo()`: explanation of quosures
+  [here](https://www.geeksforgeeks.org/r-language/quosures-in-r-language/)
+- `!!sym()`: explanation of `sym()`
+  [here](https://www.rdocumentation.org/packages/rlang/versions/1.1.6/topics/sym)
+- `get()`: returns the value of a names object. More
+  [here](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/get)
+
+Whenever I’m working with variables as arguments, I play around to see
+which of these options works best in the context of my function.
+
+#### Example
+
+Let’s say we want to make a function to make a chart with `ggplot2`.
+First, we’ll write the code for the chart:
+
+``` r
+library(tidyverse)
+
+data <- palmerpenguins::penguins
+
+ggplot(data, 
+       aes(x = body_mass_g, 
+           y = flipper_length_mm)) +
+  geom_point()
+```
+
+If we put this into a function where the variables are referenced as
+objects, the function won’t work:
+
+``` r
+gg_dot <- function(data, x, y){
+  ggplot(data, 
+         aes(x = x, y = y)) +
+    geom_point()
+}
+
+gg_dot(data, body_mass_g, flipper_length_mm)
+```
+
+To make this work, we need to make two changes:
+
+1.  We will precede the variables that can be specified in the function
+    with `!!`
+2.  When we run the function, we will wrapped the specified variables
+    with `quo()`
+
+``` r
+gg_dot <- function(data, x, y){
+  ggplot(data, aes(x = !!x, y = !!y)) +
+    geom_point()
+}
+
+gg_dot(data, quo(body_mass_g), quo(flipper_length_mm))
+```
+
+### Validating inputs within the functions
+
+If your function is going to be widely used, you might want to consider
+including some code to validate that the inputs are what you expect. Two
+ways to do this:
+
+1.  `stopifnot()`
+2.  `rlang::argmatch()`
+
+#### `stopifnot()`
+
+This function will throw an error message if an input is not a number.
+
+``` r
+times_2 <- function(x) {
+  stopifnot(typeof(x) == "double")
+  x*2
+}
+
+times_2(5) # this will run
+times_2('hello') # this will throw an error
+```
+
+#### `rlang::argmatch()`
+
+This allows you to validate the actual values passed through an
+argument. This is a silly example, but this function will throw an error
+if you pass a color that is not a primary color.
+
+``` r
+primary_colors <- function(color) {
+  color <- rlang::arg_match(color, c("red","yellow", "blue"))
+  print(paste0(color, " is a primary color!"))
+}
+
+primary_colors("red") # this will work
+primary_colors("green") # this will throw an error 
+```
