@@ -87,7 +87,7 @@ without error.**
 ``` r
 all_data <- data.frame()
 
-for (i in 1:nrow(hpi_vars)) {
+for (i in 1:2) {
   
   print(paste0(hpi_vars[i, 3], ", ", hpi_vars[i, 2]))
   
@@ -224,4 +224,48 @@ decision_support_vars <- data_frame("geography" = geography_ds,
                        "year" = year_ds,
                        "indicator" = indicator_ds,
                        "format" = format_ds)
+```
+
+## Inputs to download and clean datasets for HPI and domain scores
+
+The HPI calculates a main HPI score, as well as scores for each of the
+domains. Here, we create indicator and year vectors that are relevant to
+those scores, as labeled throughout the following code chunk.
+
+The user will need to input their api_key here as well. Note that the
+URL here is the same as the HPI score one.
+
+``` r
+url_score <- "https://api.healthyplacesindex.org/api/hpi"
+api_key <- "YOUR API KEY HERE"
+geography_score <- "tracts"
+year_score <- c("2022", # HPI Score
+                "2021", # Clean Environment Domain
+                "2021", # Economic Domain
+                "2021", # Education Domain
+                "2021", # Healthcare Access Domain
+                "2021", # Housing Domain
+                "2021", # Neighborhood Domain
+                "2021", # Social Domain
+                "2021" # Transportation Domain
+                )
+
+indicator_score <- c("hpiscore", # HPI score
+                     "clean_enviro", # Clean Environment Domain
+                     "economic", # Economic Domain
+                     "education", # Education Domain
+                     "insurance", # Healthcare Access Domain
+                     "housing", # Housing Domain
+                     "neighborhood", # Neighborhood Domain
+                     "social", # Social Domain
+                     "transportation" # Transportation Domain
+)
+
+format_score <- "json"
+
+# combine year and indicator data into dataframe
+score_vars <- data_frame("geography" = geography_score,
+                       "year" = year_score,
+                       "indicator" = indicator_score,
+                       "format" = format_score)
 ```
