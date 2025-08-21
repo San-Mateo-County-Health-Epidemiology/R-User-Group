@@ -50,6 +50,7 @@ Each topic has two files: a `.qmd` (Quarto) file and a `.md` (markdown) file. Th
 | 2022-07-14 | [plotly basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/plotly-basics.md) |
 | 2022-05-19 | [functions part 1](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/functions-part-1.md) |
 | 2022-05-05 | [date basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/date-basics.md) |
+| 2022-03-23 | [tidy data](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-data.md) |
 
 ------------------------------------------------------------------------
 
