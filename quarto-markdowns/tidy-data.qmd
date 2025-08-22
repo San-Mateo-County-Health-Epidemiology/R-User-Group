@@ -9,7 +9,7 @@ execute:
 
 ## Background
 
-There's a great explanation [here](https://www.statology.org/long-vs-wide-data/#:~:text=A%20dataset%20can%20be%20written,repeat%20in%20the%20first%20column.) about wide vs long data. Tidy data sits somewhere between wide and long data. The guiding principle for tidy data is that each variable has its own column and each observation has its own row. More information on tidy data is here [here](https://r4ds.had.co.nz/tidy-data.html). Tidy data often closely resembles long data.  
+There's a great explanation [here](https://www.statology.org/long-vs-wide-data/#:~:text=A%20dataset%20can%20be%20written,repeat%20in%20the%20first%20column) about wide vs long data. Tidy data sits somewhere between wide and long data. The guiding principle for tidy data is that each variable has its own column and each observation has its own row. More information on tidy data is here [here](https://r4ds.had.co.nz/tidy-data.html). Tidy data often closely resembles long data.  
 
 Your data will always be easier to work with in a tidy format. Instead of performing a calculation or function on a variable that is split across columns (like you would in a wide format), you can do a calculation on a single column. You should practice using `pivot_longer` to get your data into a tidy (long) format. 
 
