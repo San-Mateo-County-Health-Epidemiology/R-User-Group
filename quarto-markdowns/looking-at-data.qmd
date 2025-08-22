@@ -1,0 +1,131 @@
+---
+title: "looking at data"
+format: gfm
+author: "Beth Jump"
+date: "2022-06-16"
+execute:
+  warning: false
+---
+
+## Overview
+
+This goes through some basic methods for looking at data. These methods should be used any time you get a new data set. 
+
+```{r}
+library(tidyverse)
+
+data <- palmerpenguins::penguins
+```
+
+## Methods
+
+We'll focus on some basic methods for reviewing and cleaning your data. We'll look at:
+
+- generating summary statistics for a variable
+- looking at unique values for a variable
+- de-duplicating data
+
+### Summary statistics 
+
+The `dplyr::summarize()` function is great for looking at the distribution of variables in your data set. You can add a `group_by()` statement before the `summarize()` function to get summary statistics for specific values within a variable.
+
+Here is one way to get the distribution of `body_mass_g` by penguin species:
+
+```{r}
+data %>%
+  group_by(species) %>%
+  summarize(total = n(),
+            min = min(body_mass_g, na.rm = T),
+            median = median(body_mass_g, na.rm = T),
+            mean = mean(body_mass_g, na.rm = T),
+            sd = sd(body_mass_g, na.rm = T),
+            max = max(body_mass_g, na.rm = T),
+            nas = sum(is.na(body_mass_g))) %>%
+  ungroup()
+```
+
+Base R also has a useful function called `summary()` that will give you the numeric distribution of a variable with a lot less code than `summarize()`. Here's the distribution of `body_mass_g` for all penguins:
+
+```{r}
+summary(data$body_mass_g)
+```
+`summary()` also works with categorical variables:
+
+```{r}
+summary(data$species)
+```
+
+### Unique values
+
+You can use `dplyr::distinct()` and `dplyr::count()` to look at the values within a variable. `distinct()` returns only the values while `count()` returns the values and their frequencies. If you're working with a large data set, `count()` will take longer to run than `distinct()`. 
+
+#### distinct()
+
+```{r}
+data %>%
+  distinct(species)
+```
+
+#### count()
+
+```{r}
+data %>%
+  count(species)
+```
+
+### De-duplicating data 
+
+#### Identifying duplicates
+
+You should always check for duplicates in your data. There are many ways to do this, but my favorite is with `group_by()` and `filter(n() > 1)`. `filter(n() > 1)` will keep any groups that have more than one observation in them. If this filter returns an empty data set, then you know that the selection of variables in your `group_by()` statement will identify unique observations. 
+
+Can we identify unique penguins by only looking at `species`, `island`, `year`, `sex` and `body_mass_g`? No:
+
+```{r}
+data %>%
+  group_by(species, island, year, sex, body_mass_g) %>%
+  filter(n() > 1) %>%
+  arrange(species, island, year, sex, body_mass_g)
+```
+
+Can we identify unique penguins by only looking at `species`, `island`, `year`, `sex` and `body_mass_g`? No:
+
+```{r}
+data %>%
+  group_by(species, island, year, sex, body_mass_g) %>%
+  filter(n() > 1) %>%
+  arrange(species, island, year, sex, body_mass_g)
+```
+
+You can de-duplicate data indiscriminately with `distinct()` or you can do it a bit more carefully with a combination of `group_by()`, `arrange()` and `slice()` or if you need to combine groups, you can use `summarize()`. 
+
+# de-duplicating data ----
+## look for the duplicates and see how many there are 
+sample_data %>%
+  filter(!is.na(hh_id)) %>%
+  count(hh_id) %>%
+  ungroup() %>%
+  count(n)
+
+## only look at the duplicates
+hh_id_dups <- sample_data %>%
+  select(record_id, hh_id) %>%
+  filter(!is.na(hh_id)) %>%
+  group_by(hh_id) %>%
+  filter(n() > 1) %>% # n() will give you the count of a group
+  mutate(hh_id_ct = n()) %>%
+  ungroup()
+
+## the quick way is using distinct
+distinct_hh_id <- sample_data %>%
+  filter(!is.na(hh_id)) %>%
+  distinct(hh_id, .keep_all = T)
+
+## the way i prefer to de-duplicate
+first_hh_id <- sample_data %>%
+  filter(!is.na(hh_id)) %>%
+  select(record_id, hh_id, episode_date) %>% 
+  group_by(hh_id) %>% # everything done after this is done within the group (until you see ungroup())
+  arrange(episode_date) %>% # arrange sorts ascending by default 
+  slice(1) %>% # this just keeps the top row 
+  ungroup()
