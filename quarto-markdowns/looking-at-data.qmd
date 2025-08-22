@@ -79,7 +79,7 @@ data %>%
 
 You should always check for duplicates in your data. There are many ways to do this, but my favorite is with `group_by()` and `filter(n() > 1)`. `filter(n() > 1)` will keep any groups that have more than one observation in them. If this filter returns an empty data set, then you know that the selection of variables in your `group_by()` statement will identify unique observations. 
 
-Can we identify unique penguins by only looking at `species`, `island`, `year`, `sex` and `body_mass_g`? No:
+Can we identify unique penguins by only looking at `species`, `island`, `year`, `sex` and `body_mass_g`? 
 
 ```{r}
 data %>%
@@ -88,44 +88,48 @@ data %>%
   arrange(species, island, year, sex, body_mass_g)
 ```
 
-Can we identify unique penguins by only looking at `species`, `island`, `year`, `sex` and `body_mass_g`? No:
+No. All of the rows in the table are duplicates. 
+
+
+Can we identify unique penguins by looking at `species`, `island`, `year`, `sex`, `body_mass_g`, `flipper_length_mm` and `bill_length_mm`? 
 
 ```{r}
 data %>%
-  group_by(species, island, year, sex, body_mass_g) %>%
+  group_by(species, island, year, sex, body_mass_g, flipper_length_mm, bill_length_mm) %>%
   filter(n() > 1) %>%
   arrange(species, island, year, sex, body_mass_g)
 ```
+
+We can!!
+
+#### De-duplicating methods
 
 You can de-duplicate data indiscriminately with `distinct()` or you can do it a bit more carefully with a combination of `group_by()`, `arrange()` and `slice()` or if you need to combine groups, you can use `summarize()`. 
 
-# de-duplicating data ----
-## look for the duplicates and see how many there are 
-sample_data %>%
-  filter(!is.na(hh_id)) %>%
-  count(hh_id) %>%
-  ungroup() %>%
-  count(n)
+If we only want to keep one penguin of each species on each island, but don't care which penguin we keep, we can use `distinct()`. 
 
-## only look at the duplicates
-hh_id_dups <- sample_data %>%
-  select(record_id, hh_id) %>%
-  filter(!is.na(hh_id)) %>%
-  group_by(hh_id) %>%
-  filter(n() > 1) %>% # n() will give you the count of a group
-  mutate(hh_id_ct = n()) %>%
+```{r}
+data %>%
+  distinct(species, island, .keep_all = T)
+```
+
+If we're doing downstream analyses, we probably want to select our penguins a bit more carefully. We can do this with `group_by()`, `arrange()` and `slice()`. Here's how we would keep the penguin with the smallest bill length for each species and island:
+
+```{r}
+data %>%
+  group_by(species, island) %>%
+  arrange(bill_length_mm) %>%
+  slice(1) %>%
+  ungroup()
+```
+
+If we want to calculate summary statistics about sub-groups, we can use `summarize()` to get these values and de-duplicate our data. Here's how to get the average bill length for each species and island:
+
+```{r}
+data %>%
+  group_by(species, island) %>%
+  summarize(avg_bill_length = mean(bill_length_mm, na.rm = T),
+            .groups = "keep") %>%
   ungroup()
 
-## the quick way is using distinct
-distinct_hh_id <- sample_data %>%
-  filter(!is.na(hh_id)) %>%
-  distinct(hh_id, .keep_all = T)
-
-## the way i prefer to de-duplicate
-first_hh_id <- sample_data %>%
-  filter(!is.na(hh_id)) %>%
-  select(record_id, hh_id, episode_date) %>% 
-  group_by(hh_id) %>% # everything done after this is done within the group (until you see ungroup())
-  arrange(episode_date) %>% # arrange sorts ascending by default 
-  slice(1) %>% # this just keeps the top row 
-  ungroup()
+```
