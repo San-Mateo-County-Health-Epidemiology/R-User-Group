@@ -1,0 +1,86 @@
+---
+title: "mutate across variables"
+format: gfm
+author: "Beth Jump"
+date: "2023-05-25"
+execute:
+  warning: false
+---
+
+## Overview
+
+`mutate(across(...))` allows you to perform an action on multiple columns at once. Think: replacing 0's in numeric columns, recoding categorical string variables or making all string variables into factors. 
+
+It is not for summing across variables or collapsing variables. If you want to sum across variables or collapse multiple variables into one, consider reshaping your data with `pivot_longer()` and then using `group_by()` and `summarize()`. 
+
+## Using `mutate(across(....))`
+
+This is the syntax for mutating across variables: 
+
+```
+mutate(across(<variables>), ~ function(.x))
+```
+
+* `<variables>`: this is where you specify the variables for the function. The `dplyr::select()` helper functions are quite useful for this. More on those [here](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dynamic-selecting.md).
+* `.x`: is the notation for telling R to perform the function on all variables specified in `across()`. 
+
+ 
+Let's start by loading our data. 
+
+```{r}
+library(tidyverse)
+library(lubridate)
+
+data <- palmerpenguins::penguins
+glimpse(data)
+```
+
+### Change to every variable
+
+Here we'll make every column into character:
+
+```{r}
+data %>%
+  mutate(across(everything(), ~ as.character(.x))) %>%
+  glimpse() 
+```
+### Change only variables of a certain type
+
+Here we'll only make the factor variables into a characters:
+
+```{r}
+data %>%
+  mutate(across(where(is.factor), ~ as.character(.x))) %>%
+  glimpse()
+```
+
+Here we'll make all of the factor variables into characters and will make the text all upper case:
+
+```{r}
+data %>%
+  mutate(across(where(is.factor), ~ str_to_upper(as.character(.x)))) %>%
+  glimpse()
+```
+
+### Change only variables with a certain name
+
+Here we'll change any variable ending in `_mm` to a numeric type:
+
+```{r}
+data %>%
+  mutate(across(matches("_mm$"), ~ as.numeric(.x))) %>%
+  glimpse()
+
+```
+
+### Using `mutate(across)` with "normal" `mutate()` steps
+
+You can include "normal" mutate steps in the same `mutate()` function call as a `mutate(across())`. Here we are replacing all numeric missing values with 0's and are recoding the `sex` variable:
+
+```{r}
+data %>%
+  mutate(across(where(is.numeric), ~ replace_na(.x, 0)),
+         sex = case_when(is.na(sex) ~ "unknown",
+                         TRUE ~ sex)) %>%
+  glimpse()
+```
