@@ -1,0 +1,47 @@
+---
+title: "`tidyr::unite()`"
+format: gfm
+author: "Beth Jump"
+date: "2025-09-04"
+execute:
+  warning: false
+---
+
+## Background
+
+We've talked about `tidyr::separate()` in the past, `tidyr::unite()` is the inverse of `tidyr::separate()`. I typically use `tidyr::unite()` when I want to paste the contents of multiple columns into a single variable. 
+
+## Examples
+
+### Pasting contents of specific columns
+
+Here is a data frame of parts of emails. We have columns for `username`, `domain` and `extension`:
+
+```{r}
+library(tidyverse)
+
+emails <- data.frame(
+  username = c("hogwarts14", "hpotter", "wildraccoon101", "rweasley"),
+  domain = c("yahoo", "hogwarts", "gmail", "hogwarts"),
+  extension = c(".com", ".edu", ".com", ".edu")
+)
+emails
+```
+
+We can use `tidyr::unite()` to neatly combine these into a single variable `email`. 
+
+```{r}
+emails %>%
+  mutate(at = "@") %>% 
+  unite(col = "email",
+        c("username", "at", "domain", "extension"),
+        sep = "")
+```
+
+You could also use `paste()` or `paste0()` within a `mutate()` step to combine these, it really comes down to preference. One pro of using `unite()` is that it will automatically drop the variables used in the `unite()` step. 
+
+### Pasting contents of a set of columns
+
+This is where `unite()` really proves its worth. 
+
+Let's say someone requests a file that has a row for each penguin species and island and single column that lists the weights of the penguins in that category from small to high. 
