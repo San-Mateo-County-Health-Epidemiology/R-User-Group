@@ -44,4 +44,32 @@ You could also use `paste()` or `paste0()` within a `mutate()` step to combine t
 
 This is where `unite()` really proves its worth. 
 
-Let's say someone requests a file that has a row for each penguin species and island and single column that lists the weights of the penguins in that category from small to high. 
+Let's say someone requests a file that has a row for each penguin species and island and single column that lists the weights of the penguins in each group from small to high. You can do this quite easily with `unite()`.
+
+First you need to reshape your data so it has one row per island and species combination and so that each `body_mass_g` is in its own column.
+
+```{r}
+data <- palmerpenguins::penguins
+
+data1 <- data %>%
+  filter(!is.na(body_mass_g)) %>%
+  select(island, species, body_mass_g) %>%
+  group_by(island, species) %>%
+  arrange(body_mass_g) %>%
+  mutate(new_var = paste0("body_mass_", row_number())) %>%
+  pivot_wider(names_from = new_var,
+              values_from = body_mass_g) %>%
+  ungroup()
+
+data1 %>%
+  select(island, species, body_mass_1, body_mass_123)
+```
+
+Now you need to combine the contents of `body_mass_1` through `body_mass_123`. You could try to do this with `paste()`, but you'd need to explicitly type out each variable name. Instead you can easily do this with `unite()`:
+
+```{r}
+data1 %>%
+  unite(col = "body_mass_list",
+        matches("body_mass"),
+        sep = ", ")
+```

@@ -1,0 +1,115 @@
+# `tidyr::unite()`
+Beth Jump
+2025-09-04
+
+## Background
+
+We’ve talked about `tidyr::separate()` in the past, `tidyr::unite()` is
+the inverse of `tidyr::separate()`. I typically use `tidyr::unite()`
+when I want to paste the contents of multiple columns into a single
+variable.
+
+## Examples
+
+### Pasting contents of specific columns
+
+Here is a data frame of parts of emails. We have columns for `username`,
+`domain` and `extension`:
+
+``` r
+library(tidyverse)
+
+emails <- data.frame(
+  username = c("hogwarts14", "hpotter", "wildraccoon101", "rweasley"),
+  domain = c("yahoo", "hogwarts", "gmail", "hogwarts"),
+  extension = c(".com", ".edu", ".com", ".edu")
+)
+emails
+```
+
+            username   domain extension
+    1     hogwarts14    yahoo      .com
+    2        hpotter hogwarts      .edu
+    3 wildraccoon101    gmail      .com
+    4       rweasley hogwarts      .edu
+
+We can use `tidyr::unite()` to neatly combine these into a single
+variable `email`.
+
+``` r
+emails %>%
+  mutate(at = "@") %>% 
+  unite(col = "email",
+        c("username", "at", "domain", "extension"),
+        sep = "")
+```
+
+                         email
+    1     hogwarts14@yahoo.com
+    2     hpotter@hogwarts.edu
+    3 wildraccoon101@gmail.com
+    4    rweasley@hogwarts.edu
+
+You could also use `paste()` or `paste0()` within a `mutate()` step to
+combine these, it really comes down to preference. One pro of using
+`unite()` is that it will automatically drop the variables used in the
+`unite()` step.
+
+### Pasting contents of a set of columns
+
+This is where `unite()` really proves its worth.
+
+Let’s say someone requests a file that has a row for each penguin
+species and island and single column that lists the weights of the
+penguins in each group from small to high. You can do this quite easily
+with `unite()`.
+
+First you need to reshape your data so it has one row per island and
+species combination and so that each `body_mass_g` is in its own column.
+
+``` r
+data <- palmerpenguins::penguins
+
+data1 <- data %>%
+  filter(!is.na(body_mass_g)) %>%
+  select(island, species, body_mass_g) %>%
+  group_by(island, species) %>%
+  arrange(body_mass_g) %>%
+  mutate(new_var = paste0("body_mass_", row_number())) %>%
+  pivot_wider(names_from = new_var,
+              values_from = body_mass_g) %>%
+  ungroup()
+
+data1 %>%
+  select(island, species, body_mass_1, body_mass_123)
+```
+
+    # A tibble: 5 × 4
+      island    species   body_mass_1 body_mass_123
+      <fct>     <fct>           <int>         <int>
+    1 Dream     Chinstrap        2700            NA
+    2 Biscoe    Adelie           2850            NA
+    3 Dream     Adelie           2900            NA
+    4 Torgersen Adelie           2900            NA
+    5 Biscoe    Gentoo           3950          6300
+
+Now you need to combine the contents of `body_mass_1` through
+`body_mass_123`. You could try to do this with `paste()`, but you’d need
+to explicitly type out each variable name. Instead you can easily do
+this with `unite()`:
+
+``` r
+data1 %>%
+  unite(col = "body_mass_list",
+        matches("body_mass"),
+        sep = ", ")
+```
+
+    # A tibble: 5 × 3
+      island    species   body_mass_list                                            
+      <fct>     <fct>     <chr>                                                     
+    1 Dream     Chinstrap 2700, 2900, 3200, 3250, 3250, 3250, 3300, 3300, 3325, 335…
+    2 Biscoe    Adelie    2850, 2850, 2900, 2925, 3075, 3150, 3150, 3175, 3200, 320…
+    3 Dream     Adelie    2900, 2975, 3000, 3000, 3050, 3100, 3150, 3175, 3250, 330…
+    4 Torgersen Adelie    2900, 3050, 3050, 3050, 3150, 3200, 3200, 3250, 3275, 330…
+    5 Biscoe    Gentoo    3950, 4100, 4150, 4200, 4200, 4200, 4300, 4300, 4350, 437…
