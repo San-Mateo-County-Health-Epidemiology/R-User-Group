@@ -1,0 +1,141 @@
+---
+title: "Tidy evaluation"
+format: gfm
+author: "Beth Jump"
+date: "2025-09-04"
+execute:
+  warning: false
+---
+
+## Background
+
+For some background on tidy evaluation (a type of non-standard evaluation) check out [Jenny Bryant's talk from 2019](https://www.youtube.com/watch?v=2BXPLnLMTYo) and this overview of [Programming with `dplyr`](https://dplyr.tidyverse.org/articles/programming.html#introduction). Essentially, tidy evaluation is what lets us reference variables without reference to their data frame in `tidyverse` functions. 
+
+I'm not going to get into the technical details here - I'll just go over how it intersects with our work and some methods for dealing with it. This is a very high level overview but hopefully gives you enough information to handle these situations and to dig deeper if you're interested!
+
+Consider the `palmerpenguins::penguins` data set:
+
+```{r}
+library(tidyverse)
+data <- palmerpenguins::penguins
+glimpse(data)
+```
+
+`data` is an object in our environment that contains these data. We can reference `data` without quotes because it's an object.
+
+The `species` column is a part of the `data` object but it does not exist as its own object in our R environment. To reference the column, we need to tell R how to find it. We can do this the base R way where we explicilty reference the data:
+
+```{r}
+head(data$species, 5)
+```
+
+Or we can use tidy evaluation with the `tidyverse` functions:
+
+```{r}
+data %>%
+  select(species)
+```
+
+## In practice
+
+Generally speaking, we don't need to know *how* tidy evaluation works, we just need to know that it works with `tidyverse` functions. The place where it breaks down is when we want to write functions that use `tidyverse` syntax and want to pass variables as arguments. 
+
+### Motivating example
+
+Let's say you want to write a function that lets a user easily generate summary statistics for a given grouping variable. The tidyverse code would look something like this:
+
+```{r}
+data %>%
+  group_by(species) %>%
+  summarize(min = min(body_mass_g, na.rm = T),
+            mean = mean(body_mass_g, na.rm = T),
+            medin = median(body_mass_g, na.rm = T),
+            max = max(body_mass_g, na.rm = T),
+            .groups = "keep") %>%
+  ungroup() 
+```
+
+But if you want to write this as a function, you might be tempted to do something like this, which will not work:
+
+```{r}
+#| eval: false
+
+summarize_fun <- function(data, grouping_var) {
+  
+  data %>%
+    group_by(grouping_var) %>%
+    summarize(min = min(body_mass_g, na.rm = T),
+              mean = mean(body_mass_g, na.rm = T),
+              medin = median(body_mass_g, na.rm = T),
+              max = max(body_mass_g, na.rm = T),
+              .groups = "keep") %>%
+    ungroup() 
+
+}
+
+summarize_fun(data, species)
+
+```
+
+This doesn't work because you're not accounting for tidy evaluation. You're referencing the `grouping_var` as if it were an object in your enviroment when it's not - it's a subset of an object. 
+
+### Passing variables as arguments in a function 
+
+There are a couple of ways around this:
+
+1. Pass specific variables through the function
+2. Allow for the user to specify the variables with a `...`
+
+### 1. Pass specific variables through the function
+
+If you just wrap the `grouping_var` in the function with double curly brackets, the function will work!
+
+```{r}
+
+summarize_fun <- function(data, grouping_var) {
+  
+  data %>%
+    group_by({{grouping_var}}) %>%
+    summarize(min = min(body_mass_g, na.rm = T),
+              mean = mean(body_mass_g, na.rm = T),
+              medin = median(body_mass_g, na.rm = T),
+              max = max(body_mass_g, na.rm = T),
+              .groups = "keep") %>%
+    ungroup() 
+}
+
+summarize_fun(data, species)
+
+```
+
+
+### 2. Allow for the user to specify the variables with a `...`.
+
+Instead of designating a specific argument for a variable, you can use a `...` to pull a variable into your function and have it work with tidy evaluation: 
+
+```{r}
+
+summarize_fun <- function(data, ...) {
+  
+  data %>%
+    group_by(...) %>%
+    summarize(min = min(body_mass_g, na.rm = T),
+              mean = mean(body_mass_g, na.rm = T),
+              medin = median(body_mass_g, na.rm = T),
+              max = max(body_mass_g, na.rm = T),
+              .groups = "keep") %>%
+    ungroup() 
+}
+
+summarize_fun(data, species)
+
+```
+
+
+A big upside of this is that your user can pass multiple variables to a single argument, which is really helpful in a `group_by()` step:
+
+```{r}
+summarize_fun(data, species, sex)
+```
+
+Though if you want your user to specify different variables for different parts of your function, you might be better off with specifically labelled arguments. 
