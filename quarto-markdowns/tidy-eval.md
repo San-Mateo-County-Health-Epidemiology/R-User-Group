@@ -1,4 +1,4 @@
-# Tidy evaluation
+# Tidy evaluation intro
 Beth Jump
 2025-09-04
 
@@ -9,14 +9,14 @@ evaluation) check out [Jenny Bryant’s talk from
 2019](https://www.youtube.com/watch?v=2BXPLnLMTYo) and this overview of
 [Programming with
 `dplyr`](https://dplyr.tidyverse.org/articles/programming.html#introduction).
-Essentially, tidy evaluation is what lets us reference variables without
-reference to their data frame in `tidyverse` functions.
+Essentially, tidy evaluation is what lets us reference variables as if
+they were standalone objects in `tidyverse` functions.
 
 I’m not going to get into the technical details here - I’ll just go over
 how it intersects with our work and some methods for dealing with it.
 This is a very high level overview but hopefully gives you enough
 information to handle these situations and to dig deeper if you’re
-interested!
+interested.
 
 Consider the `palmerpenguins::penguins` data set:
 
@@ -37,13 +37,13 @@ glimpse(data)
     $ sex               <fct> male, female, female, NA, female, male, female, male…
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
-`data` is an object in our environment that contains these data. We can
-reference `data` without quotes because it’s an object.
+`data` is an object in our environment that contains this data set. We
+can reference `data` without quotes because it’s an object.
 
 The `species` column is a part of the `data` object but it does not
 exist as its own object in our R environment. To reference the column,
 we need to tell R how to find it. We can do this the base R way where we
-explicilty reference the data:
+explicitly reference the data:
 
 ``` r
 head(data$species, 5)
@@ -127,7 +127,7 @@ summarize_fun(data, species)
 
 This doesn’t work because you’re not accounting for tidy evaluation.
 You’re referencing the `grouping_var` as if it were an object in your
-enviroment when it’s not - it’s a subset of an object.
+environment when it’s not - it’s a subset of an object.
 
 ### Passing variables as arguments in a function
 
@@ -145,7 +145,7 @@ brackets, the function will work!
 summarize_fun <- function(data, grouping_var) {
   
   data %>%
-    group_by({{grouping_var}}) %>%
+    group_by({{ grouping_var }}) %>%
     summarize(min = min(body_mass_g, na.rm = T),
               mean = mean(body_mass_g, na.rm = T),
               medin = median(body_mass_g, na.rm = T),
