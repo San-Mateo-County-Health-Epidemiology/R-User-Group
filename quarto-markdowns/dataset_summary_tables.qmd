@@ -1,0 +1,165 @@
+---
+format: gfm
+title: "Dataset summary tables using the Table One package "
+author: "Julie Bartels"
+date: "2025-09-16"
+prefer-html: true
+---
+
+The **tableone** package in R can be used to make a summary table to describe your dataset. In epidemiology, this is commonly referred to as "Table 1", because it is usually the first table in a journal article describing the population under study. A bit more about Table 1 here: https://pubmed.ncbi.nlm.nih.gov/31229583/.
+
+You could calculate these summary statistics manually (or use the summary function), but this package quickly does these calculations and formats them nicely into a table.
+
+## Load libraries
+
+```{r, output = FALSE}
+library(dplyr)
+library(tidyverse)
+library(smcepi) #devtools::install_github("San-Mateo-County-Health-Epidemiology/smcepi")
+library(tableone)
+library(kableExtra)
+```
+
+## Load data
+
+```{r}
+data <- palmerpenguins::penguins
+glimpse(data)
+```
+There are 8 variables in the palmer penguins dataset. Three of them (species, island, and sex) are factors, meaning they have a certain number of levels or potential categorical values. Four of them are treated as continuous variables in the dataset (bill length, bill depth, flipper length, and body mass), and then we have year, which we will treat here as a factor variable with a distinct number of levels (or years). Some variables have missing (NA) values.
+
+## Format data to create Table 1
+
+**Tableone** requires us to use a vector of variables, which is the names of the variables in our dataframe. It also requires us to specify a vector of factor variables, because these factor (or categorical) variables are treated differently in the table (we calculate counts/proportions instead of mean/SD).
+
+```{r}
+vars <- c("species", "island", "bill_length_mm", "bill_depth_mm", "flipper_length_mm",
+          "body_mass_g", "sex", "year")
+factor_vars <- c("species", "island", "sex", "year")
+```
+
+## Create Table 1 output
+
+Within the function to create the table, at minimum, we need to specify the variables in our dataframe, the factor variables, and the dataset to be used.
+
+```{r}
+CreateTableOne(
+  vars = vars,
+  factorVars = factor_vars,
+  data = data, 
+  includeNA = FALSE # Change to TRUE to include missing (NA) as a regular factor level for factor variables
+  )
+```
+
+We see here that factor variables have a count and proportion of subjects with each characteristic, and that for continuous variables, we are given the mean and standard deviation.
+
+## Create Table 1 output with stratification
+
+That was a very simple table - now we will stratify the table by the "exposure" variable, which in our case is defined as the specific island within the Archipelago.
+
+To do so, we need to redefine our variables and factor variables, but exclude "island" from those lists.
+
+```{r}
+# Re-define vars and factor_vars vectors WITHOUT stratifying variable "island"
+vars <- c("species", "bill_length_mm", "bill_depth_mm", "flipper_length_mm",
+          "body_mass_g", "sex", "year")
+factor_vars <- c("species", "sex", "year")
+```
+
+Now, when we run our **CreateTableOne()** function, we define the strata as "island". Note here that we have a few other items defined:
+
+- **test = FALSE.** If this were set to true, statistical groupwise comparisons would be run to compare the groups in the stratified variable, with p-values added to the table. More about this is available in the function notes (command: ?CreateTableOne()). 
+    - There is a lot of discussion about whether p-values or statistical tests should be included in Table 1: https://epitodate.com/the-balance-test-fallacy-why-you-shouldnt-put-p-values-in-table-1/.
+
+- **addOverall = TRUE.** We use this to add an overall column (not stratified) to the table.
+
+```{r}
+table1 <- CreateTableOne(
+  vars = vars,
+  factorVars = factor_vars,
+  strata = "island", 
+  data = data, 
+  test = FALSE, # Change to TRUE to get chi.sq and ANOVA results
+  addOverall = TRUE)
+```
+
+Above, we see that for factor variables with two levels (like sex), we only see one row in the table, for the count and proportion of penguins in each group that are male. If you want to change this to see only the penguins that are female, you can reset the order of the levels in the factor (the default is alphabetical).
+
+```{r, eval = FALSE}
+data$sex <- factor(data$sex, levels = c("male", "female"))
+```
+
+If we want to see the count and proportion for both male and female penguins, we can print the table and set **showAllLevels = TRUE**.
+
+```{r}
+print(table1, showAllLevels = TRUE)
+```
+
+You can save this table as a csv so that you can edit it and use the calculations elsewhere.
+
+```{r, eval = FALSE}
+table1_output <- print(table1, showAllLevels = TRUE, 
+                      printToggle = FALSE, # This prevents the table from printing below
+                      contDigits = 1, # Round to 1 decimal place for continuous variables
+                      noSpaces = TRUE # Remove extra spaces from dataframe
+)
+write.csv(table1_output, file = "table1_output.csv")
+```
+
+## Formatting Table 1 output
+
+You may also want to include this table as a formatted output in a rendered Quarto document, in which case you first clean up some of the formatting, as below, in a dataframe.
+
+```{r, output = FALSE}
+# Clean table
+table1_format <- as.data.frame(print(table1, showAllLevels = TRUE, printToggle = TRUE,
+                                     contDigits = 1
+                                     )) %>%
+  rename("Characteristic" = "level")
+
+# Make characteristic levels in sentence case 
+table1_format$Characteristic <- str_to_sentence(table1_format$Characteristic)
+
+# Rename missing variable names as you want them to appear in the final table
+table1_format$Characteristic[1] <- "n"
+table1_format$Characteristic[5] <- "Bill Length, mm"
+table1_format$Characteristic[6] <- "Bill Depth, mm"
+table1_format$Characteristic[7] <- "Flipper Length, mm"
+table1_format$Characteristic[8] <- "Body mass, g"
+
+# Remove rownames from the table
+rownames(table1_format) <- NULL
+```
+
+Here, we use the **kableExtra** packages to create a nicely formatted table that we can render into a Quarto document. There is a lot more that you can do with **kable** (color, etc). Beginner tips here: https://www.geeksforgeeks.org/r-language/kable-method-in-r/
+
+```{r}
+kable(table1_format,
+      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
+      escape = FALSE
+      ) %>% 
+  kable_styling() %>%
+  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
+  pack_rows("N", start_row = 1, end_row = 1) %>%
+  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
+  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
+  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
+  pack_rows("Year (n, (%))", start_row = 11, end_row = 13)
+```
+
+Finally, you might want to save your formatted table as an image. In that case, you can use the **save_kable()** function from the **kableExtra** package to save the image as an html. Theoretically, this should work to save as pdf, png, or jpg, but this has been generating some errors lately.
+
+```{r, eval = FALSE}
+kable(table1_format,
+      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
+      escape = FALSE
+      ) %>% 
+  kable_styling() %>%
+  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
+  pack_rows("N", start_row = 1, end_row = 1) %>%
+  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
+  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
+  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
+  pack_rows("Year (n, (%))", start_row = 11, end_row = 13) %>%
+  save_kable("table1_format.html")
+```
