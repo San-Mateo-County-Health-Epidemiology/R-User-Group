@@ -254,6 +254,8 @@ table1_format_flex
 
 ![](dataset_summary_tables_files/figure-commonmark/unnamed-chunk-11-1.png)
 
+Save the table as a png.
+
 ``` r
-#save_as_image(table1_format_flex, path = "table1.png")
+save_as_image(table1_format_flex, path = "table1.png")
 ```
