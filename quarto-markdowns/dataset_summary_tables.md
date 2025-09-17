@@ -1,9 +1,6 @@
 # Dataset summary tables using the Table One package
 Julie Bartels
-2025-09-16
-
-<script src="dataset_summary_tables_files/libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="dataset_summary_tables_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+2025-09-18
 
 The **tableone** package in R can be used to make a summary table to
 describe your dataset. In epidemiology, this is commonly referred to as
@@ -23,6 +20,7 @@ library(tidyverse)
 library(smcepi) #devtools::install_github("San-Mateo-County-Health-Epidemiology/smcepi")
 library(tableone)
 library(kableExtra)
+library(flextable)
 ```
 
 ## Load data
@@ -212,222 +210,50 @@ formatting, as below, in a dataframe.
 
 ``` r
 # Clean table
-table1_format <- as.data.frame(print(table1, showAllLevels = TRUE, printToggle = TRUE,
-                                     contDigits = 1
+table1_format <- as.data.frame(print(table1, 
+                                     showAllLevels = TRUE, 
+                                     printToggle = TRUE,
+                                     contDigits = 1,
+                                     noSpaces = TRUE
                                      )) %>%
-  rename("Characteristic" = "level")
-
-# Make characteristic levels in sentence case 
-table1_format$Characteristic <- str_to_sentence(table1_format$Characteristic)
-
-# Rename missing variable names as you want them to appear in the final table
-table1_format$Characteristic[1] <- "n"
-table1_format$Characteristic[5] <- "Bill Length, mm"
-table1_format$Characteristic[6] <- "Bill Depth, mm"
-table1_format$Characteristic[7] <- "Flipper Length, mm"
-table1_format$Characteristic[8] <- "Body mass, g"
-
+  rename("Characteristic" = "level") %>%
+  mutate(Category = rownames(.)) %>%
+  select(c(Category, Characteristic, Overall, Biscoe, Dream, Torgersen))
 # Remove rownames from the table
 rownames(table1_format) <- NULL
+
+table1_format <- table1_format %>%
+  mutate(Category = c("N", "Species", "Species", "Species", 
+                      "Measurements", "Measurements", "Measurements", "Measurements",
+                      "Sex", "Sex",
+                      "Year", "Year", "Year"),
+         Characteristic = c("n", "Adelie", "Chinstrap", "Gentoo", 
+                            "Bill Length, mm", "Bill Depth, mm", "Flipper Length, mm", "Body mass, g",
+                            "Female", "Male",
+                            "2007", "2008", "2009"))
 ```
 
-Here, we use the **kableExtra** packages to create a nicely formatted
-table that we can render into a Quarto document. There is a lot more
-that you can do with **kable** (color, etc). Beginner tips here:
-https://www.geeksforgeeks.org/r-language/kable-method-in-r/
+You can make a flextable, and then export the flextable as a png to add
+to reports, send to collaborators, etc.
 
 ``` r
-kable(table1_format,
-      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
-      escape = FALSE
-      ) %>% 
-  kable_styling() %>%
-  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
-  pack_rows("N", start_row = 1, end_row = 1) %>%
-  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
-  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
-  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
-  pack_rows("Year (n, (%))", start_row = 11, end_row = 13)
+table1_format_flex <- as_grouped_data(table1_format, groups = "Category") %>%
+  as_flextable(hide_grouplabel = TRUE) %>% 
+  set_header_labels(what = "") %>% 
+  bold(bold = TRUE, part=c("header")) %>% 
+  align(i = ~ !is.na(Category), align = "left") %>% 
+  bold(i = ~ !is.na(Category)) %>%
+  add_header_row(., top = TRUE, 
+                     values = c("", "Island"), 
+                     colwidths = c(2, 3)) %>%
+  align(align = "center", part = "header") %>%
+  autofit()
+
+table1_format_flex
 ```
 
-<table class="table" data-quarto-postprocess="true"
-style="margin-left: auto; margin-right: auto;">
-<caption>Characteristics of penguins from Torgersen, Biscoe, and Dream
-islands, Palmer Archipelago, Antarctica</caption>
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
-<thead>
-<tr>
-<th colspan="2" data-quarto-table-cell-role="th"
-style="empty-cells: hide; border-bottom: hidden"></th>
-<th colspan="3" data-quarto-table-cell-role="th"
-style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div
-style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-Island
-</div></th>
-</tr>
-<tr>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">Characteristic</th>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">Overall</th>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">Biscoe</th>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">Dream</th>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">Torgersen</th>
-</tr>
-</thead>
-<tbody>
-<tr data-grouplength="1">
-<td colspan="5" style="border-bottom: 1px solid"><strong>N</strong></td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">n</td>
-<td style="text-align: left;">344</td>
-<td style="text-align: left;">168</td>
-<td style="text-align: left;">124</td>
-<td style="text-align: left;">52</td>
-</tr>
-<tr data-grouplength="3">
-<td colspan="5" style="border-bottom: 1px solid"><strong>Species (n,
-(%))</strong></td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Adelie</td>
-<td style="text-align: left;">152 (44.2)</td>
-<td style="text-align: left;">44 (26.2)</td>
-<td style="text-align: left;">56 (45.2)</td>
-<td style="text-align: left;">52 (100.0)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Chinstrap</td>
-<td style="text-align: left;">68 (19.8)</td>
-<td style="text-align: left;">0 ( 0.0)</td>
-<td style="text-align: left;">68 (54.8)</td>
-<td style="text-align: left;">0 ( 0.0)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Gentoo</td>
-<td style="text-align: left;">124 (36.0)</td>
-<td style="text-align: left;">124 (73.8)</td>
-<td style="text-align: left;">0 ( 0.0)</td>
-<td style="text-align: left;">0 ( 0.0)</td>
-</tr>
-<tr data-grouplength="4">
-<td colspan="5" style="border-bottom: 1px solid"><strong>Measurements
-(mean (SD))</strong></td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Bill Length, mm</td>
-<td style="text-align: left;">43.9 (5.5)</td>
-<td style="text-align: left;">45.3 (4.8)</td>
-<td style="text-align: left;">44.2 (6.0)</td>
-<td style="text-align: left;">39.0 (3.0)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Bill Depth, mm</td>
-<td style="text-align: left;">17.2 (2.0)</td>
-<td style="text-align: left;">15.9 (1.8)</td>
-<td style="text-align: left;">18.3 (1.1)</td>
-<td style="text-align: left;">18.4 (1.3)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Flipper Length, mm</td>
-<td style="text-align: left;">200.9 (14.1)</td>
-<td style="text-align: left;">209.7 (14.1)</td>
-<td style="text-align: left;">193.1 (7.5)</td>
-<td style="text-align: left;">191.2 (6.2)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Body mass, g</td>
-<td style="text-align: left;">4201.8 (802.0)</td>
-<td style="text-align: left;">4716.0 (782.9)</td>
-<td style="text-align: left;">3712.9 (416.6)</td>
-<td style="text-align: left;">3706.4 (445.1)</td>
-</tr>
-<tr data-grouplength="2">
-<td colspan="5" style="border-bottom: 1px solid"><strong>Sex (n,
-(%))</strong></td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Female</td>
-<td style="text-align: left;">165 (49.5)</td>
-<td style="text-align: left;">80 (49.1)</td>
-<td style="text-align: left;">61 (49.6)</td>
-<td style="text-align: left;">24 ( 51.1)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">Male</td>
-<td style="text-align: left;">168 (50.5)</td>
-<td style="text-align: left;">83 (50.9)</td>
-<td style="text-align: left;">62 (50.4)</td>
-<td style="text-align: left;">23 ( 48.9)</td>
-</tr>
-<tr data-grouplength="3">
-<td colspan="5" style="border-bottom: 1px solid"><strong>Year (n,
-(%))</strong></td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">2007</td>
-<td style="text-align: left;">110 (32.0)</td>
-<td style="text-align: left;">44 (26.2)</td>
-<td style="text-align: left;">46 (37.1)</td>
-<td style="text-align: left;">20 ( 38.5)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">2008</td>
-<td style="text-align: left;">114 (33.1)</td>
-<td style="text-align: left;">64 (38.1)</td>
-<td style="text-align: left;">34 (27.4)</td>
-<td style="text-align: left;">16 ( 30.8)</td>
-</tr>
-<tr>
-<td style="text-align: left; padding-left: 2em;"
-data-indentlevel="1">2009</td>
-<td style="text-align: left;">120 (34.9)</td>
-<td style="text-align: left;">60 (35.7)</td>
-<td style="text-align: left;">44 (35.5)</td>
-<td style="text-align: left;">16 ( 30.8)</td>
-</tr>
-</tbody>
-</table>
-
-Finally, you might want to save your formatted table as an image. In
-that case, you can use the **save_kable()** function from the
-**kableExtra** package to save the image as an html. Theoretically, this
-should work to save as pdf, png, or jpg, but this has been generating
-some errors lately.
+![](dataset_summary_tables_files/figure-commonmark/unnamed-chunk-11-1.png)
 
 ``` r
-kable(table1_format,
-      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
-      escape = FALSE
-      ) %>% 
-  kable_styling() %>%
-  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
-  pack_rows("N", start_row = 1, end_row = 1) %>%
-  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
-  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
-  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
-  pack_rows("Year (n, (%))", start_row = 11, end_row = 13) %>%
-  save_kable("table1_format.html")
+#save_as_image(table1_format_flex, path = "table1.png")
 ```
