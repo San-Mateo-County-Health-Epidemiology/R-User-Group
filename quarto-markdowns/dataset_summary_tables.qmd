@@ -152,7 +152,9 @@ table1_format_flex <- as_grouped_data(table1_format, groups = "Category") %>%
 
 table1_format_flex
 ```
+Save the table as a png.
+
 ```{r, eval = FALSE}
-#save_as_image(table1_format_flex, path = "table1.png")
+save_as_image(table1_format_flex, path = "table1.png")
 ```
 
