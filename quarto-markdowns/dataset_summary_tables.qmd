@@ -2,8 +2,7 @@
 format: gfm
 title: "Dataset summary tables using the Table One package "
 author: "Julie Bartels"
-date: "2025-09-16"
-prefer-html: true
+date: "2025-09-18"
 ---
 
 The **tableone** package in R can be used to make a summary table to describe your dataset. In epidemiology, this is commonly referred to as "Table 1", because it is usually the first table in a journal article describing the population under study. A bit more about Table 1 here: https://pubmed.ncbi.nlm.nih.gov/31229583/.
@@ -18,6 +17,7 @@ library(tidyverse)
 library(smcepi) #devtools::install_github("San-Mateo-County-Health-Epidemiology/smcepi")
 library(tableone)
 library(kableExtra)
+library(flextable)
 ```
 
 ## Load data
@@ -112,54 +112,47 @@ You may also want to include this table as a formatted output in a rendered Quar
 
 ```{r, output = FALSE}
 # Clean table
-table1_format <- as.data.frame(print(table1, showAllLevels = TRUE, printToggle = TRUE,
-                                     contDigits = 1
+table1_format <- as.data.frame(print(table1, 
+                                     showAllLevels = TRUE, 
+                                     printToggle = TRUE,
+                                     contDigits = 1,
+                                     noSpaces = TRUE
                                      )) %>%
-  rename("Characteristic" = "level")
-
-# Make characteristic levels in sentence case 
-table1_format$Characteristic <- str_to_sentence(table1_format$Characteristic)
-
-# Rename missing variable names as you want them to appear in the final table
-table1_format$Characteristic[1] <- "n"
-table1_format$Characteristic[5] <- "Bill Length, mm"
-table1_format$Characteristic[6] <- "Bill Depth, mm"
-table1_format$Characteristic[7] <- "Flipper Length, mm"
-table1_format$Characteristic[8] <- "Body mass, g"
-
+  rename("Characteristic" = "level") %>%
+  mutate(Category = rownames(.)) %>%
+  select(c(Category, Characteristic, Overall, Biscoe, Dream, Torgersen))
 # Remove rownames from the table
 rownames(table1_format) <- NULL
+
+table1_format <- table1_format %>%
+  mutate(Category = c("N", "Species", "Species", "Species", 
+                      "Measurements", "Measurements", "Measurements", "Measurements",
+                      "Sex", "Sex",
+                      "Year", "Year", "Year"),
+         Characteristic = c("n", "Adelie", "Chinstrap", "Gentoo", 
+                            "Bill Length, mm", "Bill Depth, mm", "Flipper Length, mm", "Body mass, g",
+                            "Female", "Male",
+                            "2007", "2008", "2009"))
 ```
 
-Here, we use the **kableExtra** packages to create a nicely formatted table that we can render into a Quarto document. There is a lot more that you can do with **kable** (color, etc). Beginner tips here: https://www.geeksforgeeks.org/r-language/kable-method-in-r/
+You can make a flextable, and then export the flextable as a png to add to reports, send to collaborators, etc. 
 
 ```{r}
-kable(table1_format,
-      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
-      escape = FALSE
-      ) %>% 
-  kable_styling() %>%
-  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
-  pack_rows("N", start_row = 1, end_row = 1) %>%
-  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
-  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
-  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
-  pack_rows("Year (n, (%))", start_row = 11, end_row = 13)
+table1_format_flex <- as_grouped_data(table1_format, groups = "Category") %>%
+  as_flextable(hide_grouplabel = TRUE) %>% 
+  set_header_labels(what = "") %>% 
+  bold(bold = TRUE, part=c("header")) %>% 
+  align(i = ~ !is.na(Category), align = "left") %>% 
+  bold(i = ~ !is.na(Category)) %>%
+  add_header_row(., top = TRUE, 
+                     values = c("", "Island"), 
+                     colwidths = c(2, 3)) %>%
+  align(align = "center", part = "header") %>%
+  autofit()
+
+table1_format_flex
 ```
-
-Finally, you might want to save your formatted table as an image. In that case, you can use the **save_kable()** function from the **kableExtra** package to save the image as an html. Theoretically, this should work to save as pdf, png, or jpg, but this has been generating some errors lately.
-
 ```{r, eval = FALSE}
-kable(table1_format,
-      caption = "Characteristics of penguins from Torgersen, Biscoe, and Dream islands, Palmer Archipelago, Antarctica",
-      escape = FALSE
-      ) %>% 
-  kable_styling() %>%
-  add_header_above(c(" " = 2, "Island" = 3)) %>% # the numbers here are for the number of columns
-  pack_rows("N", start_row = 1, end_row = 1) %>%
-  pack_rows("Species (n, (%))", start_row = 2, end_row = 4) %>%
-  pack_rows("Measurements (mean (SD))", start_row = 5, end_row = 8) %>%
-  pack_rows("Sex (n, (%))", start_row = 9, end_row = 10) %>%
-  pack_rows("Year (n, (%))", start_row = 11, end_row = 13) %>%
-  save_kable("table1_format.html")
+#save_as_image(table1_format_flex, path = "table1.png")
 ```
+
