@@ -12,18 +12,17 @@ You could calculate these summary statistics manually (or use the
 summary function), but this package quickly does these calculations and
 formats them nicely into a table.
 
-## Load libraries
+### Load libraries
 
 ``` r
 library(dplyr)
 library(tidyverse)
 library(smcepi) #devtools::install_github("San-Mateo-County-Health-Epidemiology/smcepi")
 library(tableone)
-library(kableExtra)
 library(flextable)
 ```
 
-## Load data
+### Load data
 
 ``` r
 data <- palmerpenguins::penguins
@@ -41,21 +40,20 @@ glimpse(data)
     $ sex               <fct> male, female, female, NA, female, male, female, male…
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
-There are 8 variables in the palmer penguins dataset. Three of them
-(species, island, and sex) are factors, meaning they have a certain
-number of levels or potential categorical values. Four of them are
-treated as continuous variables in the dataset (bill length, bill depth,
-flipper length, and body mass), and then we have year, which we will
-treat here as a factor variable with a distinct number of levels (or
-years). Some variables have missing (NA) values.
+There are 8 variables in the palmer penguins dataset. - Factor
+(categorical) variables: species, island, and sex. - Continuous
+variables: bill length, bill depth, flipper length, and body mass We
+will treat year as a factor variable here. Some variables have missing
+(NA) values.
 
-## Format data to create Table 1
+## Creating Table 1
 
-**Tableone** requires us to use a vector of variables, which is the
-names of the variables in our dataframe. It also requires us to specify
-a vector of factor variables, because these factor (or categorical)
-variables are treated differently in the table (we calculate
-counts/proportions instead of mean/SD).
+### Format data
+
+**Tableone** requires us to input a vector of variable names in our
+dataframe, and to separately specify a vector of factor variables,
+because these are treated differently in the table (counts/proportions
+are calculated instead of mean/SD for factors).
 
 ``` r
 vars <- c("species", "island", "bill_length_mm", "bill_depth_mm", "flipper_length_mm",
@@ -63,11 +61,10 @@ vars <- c("species", "island", "bill_length_mm", "bill_depth_mm", "flipper_lengt
 factor_vars <- c("species", "island", "sex", "year")
 ```
 
-## Create Table 1 output
+### Table 1
 
-Within the function to create the table, at minimum, we need to specify
-the variables in our dataframe, the factor variables, and the dataset to
-be used.
+Within the function to create the table, we need to specify the
+variables, factor variables, and dataset to be used.
 
 ``` r
 CreateTableOne(
@@ -99,23 +96,22 @@ CreateTableOne(
          2008                           114 (33.1)  
          2009                           120 (34.9)  
 
-We see here that factor variables have a count and proportion of
-subjects with each characteristic, and that for continuous variables, we
-are given the mean and standard deviation.
+In the table, factor variables have a count and proportion of subjects
+with each characteristic, and continuous variables have the mean and
+standard deviation.
 
-## Create Table 1 output with stratification
+### Table 1 with stratification
 
-That was a very simple table - now we will stratify the table by the
-“exposure” variable, which in our case is defined as the specific island
-within the Archipelago.
+That was a very simple table - now we will stratify by the “exposure”
+variable, which in our case is defined as islands within the
+Archipelago.
 
-To do so, we need to redefine our variables and factor variables, but
-exclude “island” from those lists.
+To do so, we need to redefine variables and factor variables, excluding
+“island” from those lists.
 
 ``` r
 # Re-define vars and factor_vars vectors WITHOUT stratifying variable "island"
-vars <- c("species", "bill_length_mm", "bill_depth_mm", "flipper_length_mm",
-          "body_mass_g", "sex", "year")
+vars <- c("species", "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g", "sex", "year")
 factor_vars <- c("species", "sex", "year")
 ```
 
@@ -125,7 +121,7 @@ as “island”. Note here that we have a few other items defined:
 - **test = FALSE.** If this were set to true, statistical groupwise
   comparisons would be run to compare the groups in the stratified
   variable, with p-values added to the table. More about this is
-  available in the function notes (command: ?CreateTableOne()).
+  available in the function notes.
   - There is a lot of discussion about whether p-values or statistical
     tests should be included in Table 1:
     https://epitodate.com/the-balance-test-fallacy-why-you-shouldnt-put-p-values-in-table-1/.
@@ -142,11 +138,11 @@ table1 <- CreateTableOne(
   addOverall = TRUE)
 ```
 
-Above, we see that for factor variables with two levels (like sex), we
-only see one row in the table, for the count and proportion of penguins
-in each group that are male. If you want to change this to see only the
-penguins that are female, you can reset the order of the levels in the
-factor (the default is alphabetical).
+Factor variables with two levels (e.g., sex), are shown in one row in
+the table, for the count and proportion of penguins in each group that
+are male. If you want to change this to see only the penguins that are
+female, you can reset the order of the levels in the factor (the default
+is alphabetical order).
 
 ``` r
 data$sex <- factor(data$sex, levels = c("male", "female"))
@@ -190,6 +186,10 @@ print(table1, showAllLevels = TRUE)
                                          34 (27.4)        16 ( 30.8) 
                                          44 (35.5)        16 ( 30.8) 
 
+## Export Table 1
+
+### Save Table 1 as csv
+
 You can save this table as a csv so that you can edit it and use the
 calculations elsewhere.
 
@@ -202,11 +202,10 @@ table1_output <- print(table1, showAllLevels = TRUE,
 write.csv(table1_output, file = "table1_output.csv")
 ```
 
-## Formatting Table 1 output
+### Formatting Table 1 output
 
 You may also want to include this table as a formatted output in a
-rendered Quarto document, in which case you first clean up some of the
-formatting, as below, in a dataframe.
+rendered Quarto markdown. We will clean up some of the formatting below.
 
 ``` r
 # Clean table
@@ -233,28 +232,27 @@ table1_format <- table1_format %>%
                             "2007", "2008", "2009"))
 ```
 
+### Export Table 1 as png
+
 You can make a flextable, and then export the flextable as a png to add
 to reports, send to collaborators, etc.
 
 ``` r
 table1_format_flex <- as_grouped_data(table1_format, groups = "Category") %>%
-  as_flextable(hide_grouplabel = TRUE) %>% 
-  set_header_labels(what = "") %>% 
-  bold(bold = TRUE, part=c("header")) %>% 
-  align(i = ~ !is.na(Category), align = "left") %>% 
-  bold(i = ~ !is.na(Category)) %>%
+  as_flextable(hide_grouplabel = TRUE) %>% # this hides "Category:" from each group label
+  bold(bold = TRUE, part=c("header")) %>% # bold column headers
+  align(i = ~ !is.na(Category), align = "left") %>% # align category group labels
+  bold(i = ~ !is.na(Category)) %>% # bold group category labels
   add_header_row(., top = TRUE, 
                      values = c("", "Island"), 
                      colwidths = c(2, 3)) %>%
-  align(align = "center", part = "header") %>%
-  autofit()
+  align(align = "center", part = "header") %>% # align header
+  autofit() # fit to screen
 
 table1_format_flex
 ```
 
 ![](dataset_summary_tables_files/figure-commonmark/unnamed-chunk-11-1.png)
-
-Save the table as a png.
 
 ``` r
 save_as_image(table1_format_flex, path = "table1.png")
