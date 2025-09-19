@@ -53,6 +53,19 @@ each topic.
 | 2022-05-05 | [date basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/date-basics.md) |
 | 2022-03-23 | [tidy data](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-data.md) |
 
+### Future topic ideas
+
+If you want to present but don’t have a topic in mind, feel free to do
+one of these:
+
+- factors: review what they are, go through basic operations including:
+  creating factors, reordering factors and why you might (or might not)
+  want to use factors in `ggplot2` and perhaps go over how to deal with
+  them in `tidyverse` (`forcats` package) vs base R
+- tables in Quarto: go over how to make tables in `kable`, `flextable`
+  and `gt`. Compare outputs and when you might or might not want to use
+  one (ie if one package can’t render to pdf)
+
 ------------------------------------------------------------------------
 
 ## Contribution process:
@@ -63,14 +76,14 @@ follow these steps:
 1.  Create a .qmd document (HTML) and manually edit the YAML so it
     follows this outline:
 
-``` r
----
-format: gfm
-title: "Title of document"
-author: "Author1_First Author1_last, Author2_first Author2_last, etc."
-date: "YYYY-MM-DD of the R User Group"
----
-```
+<!-- -->
+
+    ---
+    format: gfm
+    title: "Title of document"
+    author: "Author1_First Author1_last, Author2_first Author2_last, etc."
+    date: "YYYY-MM-DD of the R User Group"
+    ---
 
 `format: gfm` tells R the output should be a “GitHub Flavored Markdown”.
 A GFM is a basic HTML output, so some features (like including tab sets)
@@ -84,6 +97,7 @@ so it generates an .md (markdown) file. This is the “finished” version.
     top). Render the `.Rmd` file and push the newly updated `.Rmd` and
     `.md` to GitHub.
 
-Other things:
-
-- ## If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
+3.  If you want to add images to your Quarto doc, save them in the
+    `quarto-markdowns/images` folder. Prefix the image name with name of
+    your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is
+    called `intro-to-quarto_visual-mode.png`.
