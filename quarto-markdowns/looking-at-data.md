@@ -147,7 +147,9 @@ data %>%
     # ℹ 100 more rows
     # ℹ 2 more variables: sex <fct>, year <int>
 
-No. All of the rows in the table are duplicates.
+No, we can’t. The table above contains all records that share `species`,
+`island`, `year`, `sex` and `body_mass_g` with at least one other
+record.
 
 Can we identify unique penguins by looking at `species`, `island`,
 `year`, `sex`, `body_mass_g`, `flipper_length_mm` and `bill_length_mm`?
@@ -166,14 +168,16 @@ data %>%
     #   bill_depth_mm <dbl>, flipper_length_mm <int>, body_mass_g <int>, sex <fct>,
     #   year <int>
 
-We can!!
+We can!! The table has 0 rows meaning no two records share the same
+values for `species`, `island`, `year`, `sex`, `body_mass_g`,
+`flipper_length_mm` and `bill_length_mm`.
 
 #### De-duplicating methods
 
 You can de-duplicate data indiscriminately with `distinct()` or you can
 do it a bit more carefully with a combination of `group_by()`,
-`arrange()` and `slice()` or if you need to combine groups, you can use
-`summarize()`.
+`arrange()` and `slice()`. If you need to collapse groups into a single
+row, you can use `summarize()`.
 
 If we only want to keep one penguin of each species on each island, but
 don’t care which penguin we keep, we can use `distinct()`.
