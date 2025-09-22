@@ -35,7 +35,7 @@ data <- palmerpenguins::penguins
 glimpse(data)
 ```
 
-### Change to every variable
+### Change every variable
 
 Here we'll make every column into character:
 

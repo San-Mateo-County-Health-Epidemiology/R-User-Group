@@ -4,9 +4,9 @@ Beth Jump
 
 ## Overview
 
-If you’re lucky, R will recognize a date (Date) or a date/time (POSIXct)
-when it’s imported. But many times you won’t be lucky and will need to
-know how to convert what is imported into a date.
+If you’re lucky, R will recognize a date (`Date`) or a date/time
+(`POSIXct`) when it’s imported. But many times you won’t be lucky and
+will need to know how to convert what is imported into a date.
 
 ``` r
 library(tidyverse)
@@ -123,7 +123,7 @@ excel_date
 ### Within R
 
 R stores dates as the number of days since 1/1/1970 and stores
-date/times (POSIXct) as the number of seconds since 1/1/1970.
+date/times (`POSIXct`) as the number of seconds since 1/1/1970.
 
 ``` r
 within_r <- "15000"
@@ -135,7 +135,7 @@ r_date
 
 ### Timezones
 
-Sometimes when you’re converting a date/time (POSIXct) you need to
+Sometimes when you’re converting a date/time (`POSIXct`) you need to
 specify the timezone for which the time was recorded. You do this with
 the `tz` argument in the `as.POSIXct()` function. You can also change
 the timezone of a POSIXct variable after it’s been set with the
@@ -143,7 +143,7 @@ the timezone of a POSIXct variable after it’s been set with the
 
 ``` r
 # date/time as a string
-date_time <- "2022-01-01T18:00:00"
+date_time <- "2024-01-01T18:00:00"
 class(date_time)
 ```
 
@@ -155,7 +155,7 @@ date_time_gmt <- as.POSIXct(date_time, format = "%Y-%m-%dT%H:%M:%S", tz = "GMT")
 date_time_gmt
 ```
 
-    [1] "2022-01-01 18:00:00 GMT"
+    [1] "2024-01-01 18:00:00 GMT"
 
 ``` r
 # convert to PDT
@@ -163,7 +163,7 @@ date_time_pdt <- with_tz(date_time_gmt, tzone = "US/Pacific")
 date_time_pdt
 ```
 
-    [1] "2022-01-01 10:00:00 PST"
+    [1] "2024-01-01 10:00:00 PST"
 
 ## Formatting dates for reports
 
@@ -178,7 +178,7 @@ date should go where.
 format(Sys.Date(), format = "%B %d, %Y")
 ```
 
-    [1] "April 17, 2025"
+    [1] "September 22, 2025"
 
 ### Formatting example 2
 
@@ -186,4 +186,4 @@ format(Sys.Date(), format = "%B %d, %Y")
 format(Sys.Date(), format = "%m/%d/%Y")
 ```
 
-    [1] "04/17/2025"
+    [1] "09/22/2025"

@@ -7,7 +7,7 @@ date: "2022-05-05"
 
 ## Overview
 
-If you're lucky, R will recognize a date (Date) or a date/time (POSIXct) when it's imported. But many times you won't be lucky and will need to know how to convert what is imported into a date. 
+If you're lucky, R will recognize a date (`Date`) or a date/time (`POSIXct`) when it's imported. But many times you won't be lucky and will need to know how to convert what is imported into a date. 
 
 
 ```{r}
@@ -85,7 +85,7 @@ excel_date
 
 ### Within R
 
-R stores dates as the number of days since 1/1/1970 and stores date/times (POSIXct) as the number of seconds since 1/1/1970. 
+R stores dates as the number of days since 1/1/1970 and stores date/times (`POSIXct`) as the number of seconds since 1/1/1970. 
 
 ```{r}
 within_r <- "15000"
@@ -94,7 +94,7 @@ r_date
 ```
 ### Timezones
 
-Sometimes when you're converting a date/time (POSIXct) you need to specify the timezone for which the time was recorded. You do this with the `tz` argument in the `as.POSIXct()` function. You can also change the timezone of a POSIXct variable after it's been set with the `with_tz()` function. 
+Sometimes when you're converting a date/time (`POSIXct`) you need to specify the timezone for which the time was recorded. You do this with the `tz` argument in the `as.POSIXct()` function. You can also change the timezone of a POSIXct variable after it's been set with the `with_tz()` function. 
 
 ```{r}
 # date/time as a string
