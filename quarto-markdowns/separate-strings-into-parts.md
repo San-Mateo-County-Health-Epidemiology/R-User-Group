@@ -1,4 +1,4 @@
-# `separate()` with delimiters
+# `separate()` strings into parts
 Beth Jump
 2024-10-03
 
