@@ -49,7 +49,7 @@ cat(paste0(params$person, ", ", params$message,
 
 ------------------------------------------------------------------------
 
-## Rendering using a separate script
+# Rendering using a separate script
 
 The `params` input makes it easy to quickly change critical variables in
 your report; however, the main benefit of using parameters comes from
@@ -74,12 +74,13 @@ yaml will be used as defaults.
 Multiple reports can be rendered using a for-loop.
 
 For examples of rendering scripts, see:
-“r-scripts/render_parameters_example_basic.R” &
-“r-scripts/render_parameters_example_loop.R”
+[render_parameters_example_basic.R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/cc08c69a4756212a99db2564d9c9cce3114031bc/quarto-markdowns/r-scripts/render_parameters_example_basic.R)
+&
+[render_parameters_example_loop.R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/cc08c69a4756212a99db2564d9c9cce3114031bc/quarto-markdowns/r-scripts/render_parameters_example_loop.R)
 
 ------------------------------------------------------------------------
 
-## Other notes
+# Other notes
 
 - You can use `rm(list = ls())` to clean your environment in the
   rendering (`.R`) script, but do not use in the `.qmd` or .`Rmd` report
