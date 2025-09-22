@@ -1,6 +1,6 @@
 ---
 format: gfm
-title: "`separate()` with delimiters"
+title: "`separate()` strings into parts"
 author: "Beth Jump"
 date: "2024-10-03"
 ---
