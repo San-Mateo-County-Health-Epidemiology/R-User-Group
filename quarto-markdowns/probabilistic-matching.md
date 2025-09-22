@@ -30,8 +30,8 @@ matching. My process for doing probabilistic matching is:
 
 ### Set up
 
-`compare.linkage()` is a powerful yet particular function. Before using
-the it, you need to prepare your data in a very specific way:
+`compare.linkage()` is a powerful but particular function. Before using
+it, you need to prepare your data in a very specific way:
 
 - rename the variables in each of your data sets so they have the exact
   same names, are in the same order and are coded the same way: both use
@@ -42,8 +42,8 @@ the it, you need to prepare your data in a very specific way:
 - remove any fields that you don’t want to compare
 - if you have a record id, you should put this in the first position in
   both data sets. `compare.linkage()` compares variables by position so
-  data1.col1 is compared with data2.col1, data1.col2 with data2.col2,
-  etc.
+  `data1.col1` is compared with `data2.col1`, `data1.col2` with
+  `data2.col2`, etc.
 
 These two data sets could be run through `compare.linkage()`
 successfully:
@@ -142,7 +142,7 @@ rl_prob_matches <- rl_all_matches %>%
   filter(!match %in% c("probably no match", "sim name + same year"))
 ```
 
-`rl_prob_matches` is a data frame of records that are likely matches!
+`rl_prob_matches` is a data frame of records that are likely matches.
 
 ## Using fastLink
 
