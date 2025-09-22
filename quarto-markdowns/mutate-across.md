@@ -48,7 +48,7 @@ glimpse(data)
     $ sex               <fct> male, female, female, NA, female, male, female, male…
     $ year              <int> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
 
-### Change to every variable
+### Change every variable
 
 Here we’ll make every column into character:
 
