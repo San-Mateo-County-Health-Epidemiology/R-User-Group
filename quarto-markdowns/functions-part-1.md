@@ -6,8 +6,8 @@ Beth Jump
 
 A function is a bit of code that performs a specific task. Typically a
 function allows for the user to specify inputs using arguments. Let’s
-run how functions work with `sample()` from base R. If you aren’t
-familiar with `sample()` you can look at the help text by running
+run through how functions work with `sample()` from base R. If you
+aren’t familiar with `sample()` you can look at the help text by running
 `?sample` in the console.
 
 It is best practice to label your arguments when you use functions. If
@@ -98,8 +98,8 @@ Let’s say we want to write a function that keeps the first `n` rows of a
 data set when the data are sorted by a specified variable. Here’s how I
 would approach this.
 
-1.  Write the code you want to use as if it were in a script and not in
-    a function.
+1.  Write the code I want to use as if it were in a script and not in a
+    function.
 
 ``` r
 library(tidyverse)
@@ -112,9 +112,8 @@ data %>%
   select(bill_length_mm, everything())
 ```
 
-2.  Review your code and consider which inputs you want to be able to
-    specify in your function. In this example, we probably want to
-    specify:
+2.  Review my code and consider which inputs I want to be able to
+    specify in my function. In this example, I probably want to specify:
 
     - the data frame (`df`)
     - the number of rows to keep (`n`)
@@ -151,4 +150,4 @@ top_rows(df = data, n = 5, sort_var = "bill_length_mm")
 The experts say that if you are running the same code more than once, it
 should be a function. I don’t think that’s super practical, so I usually
 write functions when I need to do the same thing in multiple scripts and
-want to keep the process in sync.
+want to keep the process in sync and have found that works well for me!
