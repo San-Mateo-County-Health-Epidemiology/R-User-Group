@@ -40,7 +40,7 @@ each topic.
 | 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
 | 2024-10-31 | [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
 | 2024-10-17 | [`separate()` wider and longer by delim, regex, & position](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-wider-and-longer.md) |
-| 2024-10-03 | [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-by-delim.md) |
+| 2024-10-03 | [`separate()` strings into parts](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-strings-into-parts.md) |
 | 2024-03-22 | [file type comparison](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-type-comparison.md) |
 | 2023-03-28 | [strings & regular expressions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/strings_regular-expressions.md) |
 | 2023-05-25 | [`mutate(across(...))`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/mutate-across.md) |
