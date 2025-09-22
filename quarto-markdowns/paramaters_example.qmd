@@ -9,29 +9,42 @@ params:
   exclamation: TRUE
 ---
 
-When run as a stand-along script, the parameters specified in the yaml will be loaded as named elements in a list named params. When rendered using the render() function in another script, updated params can be passed as a named list to the params argument, and the above params will be used as defaults.
+For illustration purposes, here is a copy of the yaml for this markdown:
 
-## Save param elements as their own objects
-
-```{r}
-person <- params$person
-message <- params$message
-exclamation <- params$exclamation
+``` yaml
+---
+format: gfm
+title: "parameters_example"
+author: Hanley Kingston
+date: "2025-01-09"
+params:
+  person: !expr c("Simba", "Mowgli", "Mufasa")
+  message: "Hello"
+  exclamation: TRUE
+---
 ```
 
-## Write string using parameter inputs
+When run as a stand-along script, the parameters specified in the yaml will be loaded as named elements in a list called `params`.
 
 ```{r}
-cat(paste0(person, ", ", message,
-           ifelse(exclamation == TRUE, "!", "."), "\n\n"),
+print(params)
+```
+
+## This script prints a string using the parameter inputs
+
+```{r}
+cat(paste0(params$person, ", ", params$message,
+           ifelse(params$exclamation == TRUE, "!", "."), "\n\n"),
     sep = "")
 ```
 
+------------------------------------------------------------------------
+
 ## Rendering using a separate script
 
-This markdown can also be rendered through a separate script using:
+The `params` input makes it easy to quickly change critical variables in your report; however, the main benefit of using parameters comes from being able to render multiple versions of your report. This markdown can also be rendered through a separate script or in the command line using:
 
-```{r, eval = FALSE}
+``` r
 rmarkdown::render(
   "parameters_example.qmd",
   output_file = "<output_file>.md",
@@ -42,22 +55,58 @@ rmarkdown::render(
   envir = new.env())
 ```
 
-For any parameter not specified, the value in the .qmd yaml will be used as a default.
+The `params` argument in `render()` takes a named list. For any parameter not provided to `params`, the inputs from the `.qmd` or `.Rmd` yaml will be used as defaults.
 
-For an example of rending this markdown with different inputs passed through a for-loop, see: r-scripts//render_parameters_example.R
+Multiple reports can be rendered using a for-loop.
+
+For examples of rendering scripts, see: "r-scripts/render_parameters_example_basic.R" & "r-scripts/render_parameters_example_loop.R"
+
+------------------------------------------------------------------------
 
 ## Other notes
 
--   Do not use rm(list = ls()) in the .wmd or .Rmd. This will erase the parameters passed in the yaml or through the render() function.
+-   You can use `rm(list = ls())` to clean your environment in the rendering (`.R`) script, but do not use in the `.qmd` or .`Rmd` report script because this will erase the parameters passed in the yaml or through the render() function.
 
--   params accepts strings and booleans. To pass other types of R objects to params, use !expr for quarto and !r for R Markdown. For example...
+-   `params` accepts strings and booleans. To pass other types of R objects to `params`, use `!expr` for quarto and `!r` for R Markdown. For example...
 
-    -   list_param: !expr list("thing2", "thing1", 48)
+    -   quarto_list_param: `!expr list("thing2", "thing1", 48)`
 
-    -   vector_param: !r c(1,3,4)
+    -   rmd_vector_param: `!r c(1,3,4)`
 
--   you can reference parameters in the report title like this:
+-   Differences between render functions: `quarto_render()`(recommended), `rmarkdown::render()`...
 
-    ![](images/clipboard-4015420709.png){width="363"}
+    \*Note: both functions should work with `.Rmd` or `.qmd` markdowns, but they work slightly differently.
 
-    -   params must be defined BEFORE title in the yaml
+    -   parameter argument:
+
+        -   `quarto::quarto_render`: `execute_params`
+
+        -   `rmarkdown::render`: `params`
+
+    -   default file path for markdown output:
+
+        -   `quarto::quarto_render`: Working directory
+
+        -   `rmarkdown::render`: Location of the `.Rmd` or `.qmd` file
+
+    -   Global Environment:
+
+        -   `rmarkdown::render`: Recognizes objects in the global environment. Note that if you knit the markdown directly, this will happen in a clean environment. Specific behaviors with respect to the global environment can be set with the `envir()` argument.
+
+        -   `quarto::quarto_render`: Does not recognize objects in the global environment (ie. all objects must be defined in the markdown or passed using `params`).
+
+    -   Additional arguments:
+
+        -   `quarto::quarto_render`: Should infer output format from file name, but may need to specify (ex. `output_format = "docx"`)
+
+<!-- -->
+
+-   You can reference parameters in the report title like this:
+
+    ``` r
+    params:
+      person: "Lilo"
+    title: "Message to `r params$person`"
+    ```
+
+    -   `params` must be defined BEFORE any element in the yalm that references it
