@@ -1,0 +1,112 @@
+---
+format: gfm
+title: "parameters_example"
+author: Hanley Kingston
+date: "2025-01-09"
+params:
+  person: !expr c("Simba", "Mowgli", "Mufasa")
+  message: "Hello"
+  exclamation: TRUE
+---
+
+For illustration purposes, here is a copy of the yaml for this markdown:
+
+``` yaml
+---
+format: gfm
+title: "parameters_example"
+author: Hanley Kingston
+date: "2025-01-09"
+params:
+  person: !expr c("Simba", "Mowgli", "Mufasa")
+  message: "Hello"
+  exclamation: TRUE
+---
+```
+
+When run as a stand-along script, the parameters specified in the yaml will be loaded as named elements in a list called `params`.
+
+```{r}
+print(params)
+```
+
+## This script prints a string using the parameter inputs
+
+```{r}
+cat(paste0(params$person, ", ", params$message,
+           ifelse(params$exclamation == TRUE, "!", "."), "\n\n"),
+    sep = "")
+```
+
+------------------------------------------------------------------------
+
+# Rendering using a separate script
+
+The `params` input makes it easy to quickly change critical variables in your report; however, the main benefit of using parameters comes from being able to render multiple versions of your report. This markdown can also be rendered through a separate script or in the command line using:
+
+``` r
+rmarkdown::render(
+  "parameters_example.qmd",
+  output_file = "<output_file>.md",
+  params = list(
+    person = "<person(s)>",
+    message = "<message(s)>",
+    exclamation = "<T/F>"),
+  envir = new.env())
+```
+
+The `params` argument in `render()` takes a named list. For any parameter not provided to `params`, the inputs from the `.qmd` or `.Rmd` yaml will be used as defaults.
+
+Multiple reports can be rendered using a for-loop.
+
+For examples of rendering scripts, see: [render_parameters_example_basic.R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/cc08c69a4756212a99db2564d9c9cce3114031bc/quarto-markdowns/r-scripts/render_parameters_example_basic.R) & [render_parameters_example_loop.R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/cc08c69a4756212a99db2564d9c9cce3114031bc/quarto-markdowns/r-scripts/render_parameters_example_loop.R)
+
+------------------------------------------------------------------------
+
+# Other notes
+
+-   You can use `rm(list = ls())` to clean your environment in the rendering (`.R`) script, but do not use in the `.qmd` or .`Rmd` report script because this will erase the parameters passed in the yaml or through the render() function.
+
+-   `params` accepts strings and booleans. To pass other types of R objects to `params`, use `!expr` for quarto and `!r` for R Markdown. For example...
+
+    -   quarto_list_param: `!expr list("thing2", "thing1", 48)`
+
+    -   rmd_vector_param: `!r c(1,3,4)`
+
+-   Differences between render functions: `quarto_render()`(recommended), `rmarkdown::render()`...
+
+    \*Note: both functions should work with `.Rmd` or `.qmd` markdowns, but they work slightly differently.
+
+    -   parameter argument:
+
+        -   `quarto::quarto_render`: `execute_params`
+
+        -   `rmarkdown::render`: `params`
+
+    -   default file path for markdown output:
+
+        -   `quarto::quarto_render`: Working directory
+
+        -   `rmarkdown::render`: Location of the `.Rmd` or `.qmd` file
+
+    -   Global Environment:
+
+        -   `rmarkdown::render`: Recognizes objects in the global environment. Note that if you knit the markdown directly, this will happen in a clean environment. Specific behaviors with respect to the global environment can be set with the `envir()` argument.
+
+        -   `quarto::quarto_render`: Does not recognize objects in the global environment (ie. all objects must be defined in the markdown or passed using `params`).
+
+    -   Additional arguments:
+
+        -   `quarto::quarto_render`: Should infer output format from file name, but may need to specify (ex. `output_format = "docx"`)
+
+<!-- -->
+
+-   You can reference parameters in the report title like this:
+
+    ``` r
+    params:
+      person: "Lilo"
+    title: "Message to `r params$person`"
+    ```
+
+    -   `params` must be defined BEFORE any element in the yalm that references it
