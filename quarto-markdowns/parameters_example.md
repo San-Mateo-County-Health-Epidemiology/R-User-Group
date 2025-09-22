@@ -139,5 +139,5 @@ For examples of rendering scripts, see:
   title: "Message to Simba, Mowgli, Mufasa"
   ```
 
-  - `params` must be defined BEFORE any element in the yalm that
+  - `params` must be defined BEFORE any element in the yaml that
     references it

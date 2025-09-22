@@ -109,4 +109,4 @@ For examples of rendering scripts, see: [render_parameters_example_basic.R](http
     title: "Message to `r params$person`"
     ```
 
-    -   `params` must be defined BEFORE any element in the yalm that references it
+    -   `params` must be defined BEFORE any element in the yaml that references it
