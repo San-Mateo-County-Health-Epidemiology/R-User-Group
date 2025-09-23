@@ -40,7 +40,7 @@ each topic.
 | 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/f4ec61b64ff25071c777b595f3540b0607eae11b/quarto-markdowns/parameters_example.md) |
 | 2024-10-31 | [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
 | 2024-10-17 | [`separate()` wider and longer by delim, regex, & position](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-wider-and-longer.md) |
-| 2024-10-03 | [`separate()` with delimiters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-by-delim.md) |
+| 2024-10-03 | [`separate()` strings into parts](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-strings-into-parts.md) |
 | 2024-03-22 | [file type comparison](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-type-comparison.md) |
 | 2023-03-28 | [strings & regular expressions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/strings_regular-expressions.md) |
 | 2023-05-25 | [`mutate(across(...))`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/mutate-across.md) |
@@ -87,15 +87,15 @@ follow these steps:
 
 `format: gfm` tells R the output should be a “GitHub Flavored Markdown”.
 A GFM is a basic HTML output, so some features (like including tab sets)
-aren’t available but it generally meets our needs. Render your \`. file
-so it generates an .md (markdown) file. This is the “finished” version.
+aren’t available but it generally meets our needs. Render your `.qmd`
+file so it generates an `.md` (markdown) file. This is the “finished”
+version.
 
-2.  Once you’ve finished your Quarto doc and have pushed the `.qmd` and
-    `.md` to GitHub, update the table on the `README.Rmd` file to
-    include the date and a link to your new markdown. Documents should
-    be added to the table in reverse chronological order (newest at the
-    top). Render the `.Rmd` file and push the newly updated `.Rmd` and
-    `.md` to GitHub.
+2.  Once you’ve finished your Quarto doc, render the `.Rmd` file and
+    push the newly updated `.Rmd` and `.md` to GitHub. Then update the
+    table on the `README.Rmd` file to include the date and a link to
+    your markdown (`.md`) file. Documents should be added to the table
+    in reverse chronological order (newest at the top).
 
 3.  If you want to add images to your Quarto doc, save them in the
     `quarto-markdowns/images` folder. Prefix the image name with name of

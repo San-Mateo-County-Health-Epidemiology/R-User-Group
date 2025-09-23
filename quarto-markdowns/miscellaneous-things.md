@@ -38,7 +38,7 @@ be in the Epi Data folder but the folder wasn’t there. I ran this code
 to see where the folder had moved:
 
 ``` r
-dir(path = "J:/Epi Data",
+dir(path = "Epi Data",
     pattern = "COVID",
     recursive = T)
 ```
