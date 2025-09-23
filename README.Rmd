@@ -82,8 +82,8 @@ date: "YYYY-MM-DD of the R User Group"
 ---
 ```
 
-`format: gfm` tells R the output should be a "GitHub Flavored Markdown". A GFM is a basic HTML output, so some features (like including tab sets) aren't available but it generally meets our needs. Render your `. file so it generates an .md (markdown) file. This is the "finished" version.
+`format: gfm` tells R the output should be a "GitHub Flavored Markdown". A GFM is a basic HTML output, so some features (like including tab sets) aren't available but it generally meets our needs. Render your `.qmd` file so it generates an `.md` (markdown) file. This is the "finished" version.
 
-2.  Once you've finished your Quarto doc and have pushed the `.qmd` and `.md` to GitHub, update the table on the `README.Rmd` file to include the date and a link to your new markdown. Documents should be added to the table in reverse chronological order (newest at the top). Render the `.Rmd` file and push the newly updated `.Rmd` and `.md` to GitHub.
+2.  Once you've finished your Quarto doc, render the `.Rmd` file and push the newly updated `.Rmd` and `.md` to GitHub. Then update the table on the `README.Rmd` file to include the date and a link to your markdown (`.md`) file. Documents should be added to the table in reverse chronological order (newest at the top). 
 
 3. If you want to add images to your Quarto doc, save them in the `quarto-markdowns/images` folder. Prefix the image name with name of your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is called `intro-to-quarto_visual-mode.png`.
