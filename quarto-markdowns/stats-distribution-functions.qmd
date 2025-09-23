@@ -14,9 +14,9 @@ library(tidyverse)
 
 ## Background
 
-R was originally created for statisticians and there are some very handy functions in the `stats` package which is included with the R installation.
+R was originally created for statisticians and there are some very handy functions in the `stats` package which is included with the Base R installation.
 
-Here we'll go through four functions that you can use with normal distributions. There are corollaries of these functions for other distributions including: binomial, uniform, exponential, gamma, F, Cauchy, etc. The functions are: `r_()`, `p_()`, `q_()` and `d()` (ex: `rnorm()`, `pnorm()`, `qnorm()` and `dnorm()`)
+Here we'll go through four functions that you can use with normal distributions. There are corollaries of these functions for other distributions including: binomial, uniform, exponential, gamma, F, Cauchy, etc. The functions are: `r_()`, `p_()`, `q_()` and `d()` (ex: `rnorm()`, `pnorm()`, `qnorm()` and `dnorm()` for the normal distribution).
 
 A full list of functions is on the [`stats` package website](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html). 
 
