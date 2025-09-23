@@ -29,7 +29,7 @@ We didn't talk about this last time, but `list.files()` and `dir()` are a great 
 Ex: I couldn't find the folder where I save COVID data. I knew it should be in the Epi Data folder but the folder wasn't there. I ran this code to see where the folder had moved:
 
 ```{r}
-dir(path = "J:/Epi Data",
+dir(path = "Epi Data",
     pattern = "COVID",
     recursive = T)
 ```
