@@ -212,7 +212,7 @@ bearer_token
 ### fetch all cpcs files ----
 site_id <- ""
 drive_id <- ""
-url <- paste0(https://graph.microsoft.com/v1.0/sites/, site_id, "/drives/", drive_id, "/root/search(q='{CPCS}')")
+url <- paste0('https://graph.microsoft.com/v1.0/sites/', site_id, "/drives/", drive_id, "/root/search(q='{CPCS}')")
 response <- GET(url = url,
     add_headers(Authorization = bearer_token))
 
@@ -226,7 +226,7 @@ file_id <- data %>%
   pull(id)
 
 ## 1c. download the pdf we want ----
-pdf_url <- paste0(https://graph.microsoft.com/v1.0/sites/, site_id, "/drives/", drive_id, "/items/", file_id, "/content")
+pdf_url <- paste0('https://graph.microsoft.com/v1.0/sites/', site_id, "/drives/", drive_id, "/items/", file_id, "/content")
 
 ### save it to the shared drive ----
 file_name <- paste0("path/pdf-name_", Sys.Date()-1, ".pdf")
