@@ -37,7 +37,7 @@ each topic.
 | 2025-03-20 | [base R vs tidyverse](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_vs_tidyverse.md) |
 | 2025-03-05 | [miscellaneous things](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/miscellaneous-things.md) |
 | 2025-01-23 | [file management](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-management.md) |
-| 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/f4ec61b64ff25071c777b595f3540b0607eae11b/quarto-markdowns/parameters_example.md) |
+| 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
 | 2024-10-31 | [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
 | 2024-10-17 | [`separate()` wider and longer by delim, regex, & position](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-wider-and-longer.md) |
 | 2024-10-03 | [`separate()` strings into parts](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-strings-into-parts.md) |
@@ -52,6 +52,14 @@ each topic.
 | 2022-05-19 | [functions part 1](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/functions-part-1.md) |
 | 2022-05-05 | [date basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/date-basics.md) |
 | 2022-03-23 | [tidy data](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-data.md) |
+
+### Upcoming topics
+
+| Date       | Topic                  |
+|------------|------------------------|
+| 2025-10-02 | Climate APIs           |
+| 2025-10-16 | new `smcepi` functions |
+| 2025-10-30 | special `ggplot2` axes |
 
 ### Future topic ideas
 
