@@ -1,4 +1,4 @@
-# APIs basics
+# API basics
 Beth Jump
 2025-05-29
 
