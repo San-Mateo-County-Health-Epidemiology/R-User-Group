@@ -1,6 +1,6 @@
 ---
 format: gfm
-title: "APIs basics"
+title: "API basics"
 author: "Beth Jump"
 date: "2025-05-29"
 ---
