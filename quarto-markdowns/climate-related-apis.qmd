@@ -3,6 +3,8 @@ title: "Climate-related APIs"
 format: gfm
 author: "Sayema Badar"
 date: "2025-10-02"
+execute:
+  warning: false
 ---
 
 ## National Weather Service (NWS) API
@@ -17,40 +19,23 @@ No key/token is required for this API. Data is received as a JSON object of nest
 
 ### Using the API
 
-#### Load libraries
+Using the example of Redwood City in San Mateo County, CA:
 
 ```{r}
-#| eval: false
-library(httr)
-library(jsonlite)
-library(tidyverse)
-
-# pull JSON object of nested tables for specified location - replace latitude/longitude with your coordinates
-nws_location <- httr::GET(url = "https://api.weather.gov/points/latitude,-longitude") 
-# pull URL for location forecast (gridpoints for NWS forecast office)
-nws_forecast_url <- jsonlite::fromJSON(rawToChar(nws_location$content))$properties$forecast 
-# pull JSON object of nested tables for forecast of specified location
-nws_forecast <- GET(nws_forecast_url) 
-# pull data into a dataframe
-nws_data <- fromJSON(rawToChar(nws_forecast$content))$properties$periods 
-```
-
-When using the example of Redwood City in San Mateo County, CA, this is what results:
-
-```{r}
-#| include: false
 library(httr)
 library(jsonlite)
 library(tidyverse)
 library(janitor)
-```
 
-```{r}
-#| echo: false
-location_rwc <- httr::GET(url = "https://api.weather.gov/points/37.4848,-122.2281")
+# pull JSON object of nested tables for specified location 
+location_rwc <- httr::GET(url = "https://api.weather.gov/points/37.4848,-122.2281") 
+# pull URL for location forecast (gridpoints for NWS forecast office)
 forecast_url_rwc <- jsonlite::fromJSON(rawToChar(location_rwc$content))$properties$forecast
+# pull JSON object of nested tables for forecast of specified location
 forecast_rwc <- GET(forecast_url_rwc)
-data_rwc <- fromJSON(rawToChar(forecast_rwc$content))$properties$periods
+# pull data into a dataframe
+data_rwc <- fromJSON(rawToChar(forecast_rwc$content))$properties$periods 
+
 glimpse(data_rwc)
 ```
 
@@ -101,16 +86,16 @@ While no key/token is required for this API, having a token is recommended for a
 library(httr)
 library(jsonlite)
 library(tidyverse)
+library(janitor)
 
 # pull JSON object of nested tables for forecast of location specified in URL
 hr_forecast <- httr::GET("url") 
-### ???
+# find data and pull into a dataframe
 hr_data <-jsonlite::fromJSON(httr::content(hr_forecast, "text", encoding = "UTF-8"), flatten = TRUE)
-# pull data into a dataframe
-hr_data <- hr_forecast$tableResult  
+hr_data <- hr_data$tableResult  
 ```
 
-When using the example of a census tract in Redwood City in San Mateo County, CA, this is what results:\
+When using the example of a census tract in Redwood City in San Mateo County, CA, this is what results:
 *Note: showing the code for this example as there is additional code from the format above*
 
 ```{r}
