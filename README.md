@@ -99,13 +99,17 @@ aren’t available but it generally meets our needs. Render your `.qmd`
 file so it generates an `.md` (markdown) file. This is the “finished”
 version.
 
-2.  Once you’ve finished your Quarto doc, render the `.Rmd` file and
-    push the newly updated `.Rmd` and `.md` to GitHub. Then update the
-    table on the `README.Rmd` file to include the date and a link to
-    your markdown (`.md`) file. Documents should be added to the table
-    in reverse chronological order (newest at the top).
+2.  Once you’ve finished your Quarto doc, render the `.qmd` file and
+    push the newly updated `.qmd` and `.md` to GitHub.
 
-3.  If you want to add images to your Quarto doc, save them in the
-    `quarto-markdowns/images` folder. Prefix the image name with name of
-    your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is
-    called `intro-to-quarto_visual-mode.png`.
+3.  Update the table on the `README.Rmd` with your contribution. Fill in
+    the date of the R User Group and add a link to your markdown (`.md`)
+    file. Documents should be added to the table in reverse
+    chronological order (newest at the top). Render the updated
+    `README.Rmd` and push the `README.Rmd` and `README.md` files to
+    GitHub.
+
+Note: If you want to add images to your Quarto doc, save them in the
+`quarto-markdowns/images` folder. Prefix the image name with name of
+your .qmd file. Ex: the image for the `intro-to-quarto.qmd` doc is
+called `intro-to-quarto_visual-mode.png`.
