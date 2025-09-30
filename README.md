@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-10-02 | [Climate-related APIs](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/climate-related-apis.md) |
 | 2025-09-18 | [Dataset summary table](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dataset_summary_tables.md) |
 | 2025-09-04 | [Tidy evaluation intro](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-eval.md) |
 | 2025-08-21 | [Healthy Places Index API](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/healthy_places_index_api_function.md) |
