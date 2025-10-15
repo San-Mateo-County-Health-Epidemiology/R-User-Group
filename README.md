@@ -58,7 +58,6 @@ each topic.
 
 | Date       | Topic                  |
 |------------|------------------------|
-| 2025-10-02 | Climate APIs           |
 | 2025-10-16 | new `smcepi` functions |
 | 2025-10-30 | special `ggplot2` axes |
 
