@@ -77,7 +77,7 @@ HeatRisk is a heat and health data-based index that provides current and forecas
 
 The API URL can be accessed by creating a query via the Data Explorer site linked above. Use the following parameters: **Heat & Heat-related Illness (HRI)** \> **HeatRisk** \> **HeatRisk Forecast**. Continue modifying the query for your purposes (geography type, geography, time). Once the query runs, click the **Share** button to get the API URL.
 
-While no key/token is required for this API, having a token is recommended for a faster data feed and to overcome limitations. A token request can be made by emailing nephtrackingsupport\@cdc.gov. Data is received as a JSON object of nested tables which can be parsed using the `jsonlite` package.
+While no key/token is required for this API, having a token is recommended for faster data feed and to overcome limitations. A token request can be made by emailing nephtrackingsupport\@cdc.gov. Data is received as a JSON object of nested tables which can be parsed using the `jsonlite` package.
 
 ### Using the API
 
@@ -95,8 +95,7 @@ hr_data <-jsonlite::fromJSON(httr::content(hr_forecast, "text", encoding = "UTF-
 hr_data <- hr_data$tableResult  
 ```
 
-When using the example of a census tract in Redwood City in San Mateo County, CA, this is what results:
-*Note: showing the code for this example as there is additional code from the format above*
+When using the example of a census tract in Redwood City in San Mateo County, CA, this is what results: *Note: showing the code for this example as there is additional code from the format above*
 
 ```{r}
 #| include: false
