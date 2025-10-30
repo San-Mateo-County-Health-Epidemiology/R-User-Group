@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2025-10-31 | [`tidyr::unite()`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidyr-unite.md) |
 | 2025-10-02 | [Climate-related APIs](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/climate-related-apis.md) |
 | 2025-09-18 | [Dataset summary table](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dataset_summary_tables.md) |
 | 2025-09-04 | [Tidy evaluation intro](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-eval.md) |
@@ -38,7 +39,7 @@ each topic.
 | 2025-03-20 | [base R vs tidyverse](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/base-r_vs_tidyverse.md) |
 | 2025-03-05 | [miscellaneous things](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/miscellaneous-things.md) |
 | 2025-01-23 | [file management](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/file-management.md) |
-| 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/parameters_example.md) |
+| 2025-01-09 | [rendering multiple markdowns with parameters](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/paramaters_example.qmd) |
 | 2024-10-31 | [intro to Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/intro-to-quarto.md) |
 | 2024-10-17 | [`separate()` wider and longer by delim, regex, & position](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-wider-and-longer.md) |
 | 2024-10-03 | [`separate()` strings into parts](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/separate-strings-into-parts.md) |
