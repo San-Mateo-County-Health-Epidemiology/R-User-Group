@@ -164,7 +164,7 @@ summarize_fun(data, species)
     2 Chinstrap  2700 3733.  3700  4800
     3 Gentoo     3950 5076.  5000  6300
 
-### 2. Allow for the user to specify the variables with a `...`.
+### 2. Allow for the user to specify the variables with a `...`
 
 Instead of designating a specific argument for a variable, you can use a
 `...` to pull a variable into your function and have it work with tidy
