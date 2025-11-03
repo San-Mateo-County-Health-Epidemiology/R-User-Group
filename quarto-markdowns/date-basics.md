@@ -1,5 +1,5 @@
 # Date basics
-Beth Jump
+Beth Jump, Juliana Bartels
 2022-05-05
 
 ## Overview
@@ -120,6 +120,30 @@ excel_date
 
     [1] "2014-12-27"
 
+#### Navigating potential date errors
+
+Sometimes, a dataset will provide the date in excel format (i.e.,
+“42000”), and state that the date of origin is Jan 1, 1900. It would
+make sense to use the function above (`as.Date()`) and set the origin to
+“1900-01-01”, but this might not work. In that case you can subtract the
+dates between your origin (e.g., Jan 1, 1900) and the origin date for R
+date (which is Jan 1, 1970, as seen below).
+
+In addition, since this is a date with no time stamp, you can specify
+that in the function call: instead of using `as.POSIXct()`, you use
+`as.POSIXct.Date()`.
+
+``` r
+# vector of dates in 'excel' format, with date of origin = Jan 1, 1900 
+day <- c(45290, 45291, 45292, 45293, 45294, 45295)
+
+# subtract the number of days between Jan 1, 1900 and Jan 1, 1970 (R origin date) to get correct date
+day1 <- day - 25567 
+
+# create new vector of dates in ymd format
+day_obs <- as.POSIXct.Date(day1)
+```
+
 ### Within R
 
 R stores dates as the number of days since 1/1/1970 and stores
@@ -178,7 +202,7 @@ date should go where.
 format(Sys.Date(), format = "%B %d, %Y")
 ```
 
-    [1] "September 22, 2025"
+    [1] "November 03, 2025"
 
 ### Formatting example 2
 
@@ -186,4 +210,4 @@ format(Sys.Date(), format = "%B %d, %Y")
 format(Sys.Date(), format = "%m/%d/%Y")
 ```
 
-    [1] "09/22/2025"
+    [1] "11/03/2025"

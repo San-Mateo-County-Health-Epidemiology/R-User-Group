@@ -1,7 +1,7 @@
 ---
 format: gfm
 title: "Date basics"
-author: "Beth Jump"
+author: "Beth Jump, Juliana Bartels"
 date: "2022-05-05"
 ---
 
@@ -81,6 +81,23 @@ If you read a date in from excel and there's one bad date in the column, it conv
 excel <- "42000"
 excel_date <- as.Date(as.numeric(excel), origin = "1899-12-30")
 excel_date
+```
+
+#### Navigating potential date errors
+
+Sometimes, a dataset will provide the date in excel format (i.e., "42000"), and state that the date of origin is Jan 1, 1900. It would make sense to use the function above (`as.Date()`) and set the origin to "1900-01-01", but this might not work. In that case you can subtract the dates between your origin (e.g., Jan 1, 1900) and the origin date for R date (which is Jan 1, 1970, as seen below).
+
+In addition, since this is a date with no time stamp, you can specify that in the function call: instead of using `as.POSIXct()`, you use `as.POSIXct.Date()`.
+
+```{r}
+# vector of dates in 'excel' format, with date of origin = Jan 1, 1900 
+day <- c(45290, 45291, 45292, 45293, 45294, 45295)
+
+# subtract the number of days between Jan 1, 1900 and Jan 1, 1970 (R origin date) to get correct date
+day1 <- day - 25567 
+
+# create new vector of dates in ymd format
+day_obs <- as.POSIXct.Date(day1)
 ```
 
 ### Within R
