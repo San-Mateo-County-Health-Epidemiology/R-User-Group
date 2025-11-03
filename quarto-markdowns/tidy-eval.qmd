@@ -109,7 +109,7 @@ summarize_fun(data, species)
 ```
 
 
-### 2. Allow for the user to specify the variables with a `...`.
+### 2. Allow for the user to specify the variables with a `...`
 
 Instead of designating a specific argument for a variable, you can use a `...` to pull a variable into your function and have it work with tidy evaluation: 
 
