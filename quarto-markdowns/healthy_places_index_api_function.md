@@ -26,21 +26,6 @@ library(stringr)
 library(purrr)
 ```
 
-### Create list of census tracts in San Mateo County
-
-This is used to filter HPI data for census tracts in SMC later in the
-process. It relies on uploading a file that includes the census tracts
-that were used for the HPI overall index ranks for census tracts in SMC.
-
-``` r
-hpi_ranks_smc_censustracts <- read_csv("J:/Epi Data/HPI 3.0/Data/HPI_ranks_SMC_censustracts.csv")
-
-smc_censustracts <- hpi_ranks_smc_censustracts %>%
-  select(geoid, name) %>%
-  mutate(geoid = as.character(geoid), 
-         name = as.character(name))
-```
-
 ## Downloading and cleaning HPI data
 
 ### Inputs to download and clean datasets for HPI indicators only
@@ -68,7 +53,7 @@ indicator <- c("abovepoverty", "employed", "percapitaincome", "bachelorsed", "in
 format <- "json"
 
 # combine year and indicator data into dataframe
-hpi_vars <- data_frame("geography" = geography,
+hpi_vars <- tibble("geography" = geography,
                        "year" = year,
                        "indicator" = indicator,
                        "format" = format)
@@ -114,13 +99,13 @@ Then we can do some cleaning to remove unnecessary variables and add new
 ones:
 
 ``` r
-smc_data <- all_data %>%
+smc_data2 <- all_data %>%
   select(-c(numerator, denominator, se)) %>%
   mutate(quantile = case_when(percentile <= 0.25 ~ 1, 
                               percentile <= 0.5 & percentile > 0.25 ~ 2,
                               percentile <= 0.75 & percentile > 0.5 ~ 3,
                               percentile <= 1 & percentile > 0.75 ~ 4)) %>% 
-   filter(name %in% smc_censustracts$name)
+   filter(str_starts(geoid, "06081")) # filters for census tracts in SMC
 ```
 
 ## Inputs to download and clean datasets for selected Decision Support indicators
