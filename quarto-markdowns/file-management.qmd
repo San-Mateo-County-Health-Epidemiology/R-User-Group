@@ -152,6 +152,8 @@ If you're not working with a GitHub repo or R project, you will probably need to
 You can always check your working directory with `getwd()`
 
 ```{r}
+#| eval: false 
+
 getwd()
 ```
 ## Navigating directories 
@@ -167,6 +169,8 @@ A relative directory is a directory that is specified in relation to the home di
 This is our current directory:
 
 ```{r}
+#| eval: false 
+
 getwd()
 ```
 
