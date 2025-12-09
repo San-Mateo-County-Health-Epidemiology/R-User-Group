@@ -177,6 +177,8 @@ getwd()
 Now lets move one directory down (to a folder further from the main project). To do this, we need to specify the directory name(s) where we want to go:
 
 ```{r}
+#| eval: false 
+
 setwd("data")
 getwd()
 list.files()
@@ -185,6 +187,8 @@ list.files()
 Now lets move two directories up (closer to the main project). Note that here we don't need to specify the directories by name. `..` means move to the parent of the current directory.
 
 ```{r}
+#| eval: false 
+
 setwd("../../")
 getwd()
 ```
