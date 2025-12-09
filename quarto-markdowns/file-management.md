@@ -219,7 +219,7 @@ file.info(list.files(pattern = "*.qmd",
     ./dataset_summary_tables.qmd                                              6946
     ./date-basics.qmd                                                         4818
     ./dynamic-selecting.qmd                                                   4164
-    ./file-management.qmd                                                     7943
+    ./file-management.qmd                                                     7981
     ./file-type-comparison.qmd                                                9609
     ./functions-part-1.qmd                                                    3703
     ./functions-part-2.qmd                                                    4040
@@ -321,7 +321,7 @@ file.info(list.files(pattern = "*.qmd",
     ./dataset_summary_tables.qmd                                             2025-12-08 13:31:03
     ./date-basics.qmd                                                        2025-12-08 13:31:03
     ./dynamic-selecting.qmd                                                  2025-12-08 13:31:03
-    ./file-management.qmd                                                    2025-12-08 14:12:23
+    ./file-management.qmd                                                    2025-12-09 08:54:10
     ./file-type-comparison.qmd                                               2025-12-08 13:31:03
     ./functions-part-1.qmd                                                   2025-12-08 13:31:03
     ./functions-part-2.qmd                                                   2025-12-08 13:31:03
@@ -381,39 +381,39 @@ file.info(list.files(pattern = "*.qmd",
     ./tidyr-unite.qmd                                                        2025-12-08 13:31:04
     ./updating-r-and-rstudio.qmd                                             2025-12-08 13:31:04
                                                                                            atime
-    ./api-basics.qmd                                                         2025-12-08 13:31:03
-    ./base-r_functions.qmd                                                   2025-12-08 13:31:03
-    ./base-r_vs_tidyverse.qmd                                                2025-12-08 13:31:03
-    ./climate-related-apis.qmd                                               2025-12-08 13:31:03
-    ./conf_int.qmd                                                           2025-12-08 13:31:03
-    ./dataset_summary_tables.qmd                                             2025-12-08 13:31:03
-    ./date-basics.qmd                                                        2025-12-08 13:31:03
-    ./dynamic-selecting.qmd                                                  2025-12-08 13:31:03
-    ./file-management.qmd                                                    2025-12-08 14:12:24
-    ./file-type-comparison.qmd                                               2025-12-08 13:31:03
-    ./functions-part-1.qmd                                                   2025-12-08 13:31:03
-    ./functions-part-2.qmd                                                   2025-12-08 13:31:03
-    ./future-meetings/getting-data-into-R.qmd                                2025-12-08 13:31:03
-    ./ggplot2_gog-and-labelling-plots.qmd                                    2025-12-08 13:31:03
-    ./healthy_places_index_api_function.qmd                                  2025-12-08 13:31:08
-    ./identifying-and-consolidating-overlapping-date-ranges-longitudinal.qmd 2025-12-08 13:31:08
-    ./intro-to-quarto.qmd                                                    2025-12-08 13:31:08
-    ./looking-at-data.qmd                                                    2025-12-08 13:31:08
-    ./miscellaneous-things.qmd                                               2025-12-08 13:31:08
-    ./mutate-across.qmd                                                      2025-12-08 13:31:08
-    ./parameters_example.qmd                                                 2025-12-08 13:31:08
-    ./plotly-basics.qmd                                                      2025-12-08 13:31:08
-    ./probabilistic-matching.qmd                                             2025-12-08 13:31:08
-    ./r-package-overview.qmd                                                 2025-12-08 13:31:08
-    ./saving-data-for-downstream-analyses.qmd                                2025-12-08 13:31:08
-    ./separate-strings-into-parts.qmd                                        2025-12-08 13:31:08
-    ./separate-wider-and-longer.qmd                                          2025-12-08 13:31:08
-    ./stats-distribution-functions.qmd                                       2025-12-08 13:31:08
-    ./strings_regular-expressions.qmd                                        2025-12-08 13:31:08
-    ./tidy-data.qmd                                                          2025-12-08 13:31:08
-    ./tidy-eval.qmd                                                          2025-12-08 13:31:08
-    ./tidyr-unite.qmd                                                        2025-12-08 13:31:08
-    ./updating-r-and-rstudio.qmd                                             2025-12-08 13:31:08
+    ./api-basics.qmd                                                         2025-12-09 08:51:15
+    ./base-r_functions.qmd                                                   2025-12-09 08:51:15
+    ./base-r_vs_tidyverse.qmd                                                2025-12-09 08:51:15
+    ./climate-related-apis.qmd                                               2025-12-09 08:51:15
+    ./conf_int.qmd                                                           2025-12-09 08:51:15
+    ./dataset_summary_tables.qmd                                             2025-12-09 08:51:15
+    ./date-basics.qmd                                                        2025-12-09 08:51:15
+    ./dynamic-selecting.qmd                                                  2025-12-09 08:51:15
+    ./file-management.qmd                                                    2025-12-09 08:54:20
+    ./file-type-comparison.qmd                                               2025-12-09 08:51:15
+    ./functions-part-1.qmd                                                   2025-12-09 08:51:15
+    ./functions-part-2.qmd                                                   2025-12-09 08:51:15
+    ./future-meetings/getting-data-into-R.qmd                                2025-12-09 08:51:15
+    ./ggplot2_gog-and-labelling-plots.qmd                                    2025-12-09 08:51:15
+    ./healthy_places_index_api_function.qmd                                  2025-12-09 08:51:15
+    ./identifying-and-consolidating-overlapping-date-ranges-longitudinal.qmd 2025-12-09 08:51:15
+    ./intro-to-quarto.qmd                                                    2025-12-09 08:51:15
+    ./looking-at-data.qmd                                                    2025-12-09 08:51:15
+    ./miscellaneous-things.qmd                                               2025-12-09 08:51:15
+    ./mutate-across.qmd                                                      2025-12-09 08:51:15
+    ./parameters_example.qmd                                                 2025-12-09 08:51:15
+    ./plotly-basics.qmd                                                      2025-12-09 08:51:15
+    ./probabilistic-matching.qmd                                             2025-12-09 08:51:15
+    ./r-package-overview.qmd                                                 2025-12-09 08:51:15
+    ./saving-data-for-downstream-analyses.qmd                                2025-12-09 08:51:15
+    ./separate-strings-into-parts.qmd                                        2025-12-09 08:51:15
+    ./separate-wider-and-longer.qmd                                          2025-12-09 08:51:15
+    ./stats-distribution-functions.qmd                                       2025-12-09 08:51:15
+    ./strings_regular-expressions.qmd                                        2025-12-09 08:51:15
+    ./tidy-data.qmd                                                          2025-12-09 08:51:15
+    ./tidy-eval.qmd                                                          2025-12-09 08:51:15
+    ./tidyr-unite.qmd                                                        2025-12-09 08:51:15
+    ./updating-r-and-rstudio.qmd                                             2025-12-09 08:51:15
                                                                              exe
     ./api-basics.qmd                                                          no
     ./base-r_functions.qmd                                                    no
@@ -707,15 +707,8 @@ want to go:
 ``` r
 setwd("data")
 getwd()
-```
-
-    [1] "C:/Users/ejump/OneDrive - County of San Mateo/R Projects/R-User-Group/quarto-markdowns/data"
-
-``` r
 list.files()
 ```
-
-    [1] "file-type-comparison.RDS"
 
 Now lets move two directories up (closer to the main project). Note that
 here we don’t need to specify the directories by name. `..` means move
@@ -725,8 +718,6 @@ to the parent of the current directory.
 setwd("../../")
 getwd()
 ```
-
-    [1] "C:/Users/ejump/OneDrive - County of San Mateo/R Projects"
 
 There’s a nice explanation of directory shorthand in R
 [here](https://stackoverflow.com/questions/37380961/moving-down-a-folder-in-working-directory)
