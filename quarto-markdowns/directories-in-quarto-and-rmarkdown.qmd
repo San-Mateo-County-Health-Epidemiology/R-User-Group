@@ -1,0 +1,54 @@
+---
+title: "Directories in Quarto and R Markdown"
+format: gfm
+author: "Beth Jump"
+date: "2026-01-22"
+execute:
+  warning: false
+---
+
+## Background
+
+Root directories for R Markdown and Quarto files work a bit differently than other R files and can cause a lot of headaches. 
+
+By default your working directory for your R Markdown or Quarto document should be the directory where your markdown is saved. You can check or change this here: **Tools > Global Options > R Markdown**:
+
+![](images/rmarkdown-dir-options.png){width=500}
+
+This [chapter](https://bookdown.org/yihui/rmarkdown-cookbook/working-directory.html) goes into more detail about options for setting your R Markdown or Quarto working directory and some pros and cons for each option. 
+
+## In practice
+
+We should use the default **document** setting so that documents run consistently on all of our computers. 
+
+Using the **document** setting raises an issue - what if you have an R Markdown or Quarto document in a sub-directory and you're fetching data from somewhere else?
+
+### Project based workflows
+
+If you're working within a project, you should consider the [`here`](https://here.r-lib.org/) package. It allows you to easily find files from other directories within your project.
+
+This [vignette](https://here.r-lib.org/articles/rmarkdown.html) explains exactly how it works in R Markdown. If you want to test it out, create a new R Markdown or Quarto file and run:
+
+```
+here::here()
+```
+
+And then run:
+
+```
+getwd()
+
+```
+
+And you'll see that `here::here()` returns the project directory while `getwd()` returns your document directory. 
+
+### Non-project based workflows 
+
+If you're working in a non-project workflow, you likely need to specify full paths to fetch your data. 
+
+You can use `setwd()` to fetch data, but that will only work in the chunk you run it in. This isn't a problem if you load all of your data at once but if you load data throughout, you might consider using this in your setup chunk:
+
+```
+knitr::opts_knit$set(root.dir = '<dir goes here>')
+
+```
