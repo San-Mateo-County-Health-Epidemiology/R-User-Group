@@ -69,4 +69,4 @@ file_type_comp <- file_sizes %>%
   left_join(benchmark_write, by = c("file_type" = "write_expr")) %>%
   left_join(benchmark_read, by = c("file_type" = "read_expr")) 
 
-save(file_type_comp, file = "quarto-markdowns/data/file-type-comparison.RDS")
+save(file_type_comp, file = "data/file-type-comparison.RDS")
