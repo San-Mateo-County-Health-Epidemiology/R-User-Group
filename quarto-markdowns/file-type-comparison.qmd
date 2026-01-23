@@ -34,6 +34,7 @@ library(flextable)
 library(microbenchmark)
 library(smcepi)
 library(gridExtra)
+library(here)
 ```
 
 ## Results
@@ -45,7 +46,7 @@ We use the [`microbenchmark`](https://www.rdocumentation.org/packages/microbench
 These are the summary data for 100 trials: 
 
 ```{r}
-load("data\\file-type-comparison.RDS")
+load(here("data", "file-type-comparison.RDS"))
 
 third <- "#1FA187FF"
 second <- "#B4DE2CFF"
