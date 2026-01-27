@@ -101,11 +101,21 @@ For examples of rendering scripts, see:
   \*Note: both functions should work with `.Rmd` or `.qmd` markdowns,
   but they work slightly differently.
 
-  - parameter argument:
+  - parameter argument name:
 
     - `quarto::quarto_render`: `execute_params`
 
     - `rmarkdown::render`: `params`
+
+  - execution directory argument name. `quarto_render()` and
+    `rmarkdown::render` both evaluate chunks (by default) in the
+    directory of the `.qmd` or `.rmd` filev (regardless of how you set
+    the “Evaluate chunks…” argmuent under Global Options in R Studio).
+    However, you can specify an alternative directory with:
+
+    - `quarto::quarto_render`: `execute_dir`
+
+    - `rmarkdown::render`: `knit_root_dir`
 
   - default file path for markdown output:
 
