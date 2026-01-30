@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2026-01-22 | [directories in R Markdown and Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/directories-in-quarto-and-rmarkdown.md) |
 | 2025-10-31 | [`tidyr::unite()`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidyr-unite.md) |
 | 2025-10-02 | [Climate-related APIs](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/climate-related-apis.md) |
 | 2025-09-18 | [Dataset summary table](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dataset_summary_tables.md) |

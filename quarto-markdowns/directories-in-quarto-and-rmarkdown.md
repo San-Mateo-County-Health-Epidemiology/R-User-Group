@@ -37,11 +37,15 @@ This [vignette](https://here.r-lib.org/articles/rmarkdown.html) explains
 exactly how it works in R Markdown. If you want to test it out, create a
 new R Markdown or Quarto file and run:
 
-    here::here()
+``` r
+here::here()
+```
 
 And then run:
 
-    getwd()
+``` r
+getwd()
+```
 
 And you’ll see that `here::here()` returns the project directory while
 `getwd()` returns your document directory.
@@ -57,3 +61,36 @@ at once but if you load data throughout, you might consider using this
 in your setup chunk:
 
     knitr::opts_knit$set(root.dir = '<dir goes here>')
+
+### Rendering R Markdowns
+
+#### with the `rmarkdown::render()` function
+
+The `rmarkdown::render()` function allows you to programmatically render
+markdowns. You can specify a root directory (`knit_root_dir`) but if you
+don’t it will default to the directory where your document lives. This
+is great because that means it should work the same way it does when you
+render it manually with the **Document** default set.
+
+### Rendering Quarto documents
+
+#### with `quarto::quarto_render()`
+
+Like the `rmarkdown::render()` function, the `quarto::quarto_render()`
+function allows you to render quarto documents from another script. The
+`quarto::quarto_render()` function has an option to specify the
+`execute_dir` but if you leave this empty the function seems to use
+parent directory where the document is stored (just like in
+`rmarkdown::render()`).
+
+#### from command line
+
+Unlike with R Markdown, you can render Quarto documents from the command
+line (ex: the Terminal in RStudio) using the `quarto render` command:
+
+`quarto render <path-to-quarto-with-no-spaces.qmd>`
+
+When you do this, the file paths in the quarto doc should be referenced
+according to the parent directory where the document is stored, just
+like with the `rmarkdown::render()` and `quarto::quarto_render()`
+functions.
