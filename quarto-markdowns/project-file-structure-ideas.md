@@ -1,0 +1,32 @@
+# project file structure ideas
+Beth Jump
+2026-02-04
+
+## Background
+
+Here are some options for how to organize a project.
+
+## My method:
+
+I typically have each of these folders in my R projects. If I also have
+code from another language (SQL, Python, etc), I’ll have a folder for
+those too.
+
+- `data`: for all data, is included in the .gitignore so its contents
+  aren’t sent to GitHub
+- `documentation`: this is for data dictionaries, detailed readmes, etc
+- `tables`: this is for reference tables like mapping zip codes to
+  cities, mapping state codes to state names, etc
+- `R`: all R scripts go here
+- `outputs`: for all outputs, is included in the .gitignore so its
+  contents aren’t sent to GitHub
+
+## An alternative from a Posit presentation
+
+Organize it like an R package. Have an `R` folder for functions, save
+analysis scripts in `inst`, etc.
+
+The full talk is [here](https://www.youtube.com/watch?v=YzIiWg4rySA).
+See [here](https://github.com/kylieainslie) for some examples.
+
+## Other options?
