@@ -14,7 +14,7 @@ This tutorial explains how to use the *here* package to call, run, and save file
 ## Here package
 
 You will need to load the **here** package:
-```{r}
+```{r, output = FALSE}
 # install.packages('here')
 library(here)
 ```
