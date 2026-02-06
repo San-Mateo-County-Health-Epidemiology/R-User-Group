@@ -19,8 +19,6 @@ You will need to load the **here** package:
 library(here)
 ```
 
-    here() starts at <working directory>/Julie/Cal-EIS/R projects/R-User-Group
-
 When you run this, you see that the package tells you within which
 directory (folder), you are operating. In our case, the last part of the
 directory file path should read “/R-User-Group”.
