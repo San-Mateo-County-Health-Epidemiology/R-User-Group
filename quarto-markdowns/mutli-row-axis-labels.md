@@ -56,7 +56,10 @@ To create multi-row axis labels, you’ll need to include `interaction()`
 inside of `aes()` for whichever axis you want your multi-row label to be
 on. `interaction()` computes a factor which represents the interaction
 of the given factors and creates a combined factor for plotting. The
-result is always unordered.
+result is always unordered. Include the variables of interest inside
+`interaction()`. You will have to put these in the order of which you
+would like them to appear on the axis, with the first variable nested
+inside of the second variable.
 
 ``` r
 graph_by_qtr <- data_clean %>%

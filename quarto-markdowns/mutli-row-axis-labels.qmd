@@ -40,7 +40,7 @@ data_clean <- data %>%
 
 ### Interaction Function
 
-To create multi-row axis labels, you'll need to include `interaction()` inside of `aes()` for whichever axis you want your multi-row label to be on. `interaction()` computes a factor which represents the interaction of the given factors and creates a combined factor for plotting. The result is always unordered.
+To create multi-row axis labels, you'll need to include `interaction()` inside of `aes()` for whichever axis you want your multi-row label to be on. `interaction()` computes a factor which represents the interaction of the given factors and creates a combined factor for plotting. The result is always unordered. Include the variables of interest inside `interaction()`. You will have to put these in the order of which you would like them to appear on the axis, with the first variable nested inside of the second variable.
 
 ```{r message=F}
 graph_by_qtr <- data_clean %>%
@@ -62,7 +62,7 @@ graph_by_qtr <- data_clean %>%
 
 ### Guide Axis Nested Function
 
-Next, you'll also want to include `guide_axis_nested()` from the **legendry** package inside of `guides()`. This function is what creates the multi-level (nested) axis labels. You'll need to specifiy which axis you want your nested axis on. More information about `guide_axis_nested()` can be found [here](https://www.rdocumentation.org/packages/legendry/versions/0.2.1/topics/guide_axis_nested). 
+Next, you'll also want to include `guide_axis_nested()` from the **legendry** package inside of `guides()`. This function is what creates the multi-level (nested) axis labels. You'll need to specifiy which axis you want your nested axis on. More information about `guide_axis_nested()` can be found [here](https://www.rdocumentation.org/packages/legendry/versions/0.2.1/topics/guide_axis_nested).
 
 Below is an example graph of the number of unemployed by quarter over a period of ten years. Here I've included `type = "fence"`, which draws vertical lines between groups, and `rail = "inner"`, which draws a horizontal line between groups.
 
