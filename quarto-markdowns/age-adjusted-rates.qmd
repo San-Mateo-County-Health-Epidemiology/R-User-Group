@@ -1,0 +1,231 @@
+---
+format: gfm
+title: "Age adjusted rates"
+author: "Beth Jump"
+date: "2026-03-05"
+embed-resources: true
+execute: 
+  warning: false
+  error: false
+---
+## Background
+
+Age adjusting rates removes confounding due to age and allows you to compare the rates of an event across groups with different age distributions. More detailed information in that [here](https://www.health.ny.gov/diseases/chronic/ageadj.htm). 
+
+My rule of thumb is to calculate and use age adjusted rates whenever I can. I don't usually spend time comparing the underlying age distributions. As long as you have population denominators and aren't stratifying by age, then you can and should calculate age adjusted rates. 
+
+These are the general steps for calculating an age adjusted rate:
+
+1. Get the number of events and the estimated population by age group
+2. Calculate crude rates for each age group
+3. Apply the standard population weights from the 2000 US census to the crude rate for each age group
+4. Sum the weighted crude rates to get the age adjusted rate
+
+## Examples
+
+We'll use the US 2000 population weights for the examples below. 
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(zoo)
+
+pop_weights <- rio::import(here('data', 'standard_population_weights_us_2000.xlsx')) %>%
+  select(-c(characteristic, standard_pop))
+```
+
+### Introductory example
+
+We'll start with a basic example using made up data. Here we have two populations: group A and group B. We have some information about the frequency of an event and estimates of the population for each age group. 
+
+```{r}
+data <- tribble(
+  ~group, ~age_group, ~event_count, ~population,
+  # group a
+  'a', '0-9', 0, 100, 
+  'a', '10-19', 0, 150, 
+  'a', '20-29', 0, 150, 
+  'a', '30-39', 0, 200, 
+  'a', '40-49', 1, 300, 
+  'a', '50-59', 5, 350, 
+  'a', '60-69', 60, 500, 
+  'a', '70-79', 200, 800,
+  'a', '80+', 400, 1000, 
+  # group b
+  'b', '0-9', 0, 100, 
+  'b', '10-19', 5, 150, 
+  'b', '20-29', 20, 500, 
+  'b', '30-39', 50, 800, 
+  'b', '40-49', 60, 1000, 
+  'b', '50-59', 50, 800, 
+  'b', '60-69', 20, 500, 
+  'b', '70-79', 5, 150,
+  'b', '80+', 1, 100
+)
+data
+```
+
+We can start by comparing the crude rates. When we do that, we see that group A has a rate that is more than 3x higher than group B: 
+
+```{r}
+data %>% 
+  group_by(group) %>% 
+  summarize(total_events = sum(event_count), 
+            total_pop = sum(population),
+            .groups = "keep") %>% 
+  ungroup() %>%
+  mutate(crude_rate = total_events/total_pop)
+
+```
+
+However, the population structures of these two groups are really different. Group A is generally older while group B is exactly symmetrical around the 40-49 year old group. Because the age structures are different, we need to age adjust these rates in order to compare them.
+
+First we use the proportions from the US census file to apply the population weights to the crude rates in each age group:
+
+```{r}
+weighted_rates <- data %>%
+  left_join(pop_weights, 
+            by = c("age_group" = "age_category")) %>%
+  mutate(crude = event_count/population*100000,
+         weighted_crude = crude*standard_pop_weights) %>%
+  rename(pop_wght = standard_pop_weights)
+weighted_rates
+```
+
+Then we sum the `weighted_crude` rates in each group to get the age adjusted rate. When we do this, we find that the age adjusted rate is actually higher in group B even though the crude rate is lower. 
+
+```{r}
+weighted_rates %>%
+  group_by(group) %>%
+  summarize(total_events = sum(event_count),
+            total_pop = sum(population),
+            crude_rate = total_events/total_pop*100000,
+            adjusted_rate = round(sum(weighted_crude, na.rm = T), 1),
+            .groups = "keep") %>%
+  ungroup()
+```
+
+By removing the confounding due to age, we can now compare the rates and say the rate of the event is higher in group B!
+
+### Calculating multiple rates at once
+
+Often you need to calculate more than one age adjusted rate at once. In the first example, we calculated two groups at once. As long as your data are structured similarly, you can use the same method to calculate many rates at once. 
+
+Here we have real denominators from the CA Department of Finance P3 estimate for California and for San Mateo County. We are making up numerator values: 
+
+```{r}
+dof_denoms <- rio::import(here('data', 'dof-pop-estimates.xlsx'))
+
+numerator = c(sample(26000:52000, size = 63, replace = T), sample(500:1000, size = 63, replace = T))
+
+data1 <- dof_denoms %>%
+  arrange(geography) %>%
+  cbind(numerator)
+
+data1 %>%
+  arrange(age_cat, year, geography) %>% 
+  slice(1:10)
+```
+
+Let's calculate an age adjusted rate for CA and SMC for each year in the data. We can do this by adjusting the `group_by()` statement from the code above.
+
+```{r}
+data1 %>%
+  left_join(pop_weights, 
+            by = c("age_cat" = "age_category")) %>%
+  mutate(crude = numerator/population*100000,
+         weighted_crude = crude*standard_pop_weights) %>%
+  # now the group_by has year and geography:
+  group_by(year, geography) %>%
+  summarize(total_num = sum(numerator),
+            total_pop = sum(population),
+            crude_rate = total_num/total_pop*100000,
+            adjusted_rate = round(sum(weighted_crude, na.rm = T), 1),
+            .groups = "keep") %>%
+  ungroup()
+  
+```
+
+### Calculating age adjusted rates for rolling sums 
+
+When I calculate age adjusted rates, I'm often asked to do it for multiple timeframes, typically: single year, 3-year and 5-year rolling sums. 
+
+First I calculate the rolling sums with the `zoo::rollsum()` function and then I re-use the code from above. Here's some code to calculate 3 and 5 year right aligned rolling sums. 
+
+Make sure you use `group_by()` and `arrange()` to ensure your data are grouped and sorted correctly to calculate a rolling sum (or average). 
+
+```{r}
+roll_sum <- data1 %>%
+  # create data groups
+  group_by(geography, age_cat) %>%
+  # sort by year within groups
+  arrange(year) %>%
+  # calculate the right-aligned rolling sums 
+  mutate(num_3 = rollsum(numerator, 3, align = "right", na.pad = T),
+         num_5 = rollsum(numerator, 5, align = "right", na.pad = T),
+         pop_3 = rollsum(population, 3, align = "right", na.pad = T),
+         pop_5 = rollsum(population, 5, align = "right", na.pad = T)) %>%
+  rename(num_1 = numerator,
+         pop_1 = population) %>%
+  ungroup()
+
+roll_sum %>%
+  filter(age_cat == '0-9' & geography == "SMC") %>%
+  head(6)
+```
+
+Reshape the data so all of the numerator and denominator variable names are in a column and all of the values are in a another column:
+
+```{r}
+roll_sum1 <- roll_sum %>%
+  pivot_longer(names_to = "name",
+               values_to = "estimate",
+               cols = matches("^num|^pop"),
+               values_drop_na = T) 
+roll_sum1 %>%
+  filter(year == 2026 & age_cat == '0-9' & geography == "SMC") 
+```
+
+Separate the variable containing the numerator and denominator variable names (`name`) into two columns `num_denom` and `year_count`: 
+
+```{r}
+roll_sum2 <- roll_sum1 %>%
+  separate(name, 
+           c("num_denom", "year_count"),
+           sep = "_") 
+
+roll_sum2 %>%
+  filter(year == 2026 & age_cat == '0-9' & geography == "SMC") 
+```
+
+Reshape the data so you have a column for numerator values and a column for denominator values: 
+
+```{r}
+roll_sum3 <- roll_sum2 %>%
+  pivot_wider(names_from = num_denom,
+              values_from = estimate) 
+
+roll_sum3 %>%
+  filter(year == 2026 & age_cat == '0-9' & geography == "SMC") 
+```
+
+Now you can use the same code we've used before to calculate age adjusted rates for the single years and rolling sums. Just add `year_count` to the `group_by()` step:
+
+```{r}
+roll_sum4 <- roll_sum3 %>% 
+  left_join(pop_weights, 
+            by = c("age_cat" = "age_category")) %>%
+  mutate(crude = num/pop*100000,
+         weighted_crude = crude*standard_pop_weights) %>%
+  # now the group_by has year, geography and year_count:
+  group_by(year, geography, year_count) %>%
+  summarize(total_num = sum(num),
+            total_pop = sum(pop),
+            crude_rate = total_num/total_pop*100000,
+            adjusted_rate = round(sum(weighted_crude, na.rm = T), 1),
+            .groups = "keep") %>%
+  ungroup() 
+roll_sum4 %>%
+  filter(year == 2026)
+```
