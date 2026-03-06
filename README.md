@@ -23,6 +23,7 @@ each topic.
 | Date | Script |
 |----|----|
 | 2026-03-05 | [age-adjusted rates](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/age-adjusted-rates.md) |
+| 2026-02-19 | [multi-row axis labels in `ggplot2`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/mutli-row-axis-labels.md) |
 | 2026-02-05 | [using the here package](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/here_package.md) & [project structure ideas](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/project-file-structure-ideas.md) |
 | 2026-01-22 | [directories in R Markdown and Quarto](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/directories-in-quarto-and-rmarkdown.md) |
 | 2025-10-31 | [`tidyr::unite()`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidyr-unite.md) |
