@@ -32,6 +32,7 @@ I want to put together an overview of packages we use to make tables. The overvi
 - [GT](https://gt.rstudio.com/)
 - [kable and kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
 - [tinytable](https://vincentarelbundock.github.io/tinytable/) 
+- [DT](https://rstudio.github.io/DT/)
 
 #### Formats
 

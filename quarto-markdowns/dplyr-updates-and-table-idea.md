@@ -36,6 +36,7 @@ etc) and code to make a table.
 - [kable and
   kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
 - [tinytable](https://vincentarelbundock.github.io/tinytable/)
+- [DT](https://rstudio.github.io/DT/)
 
 #### Formats
 
