@@ -8,10 +8,6 @@ execute:
 message: false
 ---
   
-```{r}
-library(tidyverse)
-```
-
 ## Updates from Posit
 
 You can sign up for regular updates from Posit [here](https://posit.co/about/subscription-management/?mkt_tok=NzA5LU5YTi03MDYAAAGgU2gr6j8rcpq7fjFRPZOq_hAieCw4XGBl5nMreIkmR3OT_j46oWFS5i5-CTFTD0a8GDmNFzp7UPxOeyBwgwDamJq1hxpl24epKuo46PEfmA). Each month they send out a `posit::glimpse()` newsletter that I think is really useful.
@@ -20,24 +16,45 @@ From the February newsletter...
 
 ## There are some new updates to the `dplyr` package!
 
-The full overview is [here](https://tidyverse.org/blog/2026/02/dplyr-1-2-0/). The main changes:
+These updates are available with `dplyr 1.2.0` and the full overview is [here](https://tidyverse.org/blog/2026/02/dplyr-1-2-0/). The main changes:
 
 1. `filter_out()` is a new function to complement `filter()`
 2. `when_any()` and `when_all()` are new helper functions that join `all_of()` and `any_of()` to work with vectors
 3. `recode_values()`, `replace_values()`, and `replace_when()` are here to make your `case_when()` recoding sections less verbose
 
-## Future meeting: comparing tables
+### Future meeting: comparing tables
 
-I want to put together a high level overview of packages we use to make tables. The overview will include when to use each package (HTML, PDF, Word, etc) and examples of how to make a table. 
+I want to put together an overview of packages we use to make tables. The overview will include when to use each package (HTML, PDF, Word, etc) and code to make a table. 
 
-Packages:
+#### Packages:
 
-- flextable
-- GT
-- kable
-- tinytable 
+- [flextable](https://ardata-fr.github.io/flextable-book/)
+- [GT](https://gt.rstudio.com/)
+- [kable and kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
+- [tinytable](https://vincentarelbundock.github.io/tinytable/) 
 
-Formats:
+#### Formats
 
-Each table:
+When we put the overview together we'll have a table like this with one row per package. 
 
+| package | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
+| ------- | ----------- | ----------- | ---------------- | ----------- |
+| `flextable` |     x    |             |       x          |     x       |
+| ... | ... | ... | ... | ... |
+
+
+#### Table code:
+
+For each package, the code should show how to do each of the things listed below. For the content of the table, use the `palmerpenguins::penguins` data set. You can either use the top 10 rows or manipulate it as you see fit. If you manipulate it, make sure that your final data has numeric and character columns. 
+
+Code requirements:
+
+  - how to change the font type, font size and whether the font is regular, **bold** or *italic*
+  - how to set column widths and heights
+  - how to change the font color and the background of the cell
+  - how to change the color and thickness of lines separating cells
+  - how to format the header of the table
+  - how to align text in a column (text should always be left aligned, numbers should always be right aligned)
+  - how to merge cells vertically and horizontally. 
+
+If the package you've chosen can't do one of the things mentioned above, make a note of that!
