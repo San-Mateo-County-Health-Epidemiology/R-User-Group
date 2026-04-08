@@ -1,0 +1,68 @@
+---
+format: gfm
+title: "packages for formatting tables"
+author: "Eamonn Hartmann, Madelyn Sather, Sayema Badar, Beth Jump"
+date: "2026-05-14"
+execute: 
+  warning: false
+message: false
+---
+  
+## Background
+
+There are many packages you can use to format a table in Quarto. This document goes over 5 of them:
+
+- [flextable](https://ardata-fr.github.io/flextable-book/)
+- [GT](https://gt.rstudio.com/)
+- [kable and kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
+- [tinytable](https://vincentarelbundock.github.io/tinytable/) 
+- [DT](https://rstudio.github.io/DT/)
+
+In each section below, a different package is used to format the `palmerpenguins::penguins` data set. The code will go over how to: 
+
+  - change the font type, font size and whether the font is regular, **bold** or *italic*
+  - set column widths and heights
+  - change the font color and the background of the cell
+  - change the color and thickness of lines separating cells
+  - format the header of the table
+  - align text in a column (text should always be left aligned, numbers should always be right aligned)
+  - merge cells vertically and horizontally. 
+
+### Compatible formats
+
+Generally, this is how when you should use these packages:
+
+| package | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
+| ------- | ----------- | ----------- | ---------------- | ----------- |
+| `flextable` |     x    |             |       x          |     x       |
+| `GT` | ... | ... | ... | ... |
+| `kableExtra` | ... | ... | ... | ... |
+| `tinytable` | ... | ... | ... | ... |
+| `DT` | ... | ... | ... | ... |
+
+
+## `flextable`
+
+```{r}
+```
+
+## `GT`
+
+```{r}
+```
+
+## `kable and kableExtra`
+
+```{r}
+```
+
+## `tinytable`
+
+```{r}
+```
+
+## `DT`
+
+```{r}
+```
+
