@@ -1,0 +1,109 @@
+---
+format: gfm
+title: "`dplyr` practice part 1"
+author: "Beth Jump"
+date: "2022-11-17"
+execute: 
+  warning: false
+message: false
+---
+
+## Background
+
+[`dplyr`](https://dplyr.tidyverse.org/) is a package within the [`tidyverse`](https://tidyverse.org/) ecosystem that is focused on basic data wrangling.
+
+## Examples
+
+We're going to walk through how to solve some basic data tasks using functions from the `dplyr` package using the [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) data set. 
+
+```{r}
+library(dplyr)
+data <- palmerpenguins::penguins_raw
+```
+
+There are six questions and example solutions below. If your solution code is different but you get to the same answer, that is totally fine!
+
+### 1. How many unique studies are in this data set and how many penguins are in each?
+
+You can use the `count()` or `distinct()` function to get the names of unique studies, but only `count` will tell you how many records are in each study. `distinct()` will only give you the study names.
+
+```{r}
+data %>%
+  count(studyName)
+```
+
+A more verbose way to solve this would be with `group_by()` and `summarize()`:
+
+```{r}
+data %>%
+  group_by(studyName) %>%
+  summarize(penguin_ct = n()) %>%
+  ungroup()
+```
+
+### 2. Which penguin (use `Individual ID`) weighs the least (`Body Mass (g)`) in each study?
+
+Here can use a combination of `group_by()`, `arrange()` and `slice()`. 
+
+```{r}
+data %>%
+  group_by(studyName) %>%
+  arrange(`Body Mass (g)`) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(studyName, `Individual ID`, `Body Mass (g)`)
+```
+
+### 3. What are the average and median flipper lengths of the all penguins in each study?
+
+Like the previous question, you need to use `group_by()` but here you also should use the `summarize()` function. 
+
+```{r}
+data %>%
+  filter(!is.na(`Flipper Length (mm)`)) %>%
+  group_by(studyName) %>%
+  summarize(penguin_ct = n(),
+            mean_flipper = mean(`Flipper Length (mm)`),
+            median_flipper = median(`Flipper Length (mm)`)) %>%
+  ungroup()
+
+
+```
+
+### 4. Create a table where within each species, penguins are numbered from largest Culmen Length to smallest.
+
+If you use the `row_number()` function within a `mutate()` step, it will number records. Make sure you've sorted your data with `arrange()` so that your numbers are assigned as expected.  
+
+```{r}
+data %>%
+  group_by(Species) %>%
+  arrange(desc(`Culmen Length (mm)`)) %>%
+  mutate(record_num = row_number()) %>%
+  ungroup() %>%
+  select(Species, `Culmen Length (mm)`, record_num) %>%
+  arrange(record_num, Species)
+```
+
+### Bonus 1: Which island had the most penguins and which has the earliest egg?
+
+`n()` and `min()` within a summarize function will give you the number per group and the minimum of a given value respectively. 
+
+```{r}
+data %>%
+  group_by(Island) %>%
+  summarize(penguin_ct = n(),
+            earliest_egg = min(`Date Egg`, na.rm = T)) %>%
+  ungroup()
+```
+
+### Bonus 2: Create a table that shows the breakdown by sex (count and percent) by island.
+
+You don't need to format the `percent` variable, but you can using the `percent()` function from the [`scales`](https://scales.r-lib.org/) package. 
+
+```{r}
+data %>%
+  count(Island, Sex) %>%
+  group_by(Island) %>%
+  mutate(total = sum(n),
+         pct = scales::percent(n/total, accuracy = 0.1))
+```
