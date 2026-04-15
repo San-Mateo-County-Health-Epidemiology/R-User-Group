@@ -4,15 +4,14 @@ Beth Jump
 
 ## Background
 
-When you’re processing a lot of data at once, it’s important to try and
-optimize the speed of your code. If there is a secion of your code that
+When you’re processing a lot of data at once it’s important to try to
+optimize the speed of your code. If there is a section of your code that
 can be written in different ways, you should compare the methods and,
-when possible, use the one that runs the fasted. The first step to doing
-this is knowing how long your code takes to run.
+when possible, use the option that runs the fastest.
 
 ## Comparing single runs
 
-Here we have some fake data that is just two dates:
+Here we have some fake data that contains 10,000 rows of two dates:
 
 ``` r
 library(rbenchmark)
@@ -38,15 +37,15 @@ head(data, 10)
     9  1998-12-07 2026-04-15
     10 1998-12-08 2026-04-15
 
-We want to calculate the time between these two dates in the most
-efficient way possible. We know three different ways to do this:
+We want to calculate the number of days between these two dates in the
+most efficient way possible. We know three different ways to do this:
 
 1.  `base::difftime()`
 2.  `lubridate::interval()`
 3.  simple math: date2 - date1
 
-We want to know which is fastest! We can do this the long way by using
-each method and comparing how long each one takes:
+We want to know which method is fastest. We can do this by timing each
+method and comparing how long each one takes:
 
 ### `base::difftime()`
 
@@ -60,7 +59,7 @@ difftime_time <- end-start
 difftime_time
 ```
 
-    Time difference of 0.01015401 secs
+    Time difference of 0.008365154 secs
 
 ### `lubridate::interval())`
 
@@ -74,7 +73,7 @@ interval_time <- end-start
 interval_time
 ```
 
-    Time difference of 0.035496 secs
+    Time difference of 0.03482413 secs
 
 ### simple math
 
@@ -88,27 +87,28 @@ math_time <- end-start
 math_time
 ```
 
-    Time difference of 0.002799988 secs
+    Time difference of 0.002719879 secs
 
-``` r
-data.frame(
-  difftime_time, interval_time, math_time
-)
-```
+Looking at all of the times together, we see that
+`lubridate::interval()` is the slowest, followed by `base::difftime()`
+and basic math:
 
-        difftime_time interval_time        math_time
-    1 0.01015401 secs 0.035496 secs 0.002799988 secs
+         difftime_time   interval_time        math_time
+    1 0.008365154 secs 0.03482413 secs 0.002719879 secs
+
+But can we be confident in that? Probably not. We need to compare more
+than one run to figure out which method is quickest.
 
 ## Comparing multiple runs
 
-By comparing one run, we can see that the `lubridate::interval()` method
-is ~2 times slower than the `base::difftime()` and simple math methods.
-But, we don’t know if those results will hold true every time. It’s
-better to compare hundreds or thousands of runs than to just compare
-one.
+It’s always better to compare hundreds or thousands of runs than just
+compare one. We can use the `rbenchmark::benchmark()` function to
+compare multiple runs at once!
 
-We can use the `rbenchmark::benchmark()` function to compare multiple
-runs!
+*Note: there are other packages that also do this, I am most familiar
+with this one.*
+
+Here we are comparing each method across 1,000 runs.
 
 ``` r
 benchmark("difftime" = {
@@ -129,9 +129,9 @@ columns = c("test", "replications", "elapsed",
 ```
 
            test replications elapsed relative user.self sys.self
-    1  difftime         1000    1.12    1.000      0.97     0.16
-    2 lubridate         1000   34.81   31.080     32.31     2.50
-    3      math         1000    1.41    1.259      1.23     0.17
+    1  difftime         1000    1.25    1.000      1.17     0.08
+    2 lubridate         1000   32.91   26.328     30.44     2.46
+    3      math         1000    1.32    1.056      1.09     0.22
 
 When we compare 1,000 runs, we confirm that `lubridate::interval()` is
 the slowest, but we also see that `base::difftime()` is slightly faster
