@@ -1,0 +1,111 @@
+---
+title: "Comparing code running time"
+author: "Beth Jump"
+date: "2022-10-06"
+format: gfm
+execute: 
+  warning: false
+message: false
+---
+
+## Background
+
+When you're processing a lot of data at once it's important to try to optimize the speed of your code. If there is a section of your code that can be written in different ways, you should compare the methods and, when possible, use the option that runs the fastest.
+
+## Comparing single runs 
+
+Here we have some fake data that contains 10,000 rows of two dates:
+
+```{r}
+library(rbenchmark)
+library(tidyverse)
+
+data <- data.frame(
+  date1 = seq.Date(Sys.Date() - days(9999), Sys.Date(), 1),
+  date2 = rep(Sys.Date(), 1000)
+)
+
+head(data, 10)
+```
+
+We want to calculate the number of days between these two dates in the most efficient way possible. We know three different ways to do this:
+
+1. `base::difftime()`
+2. `lubridate::interval()`
+3. simple math: date2 - date1
+
+We want to know which method is fastest. We can do this by timing each method and comparing how long each one takes:
+
+### `base::difftime()`
+
+```{r}
+start <- Sys.time()
+data1 <- data %>%
+  mutate(date_diff = difftime(date2, date1, units = "days"))
+end <- Sys.time()
+
+difftime_time <- end-start
+difftime_time
+```
+
+### `lubridate::interval())`
+
+```{r}
+start <- Sys.time()
+data1 <- data %>%
+  mutate(date_diff = interval(date2, date1) %/% days(1))
+end <- Sys.time()
+
+interval_time <- end-start
+interval_time
+```
+### simple math
+
+```{r}
+start <- Sys.time()
+data1 <- data %>%
+  mutate(date_diff = date2 - date1)
+end <- Sys.time()
+
+math_time <- end-start
+math_time
+```
+Looking at all of the times together, we see that `lubridate::interval()` is the slowest, followed by `base::difftime()` and basic math:
+
+```{r}
+#| echo: false
+data.frame(
+  difftime_time, interval_time, math_time
+)
+```
+
+But can we be confident in that? Probably not. We need to compare more than one run to figure out which method is quickest. 
+
+## Comparing multiple runs
+
+It's always better to compare hundreds or thousands of runs than just compare one. We can use the `rbenchmark::benchmark()` function to compare multiple runs at once!
+
+*Note: there are other packages that also do this, I am most familiar with this one.*
+
+Here we are comparing each method across 1,000 runs. 
+
+```{r}
+#| cache: true
+benchmark("difftime" = {
+  data1 <- data %>%
+    mutate(date_diff = difftime(date2, date1, units = "days"))
+},
+"lubridate" = {
+  data1 <- data %>%
+    mutate(date_diff = interval(date2, date1) %/% days(1))
+},
+"math" = {
+  data1 <- data %>%
+    mutate(date_diff = date2 - date1)
+},
+replications = 1000,
+columns = c("test", "replications", "elapsed",
+            "relative", "user.self", "sys.self"))
+```
+
+When we compare 1,000 runs, we confirm that `lubridate::interval()` is the slowest, but we also see that `base::difftime()` is slightly faster than simple math. 
