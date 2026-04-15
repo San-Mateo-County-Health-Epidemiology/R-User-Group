@@ -58,6 +58,7 @@ Each topic has two files: a `.qmd` (Quarto) file and a `.md` (markdown) file. Th
 | 2023-03-28 | [strings & regular expressions](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/strings_regular-expressions.md) |
 | 2023-05-25 | [`mutate(across(...))`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/mutate-across.md) |
 | 2023-03-23 | [dynamically selecting variables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dynamic-selecting.md) |
+| 2022-10-06 | [comparing code running time](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/compare-code-running-time.md) |
 | 2022-09-22 | [functions part 2](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/functions-part-2.md) |
 | 2022-08-11 | [probabilistic matching](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/probabilistic-matching.md) |
 | 2022-07-14 | [plotly basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/plotly-basics.md) |
