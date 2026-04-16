@@ -1,11 +1,11 @@
 # when and how to use factors
 Beth Jump
-2026-05-14
+2026-04-16
 
 ## Background
 
 Factors are a way to store your string/character data as an ordered
-group. An interesting (and brief) history of factors in R is
+list. An interesting (and brief) history of factors in R is
 [here](https://simplystats.github.io/2015/07/24/stringsasfactors-an-unauthorized-biography/).
 
 The [`forcats`](https://forcats.tidyverse.org/) package is a tidyverse
@@ -22,11 +22,18 @@ When would you want to store your data in factors?
 When would it be better to store your character data as a string?
 
 - If you need to manipulate the contents of the string
+- If your character variable isn’t easily grouped (ex: a notes field, a
+  list of first names, etc.)
 - If you’re assigning factors based on other variables in an automated
   or semi-automated script where data might change. You can still use a
   factor, but you should assign the values explicitly
+- ??
 
 ## Motivating example
+
+Let’s say we have a list of months. We want to sort these
+chronologically. If we sort the character variable, we end up with an
+*alphabetical* list:
 
 ``` r
 month_list <- c("March", "July", "April", "August")
@@ -35,7 +42,8 @@ sort(month_list)
 
     [1] "April"  "August" "July"   "March" 
 
-Let’s make this into a factor!!
+Instead, we can make this into a factor and assign the levels according
+to the chronological order of months. Then our data will sort correctly!
 
 ``` r
 levels <- as.character(month(1:12, abbr = F, label = T))
@@ -43,12 +51,6 @@ levels <- as.character(month(1:12, abbr = F, label = T))
 month_list_factor <- factor(x = month_list,
                             levels = levels)
 
-class(month_list_factor)
-```
-
-    [1] "factor"
-
-``` r
 sort(month_list_factor)
 ```
 
@@ -66,19 +68,31 @@ factors quicker and more dynamic!
 
 #### by a different variable
 
-Here you should use `fct_reorder()`
+If you want one variable to be ordered by a different variable, you can
+use `fct_reorder()`.
+
+Here we are sorting colors by the length of each color (ex: blue = 4,
+yellow = 6)
 
 ``` r
-data <- data.frame(
+data.frame(
   colors = c("blue", "orange", "yellow", "green", "red")
 ) %>%
   mutate(letter_count = nchar(colors),
-         color_fct = fct_reorder(colors, letter_count)) 
-
-levels(data$color_fct)
+         color_fct = fct_reorder(colors, letter_count)) %>%
+  arrange(color_fct)
 ```
 
-    [1] "red"    "blue"   "green"  "orange" "yellow"
+      colors letter_count color_fct
+    1    red            3       red
+    2   blue            4      blue
+    3  green            5     green
+    4 orange            6    orange
+    5 yellow            6    yellow
+
+Note that “yellow” and “orange” have the same number of letters so they
+are ordered somewhat arbitrarily. You could override this by assigning
+levels manually.
 
 More examples are
 [here](https://forcats.tidyverse.org/reference/fct_reorder.html).
@@ -97,20 +111,6 @@ data <- data.frame(
   ungroup()
 
 data %>%
-  distinct(colors, count)
-```
-
-    # A tibble: 5 × 2
-      colors count
-      <chr>  <int>
-    1 green    134
-    2 orange   271
-    3 blue     326
-    4 yellow   212
-    5 red       57
-
-``` r
-data %>%
   mutate(colors = fct_infreq(colors)) %>%
   arrange(colors) %>%
   distinct(colors, count)
@@ -119,29 +119,15 @@ data %>%
     # A tibble: 5 × 2
       colors count
       <fct>  <int>
-    1 blue     326
-    2 orange   271
-    3 yellow   212
-    4 green    134
-    5 red       57
+    1 blue     346
+    2 orange   245
+    3 yellow   198
+    4 green    138
+    5 red       73
 
 As far as I can tell there is no `fct_freq()` (to order things from
 large to small), but the internet suggests just wrapping `fct_infreq()`
 in `fct_rev()` which reverses the factors:
-
-``` r
-data %>%
-  distinct(colors, count)
-```
-
-    # A tibble: 5 × 2
-      colors count
-      <chr>  <int>
-    1 green    134
-    2 orange   271
-    3 blue     326
-    4 yellow   212
-    5 red       57
 
 ``` r
 data %>%
@@ -153,11 +139,11 @@ data %>%
     # A tibble: 5 × 3
       colors colors_fct count
       <chr>  <fct>      <int>
-    1 red    red           57
-    2 green  green        134
-    3 yellow yellow       212
-    4 orange orange       271
-    5 blue   blue         326
+    1 red    red           73
+    2 green  green        138
+    3 yellow yellow       198
+    4 orange orange       245
+    5 blue   blue         346
 
 #### by a frequency for a chart
 
