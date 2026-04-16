@@ -4,19 +4,17 @@ Beth Jump
 
 ## Background
 
-Factors are a way to store your string/character data as an ordered
-list. An interesting (and brief) history of factors in R is
+Factors are a way to store your string/character data as ordered values.
+An interesting (and brief) history of factors in R is
 [here](https://simplystats.github.io/2015/07/24/stringsasfactors-an-unauthorized-biography/).
-
 The [`forcats`](https://forcats.tidyverse.org/) package is a tidyverse
 package for dealing with factors.
 
 When would you want to store your data in factors?
 
 - If you need to sort by a categorical value in a way that is not
-  alphabetical (ex: by month)
+  alphabetical (ex: by month, county region, race/ethnicity, etc. )
 - If you’re using a string variable in a mathematical model
-- If there is a limited number of categories
 - ??
 
 When would it be better to store your character data as a string?
@@ -26,7 +24,7 @@ When would it be better to store your character data as a string?
   list of first names, etc.)
 - If you’re assigning factors based on other variables in an automated
   or semi-automated script where data might change. You can still use a
-  factor, but you should assign the values explicitly
+  factor, but you should assign the values explicitly.
 - ??
 
 ## Motivating example
@@ -62,9 +60,9 @@ sort(month_list_factor)
 ### making a factor
 
 Using the `base::factor()` function is the most straightforward way to
-make a factor but it can also be a pain if your factor has many levels.
-Luckily, the `forcats` package has some functions that can make creating
-factors quicker and more dynamic!
+make a factor but it can be a pain to list out every value if your
+factor has many levels. Luckily, the `forcats` package has some
+functions that can make creating factors quicker and more dynamic!
 
 #### by a different variable
 
@@ -100,7 +98,7 @@ More examples are
 #### by a frequency
 
 `forcats` has a very handy function called `fct_infreq()` that will
-order your data from least to most frequent.
+order your data from most to least frequent.
 
 ``` r
 data <- data.frame(
@@ -119,15 +117,15 @@ data %>%
     # A tibble: 5 × 2
       colors count
       <fct>  <int>
-    1 blue     346
-    2 orange   245
-    3 yellow   198
-    4 green    138
-    5 red       73
+    1 blue     335
+    2 orange   288
+    3 yellow   193
+    4 green    120
+    5 red       64
 
 As far as I can tell there is no `fct_freq()` (to order things from
-large to small), but the internet suggests just wrapping `fct_infreq()`
-in `fct_rev()` which reverses the factors:
+small to large), but the internet suggests wrapping `fct_infreq()` in
+`fct_rev()` to reverse the order of the factors:
 
 ``` r
 data %>%
@@ -139,17 +137,16 @@ data %>%
     # A tibble: 5 × 3
       colors colors_fct count
       <chr>  <fct>      <int>
-    1 red    red           73
-    2 green  green        138
-    3 yellow yellow       198
-    4 orange orange       245
-    5 blue   blue         346
+    1 red    red           64
+    2 green  green        120
+    3 yellow yellow       193
+    4 orange orange       288
+    5 blue   blue         335
 
 #### by a frequency for a chart
 
 In data visualizations, sometimes we can’t show all categories. There is
-a really fun function called `fct_lump` that will lump smaller groups
-together!
+a fun function called `fct_lump` that will lump smaller groups together:
 
 ``` r
 data1 <- data %>%
@@ -162,3 +159,36 @@ levels(data1$colors_fct)
 
 For more info and functions, check out the [cheat
 sheet](https://rstudio.github.io/cheatsheets/html/factors.html).
+
+## A note about factors in `ggplot2`
+
+If you want to use a factor on either axis of the plot, you might get an
+empty plot and an error saying, “each group consists of only one
+observation. Do you need to adjust the group aesthetic?”
+
+``` r
+library(ggplot2) 
+
+data <- data.frame(
+  months = month(1:12, label = T),
+  counts = sample(1:100, 12)) 
+
+data %>%
+  ggplot() + 
+  geom_line(aes(x = months, 
+                y = counts))
+```
+
+![](when-and-how-to-use-factors_files/figure-commonmark/unnamed-chunk-8-1.png)
+
+You can fix this by adding `group = 1` to the `aes()` mapping:
+
+``` r
+data %>%
+  ggplot() + 
+  geom_line(aes(x = months, 
+                y = counts,
+                group = 1))
+```
+
+![](when-and-how-to-use-factors_files/figure-commonmark/unnamed-chunk-9-1.png)
