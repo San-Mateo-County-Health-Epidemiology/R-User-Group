@@ -22,6 +22,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2026-04-16 | [when and how to use factors](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/when-and-how-to-use-factors.md) |
 | 2026-04-02 | [dplyr updates & table overview idea](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dplyr-updates-and-table-idea.md) |
 | 2026-03-05 | [age-adjusted rates](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/age-adjusted-rates.md) |
 | 2026-02-19 | [multi-row axis labels in `ggplot2`](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/mutli-row-axis-labels.md) |
