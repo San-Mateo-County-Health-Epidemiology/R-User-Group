@@ -2,7 +2,7 @@
 format: gfm
 title: "when and how to use factors"
 author: "Beth Jump"
-date: "2026-05-14"
+date: "2026-04-16"
 execute: 
   warning: false
 message: false
@@ -10,7 +10,7 @@ message: false
 
 ## Background
 
-Factors are a way to store your string/character data as an ordered group. An interesting (and brief) history of factors in R is [here](https://simplystats.github.io/2015/07/24/stringsasfactors-an-unauthorized-biography/). 
+Factors are a way to store your string/character data as an ordered list. An interesting (and brief) history of factors in R is [here](https://simplystats.github.io/2015/07/24/stringsasfactors-an-unauthorized-biography/). 
 
 The [`forcats`](https://forcats.tidyverse.org/) package is a tidyverse package for dealing with factors. 
 
@@ -24,7 +24,9 @@ When would you want to store your data in factors?
 When would it be better to store your character data as a string?
 
 * If you need to manipulate the contents of the string
+* If your character variable isn't easily grouped (ex: a notes field, a list of first names, etc.)
 * If you're assigning factors based on other variables in an automated or semi-automated script where data might change. You can still use a factor, but you should assign the values explicitly
+* ??
 
 ```{r}
 #| echo: false
@@ -36,12 +38,14 @@ library(dplyr)
 
 ## Motivating example
 
+Let's say we have a list of months. We want to sort these chronologically. If we sort the character variable, we end up with an *alphabetical* list:
+
 ```{r}
 month_list <- c("March", "July", "April", "August")
 sort(month_list)
 ```
 
-Let's make this into a factor!!
+Instead, we can make this into a factor and assign the levels according to the chronological order of months. Then our data will sort correctly!
 
 ```{r}
 levels <- as.character(month(1:12, abbr = F, label = T))
@@ -49,7 +53,6 @@ levels <- as.character(month(1:12, abbr = F, label = T))
 month_list_factor <- factor(x = month_list,
                             levels = levels)
 
-class(month_list_factor)
 sort(month_list_factor)
 ```
 
@@ -61,17 +64,20 @@ Using the `base::factor()` function is the most straightforward way to make a fa
 
 #### by a different variable
 
-Here you should use `fct_reorder()`
+If you want one variable to be ordered by a different variable, you can use `fct_reorder()`. 
+
+Here we are sorting colors by the length of each color (ex: blue = 4, yellow = 6)
 
 ```{r}
-data <- data.frame(
+data.frame(
   colors = c("blue", "orange", "yellow", "green", "red")
 ) %>%
   mutate(letter_count = nchar(colors),
-         color_fct = fct_reorder(colors, letter_count)) 
-
-levels(data$color_fct)
+         color_fct = fct_reorder(colors, letter_count)) %>%
+  arrange(color_fct)
 ```
+
+Note that "yellow" and "orange" have the same number of letters so they are ordered somewhat arbitrarily. You could override this by assigning levels manually. 
 
 More examples are [here](https://forcats.tidyverse.org/reference/fct_reorder.html). 
 
@@ -88,9 +94,6 @@ data <- data.frame(
   ungroup()
 
 data %>%
-  distinct(colors, count)
-
-data %>%
   mutate(colors = fct_infreq(colors)) %>%
   arrange(colors) %>%
   distinct(colors, count)
@@ -100,9 +103,6 @@ data %>%
 As far as I can tell there is no `fct_freq()` (to order things from large to small), but the internet suggests just wrapping `fct_infreq()` in `fct_rev()` which reverses the factors: 
 
 ```{r}
-data %>%
-  distinct(colors, count)
-
 data %>%
   mutate(colors_fct = fct_rev(fct_infreq(colors))) %>%
   arrange(colors_fct) %>%
