@@ -4,7 +4,6 @@
 # R-User-Group
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 This repository contains markdown files for topics we’ve discussed
@@ -22,6 +21,7 @@ each topic.
 
 | Date | Script |
 |----|----|
+| 2026-04-30 | [map in ggplot2](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/map_in_ggplot2.md) |
 | 2026-04-16 | [when and how to use factors](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/when-and-how-to-use-factors.md) |
 | 2026-04-02 | [dplyr updates & table overview idea](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dplyr-updates-and-table-idea.md) |
 | 2026-03-05 | [age-adjusted rates](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/age-adjusted-rates.md) |
