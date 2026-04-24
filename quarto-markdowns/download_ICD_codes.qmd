@@ -1,0 +1,205 @@
+---
+format: gfm
+title: "Download ICD codes from CDC website"
+author: "Julie Bartels"
+date: "2026-04-24"
+execute:
+  eval: FALSE
+---
+
+This tutorial uses the example of downloading ICD codes from the CDC website to show how to download txt and xml files from internet sources. This code has been made specific for these particular files, but you can adapt it for other websites and file types, or more recent updates of the data. 
+
+We will build some functions to streamline parts of the process, as well. 
+
+Note that this code uses the **here** package. More on that package can be found in this tutorial: https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/here_package.md,
+
+This tutorial explains how to:
+
+1. Set up directories for clean folder structure in your R project.
+2. Set up function to pull files and check for presence of files. 
+3. Pull and clean txt files.
+4. Pull and clean XML files. 
+
+# 0. Set up directories
+
+Load libraries. 
+
+```{r}
+library(pacman)
+
+# Load additional packages
+p_load(
+  readr, 
+  here, 
+  dplyr, 
+  purrr, 
+  xml2, 
+  stringr, 
+  readxl
+  )
+```
+
+Set up folder structure - this can be adapted to your preference. 
+
+```{r}
+# This is adapted from Sebastian Rowland (https://github.com/s-rowland/DailyTemp-UTI). 
+
+# Set up folder structure
+project.folder <- paste0(print(here::here()), "/")
+data.folder <- paste0(project.folder, "data/")
+rawData.folder <- paste0(data.folder, "raw/")
+intermediateData.folder <- paste0(data.folder, "intermediate/")
+finalData.folder <- paste0(data.folder, "prepared/")
+
+# Identify list of folder locations which have just been created above
+folder.names <- grep(".folder", names(.GlobalEnv), value = TRUE)
+
+# Create function to create list of folders
+# Note that the function will not create a folder if it already exists
+createFolders <- function(name) {
+  ifelse(!dir.exists(get(name)), dir.create(get(name), recursive = TRUE), FALSE)
+}
+
+# Create the folders named above
+lapply(folder.names, createFolders)
+
+# Clean up
+rm(list = ls(pattern = "folder"))
+```
+
+# 1. Download ICD codes from CDC for 2026 (update October 2025) - txt file
+
+### 1a. Functions to pull files
+
+This function is to pull raw files into your directory folder /data/raw/.
+
+```{r}
+url_pull <- function(url) {
+  temp <- tempfile()
+  download.file(url, temp)
+  unzip(temp, exdir = here::here('data', 'raw'))
+}
+```
+
+This function is to check to see if the file already exists in your directory. If it doesn't exist, it will pull the file using the *url_pull()* function.
+
+```{r}
+pull_icd_files <- function(name, url) {
+  ifelse(!file.exists(here::here(
+    'data', 'raw', paste(name))), 
+    url_pull(url), 
+    paste('file already downloaded'))
+}
+```
+
+### 1b. Check for presence of ICD code file - if not present, pull from CDC 
+
+First, save the name and URL of the file you want to pull. 
+
+```{r}
+# Name of ICD code file
+icd_code_file <- c("icd10cm-codes-2026.txt")
+
+# URL of ICD code file 
+url <- "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026/icd10cm-Code%20Descriptions-2026.zip"
+```
+
+Check for the file in the directory; if not present, pull from CDC.
+
+```{r}
+pull_icd_files(icd_code_file, url)
+```
+Note that this pulled 6 files into /data/raw/. We only open the 'icd10cm-codes-2026.txt' file. 
+
+### 1c. Open and clean file 
+
+```{r}
+# Open and read txt file downloaded into your directory
+codes <- readLines(here::here('data', 'raw', 'icd10cm-codes-2026.txt'))
+
+# Clean up ICD codes
+# These are read in so that the code and definition are all on one line, separated by a tab
+# Replace the tab with "\t" and then separate into two columns
+codes <- str_replace(codes, "^(\\S+)\\s+(.+)$", "\\1\t\\2")
+icd_codes <- read_delim(
+  I(codes),
+  delim = "\t",
+  col_names = FALSE,
+  trim_ws = TRUE
+)
+# Rename variables
+icd_codes <- icd_codes %>%
+  rename(icd10_code = X1, icd10_text = X2)
+```
+
+### 1d. Export file and clean up
+
+Export file into the intermediate data folder.
+
+```{r}
+icd_codes %>%
+  write_csv(., here::here('data', 'intermediate', 'icd_codes.csv'))
+```
+
+Clean up global environment. 
+
+```{r}
+rm(icd_code_file, url, codes, icd_codes)
+```
+
+# 2. Download ICD groupings file from CDC for 2026 (update October 2025) - XML file
+
+### 2a. Check for presence of ICD code file - if not present, pull from CDC 
+
+Again, save the name and URL of the file you want to pull. 
+
+```{r}
+# Name of ICD group file (note this is an XML file type)
+icd_group_file <- c('icd10cm-tabular-2026.xml')
+
+# Url of ICD group file
+url <- "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2026/icd10cm-table%20and%20index-2026.zip"
+```
+
+Check for the file in the directory; if not present, pull from CDC.
+
+```{r}
+pull_icd_files(icd_group_file, url)
+```
+Note that this downloaded 13 files into /data/raw/. Open only the 'icd10cm-tabular-2026.xml' file.
+
+### 2b. Open and clean file 
+
+```{r}
+# Read XML file from directory
+tabular <- read_xml(here::here('data', 'raw', 'icd10cm-tabular-2026.xml'))
+# Pull out chapters from within the tabular file
+chapters <- xml_find_all(tabular, ".//chapter")
+
+# Make XML file into a dataframe
+icd_groups <- map_dfr(chapters, function(ch) {
+  tibble(
+    group = xml_text(xml_find_first(ch, "desc")),
+    sub_group       = xml_text(xml_find_all(ch, "section"))
+  )
+})
+```
+
+### 2c. Export file and clean up
+
+Export file into the intermediate data folder.
+
+```{r}
+icd_groups %>%
+  write_csv(., here::here('data', 'intermediate', 'icd_groups.csv'))
+```
+
+Clean up global environment. 
+
+```{r}
+rm(url, icd_group_file, tabular, chapters, icd_groups)
+```
+
+# 3. Next steps
+
+From here, you can further clean the files, merge them, etc. 
