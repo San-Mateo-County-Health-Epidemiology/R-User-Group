@@ -13,7 +13,7 @@ This tutorial explains how to:
 2. Join rate/count data to shapefiles
 3. Map incidence rates by ZIP code
 4. Aggregate smaller geographic areas up into custom regions for mapping
-5. Map plots together for publications or reports.
+5. Map plots together for publications or reports
 
 ## 1. Map incidence rates by ZIP code for San Mateo County
 
@@ -138,6 +138,8 @@ Often, we want to visualize our data not by ZIP code or census tract, but by cus
 ### 2a. Create sample dataframe by SMC region
 
 ```{r}
+set.seed(2026)
+
 smc_region_data <- tibble(
   region = c('coastside', 'mid', 'north', 'south'),
   inc_rate = runif(4, min = 0, max = 30)
