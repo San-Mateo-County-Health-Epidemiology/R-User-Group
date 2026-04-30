@@ -14,7 +14,7 @@ This tutorial explains how to:
 3.  Map incidence rates by ZIP code
 4.  Aggregate smaller geographic areas up into custom regions for
     mapping
-5.  Map plots together for publications or reports.
+5.  Map plots together for publications or reports
 
 ## 1. Map incidence rates by ZIP code for San Mateo County
 
@@ -179,6 +179,8 @@ data by region.
 ### 2a. Create sample dataframe by SMC region
 
 ``` r
+set.seed(2026)
+
 smc_region_data <- tibble(
   region = c('coastside', 'mid', 'north', 'south'),
   inc_rate = runif(4, min = 0, max = 30)
@@ -190,10 +192,10 @@ head(smc_region_data)
     # A tibble: 4 × 2
       region    inc_rate
       <chr>        <dbl>
-    1 coastside    5.26 
-    2 mid         21.9  
-    3 north        0.485
-    4 south       17.6  
+    1 coastside    21.0 
+    2 mid          16.7 
+    3 north         4.20
+    4 south         8.57
 
 ### 2b. Create shapefile by regions
 
@@ -234,10 +236,10 @@ head(smc_region_data_geo)
     # A tibble: 4 × 3
       region                                                       geometry inc_rate
       <chr>                                                   <POLYGON [°]>    <dbl>
-    1 coastside ((-122.5199 37.57366, -122.519 37.5739, -122.5174 37.57303…    5.26 
-    2 mid       ((-122.2494 37.54919, -122.2507 37.5503, -122.2463 37.5535…   21.9  
-    3 north     ((-122.4692 37.70823, -122.4715 37.70833, -122.4983 37.708…    0.485
-    4 south     ((-122.1943 37.40887, -122.1936 37.41167, -122.1921 37.413…   17.6  
+    1 coastside ((-122.5199 37.57366, -122.519 37.5739, -122.5174 37.57303…    21.0 
+    2 mid       ((-122.2494 37.54919, -122.2507 37.5503, -122.2463 37.5535…    16.7 
+    3 north     ((-122.4692 37.70823, -122.4715 37.70833, -122.4983 37.708…     4.20
+    4 south     ((-122.1943 37.40887, -122.1936 37.41167, -122.1921 37.413…     8.57
 
 ### 2d. Map incidence rate by region
 
