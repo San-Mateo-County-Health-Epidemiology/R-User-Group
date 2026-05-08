@@ -44,6 +44,82 @@ Generally, this is how when you should use these packages:
 ## `flextable`
 
 ```{r}
+
+rm(list = ls())
+
+library(palmerpenguins)
+library(tidyverse)
+library(flextable)
+library(officer)
+
+# Load data
+
+palmerpenguins::penguins
+
+# Clean data and create flextable
+
+penguins_table <- penguins %>%
+  filter(!if_any(everything(), is.na)) %>%
+  select(species, island, sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
+  mutate(sex = str_to_title(sex)) %>%
+  head() %>%
+  arrange(sex) %>%
+  flextable()
+
+# Change font type, size, bold, italics
+
+penguins_table %>%  
+  font(fontname = "Arial", part = "all") %>% # All font editing functions: i = rows selection, j = columns selection (to edit specific cells)
+  fontsize(size = 12, part = "body") %>% 
+  bold(bold = TRUE, part = "header") %>% 
+  italic(italic = TRUE, part = "header") 
+  
+# Set cell width & height
+  
+penguins_table %>%    
+  width(width = 1.2, unit = "in") %>% # j = specific column selection
+  height(height = 0.5, part = "header") # i = specific row selection
+
+# Set font color 
+  
+custom_line <- fp_border(color = "grey", style = "solid", width = 1) # Officer package is required to change the color and thickness of lines separating cells
+
+penguins_table %>%  
+  color(i = 6, j = 5, color = "red", part = "body") %>% # font color
+  bg(i = 2, j = 4, bg = "yellow", part = "body") %>% # background of cell
+  border_inner(border = custom_line)
+
+# Set header labels
+
+penguins_table %>%
+  set_header_labels(species = "Species", 
+    island = "Island", bill_length_mm = "Bill length (mm)",
+    bill_depth_mm = "Bill depth (mm)", flipper_length_mm = "Flipper length (mm)",
+    body_mass_g = "Body mass (g)", sex = "Sex", year = "Year")
+
+# Add row of labels to header ***EDIT
+
+penguins_table %>%
+  add_header_row(values = c("Demographics", "Body measurements"), colwidths = c(3, 4)) %>%
+  align(i = 1, part = "header", align = "left")
+
+# Align contents within cell
+
+penguins_table %>%
+  align(j = c(1:3), align = "left") %>%
+  align(j = c(4:7), align = "right")
+  
+# Merge cells vertically
+
+penguins_table %>%
+  merge_v(j = ~ species + island)
+
+# Merge cells horizontally
+
+penguins_table %>%
+  merge_h() # Merges adjacent duplicated cells for each row of the selection.
+
+
 ```
 
 ## `GT`
