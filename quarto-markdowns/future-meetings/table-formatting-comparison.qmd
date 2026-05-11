@@ -161,7 +161,18 @@ The `merge_h()` function merges adjacent cells with duplicate values in the same
 ```{r}
 
 penguins_table %>%
-  merge_h() # Merges adjacent duplicated cells for each row of the selection.
+  merge_h()
+
+```
+
+### `autofit()`
+
+The `autofit()` function can be used to adjust the size of cells to fit the size of the cell's contents.
+
+```{r}
+
+penguins_table %>%
+  autofit()
 
 ```
 
