@@ -36,7 +36,7 @@ Generally, this is how when you should use these packages:
 | package | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
 | ------- | ----------- | ----------- | ---------------- | ----------- |
 | `flextable` |     x    |             |       x          |     x       |
-| `GT` |     x    |     x      |       x          |             |
+| `GT` |          |     x      |                  |             |
 | `kableExtra` | ... | ... | ... | ... |
 | `tinytable` | ... | ... | ... | ... |
 | `DT` | ... | ... | ... | ... |
@@ -205,7 +205,7 @@ penguins_table_gt <- penguins %>%
 
 The `opt_table_font()` function can be used to change font type, size, bold, and italics for the entire table. 
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
   opt_table_font(font = "Arial",
@@ -217,7 +217,7 @@ penguins_table_gt %>%
 
 The `tab_style()` and `locations()` functions can be used to change font type, size, bold, and italics for specific rows/columns, the table body, or the table header.
 
-```{r}
+```{r eval=FALSE}
 
 
 penguins_table_gt %>%
@@ -246,7 +246,7 @@ penguins_table_gt %>%
 
 To set widths and heights for the entire table, use `tab_options()` function. To set widths for specific columns, use the `cols_width()` function.
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
   
@@ -263,7 +263,7 @@ penguins_table_gt %>%
 
 The `tab_style()` and `locations()` functions can be used to change font or background color for specific rows/columns and cells.
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
     tab_style(style = cell_fill(color = "orange"),
@@ -282,7 +282,7 @@ penguins_table_gt %>%
 
 Use the `cols_label` to change the column names.
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
   cols_label(species = "Species", 
@@ -299,7 +299,7 @@ penguins_table_gt %>%
 
 Use the `tab_header()` function to add table titles. Use the `tab_spanner()` function to create grouped column headers (spanners). 
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
   tab_header(title = md("**Penguins Table**"),
@@ -315,7 +315,7 @@ penguins_table_gt %>%
 
 Use the `cols_align()` function to align the contents within a cell.
 
-```{r}
+```{r eval=FALSE}
 
 penguins_table_gt %>%
   cols_align(align = "center",
