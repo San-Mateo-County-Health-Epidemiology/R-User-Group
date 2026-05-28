@@ -4,26 +4,6 @@ Eamonn Hartmann, Madelyn Sather, Sayema Badar, Beth Jump
 
 <script src="table-formatting-comparison_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="table-formatting-comparison_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="table-formatting-comparison_files/libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<link href="table-formatting-comparison_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/datatables-binding-0.33/datatables.js"></script>
-<script src="table-formatting-comparison_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<link href="table-formatting-comparison_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="table-formatting-comparison_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-<link href="table-formatting-comparison_files/libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
-<link href="table-formatting-comparison_files/libs/dt-ext-rowgroup-1.13.6/css/rowGroup.dataTables.min.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/dt-ext-rowgroup-1.13.6/js/dataTables.rowGroup.min.js"></script>
-<script src="table-formatting-comparison_files/libs/jszip-1.13.6/jszip.min.js"></script>
-<script src="table-formatting-comparison_files/libs/pdfmake-1.13.6/pdfmake.js"></script>
-<script src="table-formatting-comparison_files/libs/pdfmake-1.13.6/vfs_fonts.js"></script>
-<link href="table-formatting-comparison_files/libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
-<script src="table-formatting-comparison_files/libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
-<script src="table-formatting-comparison_files/libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
-<script src="table-formatting-comparison_files/libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
-<script src="table-formatting-comparison_files/libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
 
 ## Background
 
@@ -544,7 +524,10 @@ for an example!
 ## `DT`
 
 The `DT` package creates interactive tables that the end user can
-search, filter and sort.
+search, filter and sort. These don’t render in a GitHub-flavored
+markdown so I’ve just displayed the code below. If you want to test
+these out, you can render this on your local machine and you’ll be able
+to see the tables.
 
 ``` r
 library(DT)
@@ -580,15 +563,13 @@ penguins_dt %>%
       "}"))) %>%
   formatStyle(columns = 'island', fontSize = '20%') %>%
   formatStyle(columns = 'sex', fontWeight = 'bold') %>%
-  formatStyle(columns = 'species', fontStyle = 'italic')
+  formatStyle(columns = 'species', fontStyle = 'italic') %>%
+  kbl(escape = FALSE) %>%
+  kable_paper() %>%
+  save_kable(file = "table1.html", self_contained = F)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-01e8acfc8e8896e0ce8d" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-01e8acfc8e8896e0ce8d">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>species<\/th>\n      <th>island<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"initComplete":"function(settings, json) {\n$('body').css({'font-family': 'Calibri'});\n}","columnDefs":[{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"species","targets":1},{"name":"island","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'20%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-weight':'bold'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-style':'italic'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
-
 ### Set column widths & heights
-
-*Note: the internet says this should work but it’s not. Come back!!*
 
 ``` r
 penguins_dt %>%
@@ -596,9 +577,6 @@ penguins_dt %>%
     autoWidth = FALSE,
     columnDefs = list(list(targets = "_all", width = '20px'))))
 ```
-
-<div class="datatables html-widget html-fill-item" id="htmlwidget-3b56f43d6e5d111dd412" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-3b56f43d6e5d111dd412">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>species<\/th>\n      <th>island<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":false,"columnDefs":[{"targets":"_all","width":"20px"},{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"species","targets":1},{"name":"island","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ### Change font color and background of a cell
 
@@ -610,9 +588,6 @@ penguins_dt %>%
   formatStyle('sex',
               backgroundColor = '#FFDF20')
 ```
-
-<div class="datatables html-widget html-fill-item" id="htmlwidget-a28517cda745853f6d23" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-a28517cda745853f6d23">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>species<\/th>\n      <th>island<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"species","targets":1},{"name":"island","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'color':'#2C92B8'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':'#FFDF20'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 
 ### Change color and thickness of lines separating cells
 
@@ -631,9 +606,6 @@ penguins_dt %>%
   datatable(class = 'cell-border compact stripe')
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-d7cd0b7f0c51817def48" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-d7cd0b7f0c51817def48">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"cell-border compact stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>species<\/th>\n      <th>island<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"species","targets":1},{"name":"island","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-
 ### Format the header of the table
 
 Here is how to change the text color and background and make the font
@@ -648,9 +620,6 @@ penguins_dt %>%
     "}")
 ))
 ```
-
-<div class="datatables html-widget html-fill-item" id="htmlwidget-f5c824d265a02f5b3eaa" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-f5c824d265a02f5b3eaa">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>species<\/th>\n      <th>island<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'background-color': '#000', 'color': '#ffce00', 'font-style': 'bold'});\n}","columnDefs":[{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"species","targets":1},{"name":"island","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.initComplete"],"jsHooks":[]}</script>
 
 Here is how to make a totally custom header (taken from
 [here](https://rstudio.github.io/DT/)).
@@ -678,9 +647,6 @@ penguins_dt %>%
   datatable(container = sketch, rownames = F)
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-eab7454aea6769532e57" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-eab7454aea6769532e57">{"x":{"filter":"none","vertical":false,"class":"display","data":[["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th rowspan=\"2\">Island<\/th>\n      <th colspan=\"2\">Species &amp; sex<\/th>\n      <th colspan=\"3\">Mean measurements<\/th>\n    <\/tr>\n    <tr>\n      <th>species<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,4,5]},{"name":"island","targets":0},{"name":"species","targets":1},{"name":"sex","targets":2},{"name":"mean_bill_len","targets":3},{"name":"mean_flip_len","targets":4},{"name":"mean_body_mass","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-
 ### Align contents within cell
 
 Here we’re centering all (`_all`) headers, left aligning text columns
@@ -693,9 +659,6 @@ penguins_dt %>%
     list(targets = 1:3, className = 'dt-left'),
     list(targets = 4:6, className = 'dt-right'))))
 ```
-
-<div class="datatables html-widget html-fill-item" id="htmlwidget-62fc3509a20ebb52d56c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-62fc3509a20ebb52d56c">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>island<\/th>\n      <th>species<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":"_all","className":"dt-head-center"},{"targets":[1,2,3],"className":"dt-left"},{"targets":[4,5,6],"className":"dt-right"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"island","targets":1},{"name":"species","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 ### Merge cells horizontally
 
@@ -716,9 +679,6 @@ penguins_dt %>%
                           columnDefs = list(list(targets = 1, visible = FALSE))))
 ```
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-4047e7c80d45e346ea99" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-4047e7c80d45e346ea99">{"x":{"filter":"none","vertical":false,"extensions":["RowGroup"],"data":[["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>island<\/th>\n      <th>species<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"rowGroup":{"dataSrc":1},"columnDefs":[{"targets":1,"visible":false},{"className":"dt-right","targets":[3,4,5]},{"name":"island","targets":0},{"name":"species","targets":1},{"name":"sex","targets":2},{"name":"mean_bill_len","targets":3},{"name":"mean_flip_len","targets":4},{"name":"mean_body_mass","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-
 ### Merge cells horizontally
 
 This [stack
@@ -737,6 +697,3 @@ penguins_dt %>%
             options = list(dom='Bfrtip',
                            buttons=c('copy', 'csv', 'excel', 'print', 'pdf')))
 ```
-
-<div class="datatables html-widget html-fill-item" id="htmlwidget-5f5e62c4712513c268d5" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5f5e62c4712513c268d5">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"data":[["1","2","3","4","5","6"],["Biscoe","Biscoe","Dream","Dream","Torgersen","Torgersen"],["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"],["female","male","female","male","female","male"],[37.4,40.6,36.9,40.1,37.6,40.6],[187.2,190.4,187.9,191.9,188.3,194.9],[3369.3,4050,3344.4,4045.5,3395.8,4034.8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>island<\/th>\n      <th>species<\/th>\n      <th>sex<\/th>\n      <th>mean_bill_len<\/th>\n      <th>mean_flip_len<\/th>\n      <th>mean_body_mass<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","buttons":["copy","csv","excel","print","pdf"],"columnDefs":[{"className":"dt-right","targets":[4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"island","targets":1},{"name":"species","targets":2},{"name":"sex","targets":3},{"name":"mean_bill_len","targets":4},{"name":"mean_flip_len","targets":5},{"name":"mean_body_mass","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
