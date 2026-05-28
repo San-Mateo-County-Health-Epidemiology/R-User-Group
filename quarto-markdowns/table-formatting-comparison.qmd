@@ -36,7 +36,7 @@ Generally, this is how when you should use these packages:
 | package | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
 | ------- | ----------- | ----------- | ---------------- | ----------- |
 | `flextable` |     x    |             |       x          |     x       |
-| `GT` | ... | ... | ... | ... |
+| `GT` |          |     x      |                  |             |
 | `kableExtra` | ... | ... | ... | ... |
 | `tinytable` | ... | ... | ... | ... |
 | `DT` | ... | ... | ... | ... |
@@ -179,7 +179,150 @@ penguins_table %>%
 
 ## `GT`
 
+The **gt** package is a great package to use for tables when your format is HTML. It offers a wide variety of styling options and is really great for when you want to dynamically style the table based on the table contents. There are many different ways to style tables with the **gt** package, so please see (https://gt.rstudio.com/) for a reference guide on different styling options.
+
 ```{r}
+
+library(gt)
+
+```
+
+### Clean data and create GT table
+
+```{r, eval = FALSE}
+
+penguins_table_gt <- penguins %>%
+  filter(!if_any(everything(), is.na)) %>%
+  select(species, island, sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
+  mutate(sex = str_to_title(sex)) %>%
+  head() %>%
+  arrange(sex) %>%
+  gt::gt()
+
+```
+
+### Change font type, size, bold, italics
+
+The `opt_table_font()` function can be used to change font type, size, bold, and italics for the entire table. 
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+  opt_table_font(font = "Arial",
+                 size = "12px",
+                 weight = "bold",
+                 style = "italic")
+
+```
+
+The `tab_style()` and `locations()` functions can be used to change font type, size, bold, and italics for specific rows/columns, the table body, or the table header.
+
+```{r, eval = FALSE}
+
+
+penguins_table_gt %>%
+  
+  # table headers
+  tab_style(style = cell_text(size = "16px", 
+                              weight = "bold"),
+            locations = cells_column_labels(columns = everything())) %>%
+  
+  # table body
+  tab_style(style = cell_text(size = "9px"),
+            locations = cells_body()) %>%
+  
+  # specific row
+  tab_style(style = cell_text(style = "italic"),
+            locations = cells_body(rows = 1)) %>%
+  
+  # specific column
+  tab_style(style = cell_text(weight = "bold"),
+            locations = cells_body(columns = bill_length_mm))
+
+
+```
+
+### Set cell width & height
+
+To set widths and heights for the entire table, use `tab_options()` function. To set widths for specific columns, use the `cols_width()` function.
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+  
+  # Set specific column widths
+  cols_width(bill_length_mm ~ px(125)) %>%
+  
+  # Set row height (affects all rows)
+  tab_options(data_row.padding = px(0),
+              table.width = px(1000))
+
+```
+
+### Set font color 
+
+The `tab_style()` and `locations()` functions can be used to change font or background color for specific rows/columns and cells.
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+    tab_style(style = cell_fill(color = "orange"),
+              locations = cells_body(rows = bill_length_mm > 40)) %>%
+    
+  tab_style(style = cell_text(color = "red"),
+            locations = cells_body(columns = bill_length_mm)) %>%
+  
+  tab_style(style = cell_fill(color = "yellow"),
+            locations = cells_body(columns = bill_depth_mm,
+                                  rows = bill_depth_mm > 20))
+
+```
+
+### Set header labels
+
+Use the `cols_label` to change the column names.
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+  cols_label(species = "Species", 
+             island = "Island", 
+             bill_length_mm = "Bill length (mm)",
+             bill_depth_mm = "Bill depth (mm)", 
+             flipper_length_mm = "Flipper length (mm)",
+             body_mass_g = "Body mass (g)", 
+             sex = "Sex")
+
+```
+
+### Add row of labels to header and titles
+
+Use the `tab_header()` function to add table titles. Use the `tab_spanner()` function to create grouped column headers (spanners). 
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+  tab_header(title = md("**Penguins Table**"),
+             subtitle = "GT Table") %>%
+  tab_spanner(label = "Demographics",
+              columns = c("species", "island", "sex")) %>%
+  tab_spanner(label = "Body Measurements",
+              columns = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"))
+
+```
+
+### Align contents within cell
+
+Use the `cols_align()` function to align the contents within a cell.
+
+```{r, eval = FALSE}
+
+penguins_table_gt %>%
+  cols_align(align = "center",
+             columns = everything()) %>%
+  cols_align(align = "left",
+             columns = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"))
+
 
 ```
 
