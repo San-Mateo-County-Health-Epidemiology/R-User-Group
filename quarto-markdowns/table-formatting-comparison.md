@@ -11,7 +11,7 @@ There are many packages you can use to format a table in Quarto. This
 document goes over 5 of them:
 
 - [flextable](https://ardata-fr.github.io/flextable-book/)
-- [GT](https://gt.rstudio.com/)
+- [gt](https://gt.rstudio.com/)
 - [kable and
   kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
 - [tinytable](https://vincentarelbundock.github.io/tinytable/)
@@ -37,7 +37,7 @@ Generally, this is how when you should use these packages:
 | package      | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
 |--------------|-------------|-------------|------------------|-------------|
 | `flextable`  | x           |             | x                | x           |
-| `GT`         |             | x           |                  |             |
+| `gt`         |             | x           |                  |             |
 | `kableExtra` | …           | …           | …                | …           |
 | `tinytable`  | …           | …           | …                | …           |
 | `DT`         | …           | …           | …                | …           |
@@ -178,7 +178,7 @@ penguins_table %>%
 
 ![](table-formatting-comparison_files/figure-commonmark/unnamed-chunk-12-1.png)
 
-## `GT`
+## `gt`
 
 The **gt** package is a great package to use for tables when your format
 is HTML. It offers a wide variety of styling options and is really great
