@@ -178,7 +178,7 @@ penguins_table %>%
 
 ## `GT`
 
-The **gt** package is a great package to use for tables when your format is HTML. It offers a wide variety of styling otpions and is really great for when you want to dynamically style the table based on the table contents. There are many different ways to style tables with the **gt** package, so please see (https://gt.rstudio.com/) for a reference guide on different styling options.
+The **gt** package is a great package to use for tables when your format is HTML. It offers a wide variety of styling options and is really great for when you want to dynamically style the table based on the table contents. There are many different ways to style tables with the **gt** package, so please see (https://gt.rstudio.com/) for a reference guide on different styling options.
 
 ```{r}
 
