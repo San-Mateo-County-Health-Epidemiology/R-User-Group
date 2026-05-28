@@ -300,9 +300,10 @@ penguins_kable %>%
 
 ## `DT`
 
-The `DT` package creates interactive tables that the end user can search, filter and sort. 
+The `DT` package creates interactive tables that the end user can search, filter and sort. These don't render in a GitHub-flavored markdown so I've just displayed the code below. If you want to test these out, you can render this on your local machine and you'll be able to see the tables. 
 
 ```{r}
+#| eval: false
 library(DT)
 
 penguins_dt <- penguins %>%
@@ -324,6 +325,8 @@ You can change font size, weight and italics using the `formatStyle()` function.
 You can try to do any of these things with JavaScript notation. See [here](https://stackoverflow.com/questions/44101055/changing-font-size-in-r-datatables-dt) for how to change font size using Javascript.
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(options = list(
     initComplete = JS(
@@ -332,14 +335,18 @@ penguins_dt %>%
       "}"))) %>%
   formatStyle(columns = 'island', fontSize = '20%') %>%
   formatStyle(columns = 'sex', fontWeight = 'bold') %>%
-  formatStyle(columns = 'species', fontStyle = 'italic')
+  formatStyle(columns = 'species', fontStyle = 'italic') %>%
+  kbl(escape = FALSE) %>%
+  kable_paper() %>%
+  save_kable(file = "table1.html", self_contained = F)
+
 ```
 
 ### Set column widths & heights
 
-*Note: the internet says this should work but it's not. Come back!!*
-
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(options = list(
     autoWidth = FALSE,
@@ -349,6 +356,8 @@ penguins_dt %>%
 ### Change font color and background of a cell
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable() %>%
   formatStyle('species',  
@@ -365,6 +374,8 @@ I couldn't find an easy way to edit the color and thickness of lines separating 
 Here is a [guide](https://datatables.net/manual/styling/classes) to the options available for styling a DT table. Just list all of the options you want to enable in the `class` argument. Options should be separated by a space, not a comma. In the example below our table has cell borders, is compact and striped. 
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(class = 'cell-border compact stripe')
 ```
@@ -374,6 +385,8 @@ penguins_dt %>%
 Here is how to change the text color and background and make the font bold using JavaScript notation. 
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(options = list(
   initComplete = JS(
@@ -388,6 +401,8 @@ penguins_dt %>%
 Here is how to make a totally custom header (taken from [here](https://rstudio.github.io/DT/)).
 
 ```{r}
+#| eval: false
+
 penguins_dt <- penguins_dt %>%
   select(island, everything())
 
@@ -416,6 +431,8 @@ penguins_dt %>%
 Here we're centering all (`_all`) headers, left aligning text columns and right aligning numerical columns. 
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(options = list(columnDefs = list(
     list(targets = "_all", className = "dt-head-center"), # Center header text
@@ -430,6 +447,8 @@ Here's how to use values from a column to group output by value. Note: the group
 I haven't figured out how to change the column alignment of the grouped variable. 
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(rownames = FALSE, 
            extensions = 'RowGroup', 
@@ -447,6 +466,8 @@ This [stack overflow](https://stackoverflow.com/questions/39484118/shiny-merge-c
 If you include a `DT` table in a Quarto doc or R Shiny dashboard, you can allow end users to download the data right from your doc! [Source](https://www.r-bloggers.com/2021/05/datatable-editor-dt-package-in-r/).
 
 ```{r}
+#| eval: false
+
 penguins_dt %>%
   datatable(extensions = 'Buttons',
             options = list(dom='Bfrtip',
