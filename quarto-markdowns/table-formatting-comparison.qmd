@@ -8,7 +8,7 @@ execute:
   warning: false
   message: false
 ---
-  
+
 ## Background
 
 There are many packages you can use to format a table in Quarto. This document goes over 5 of them:
@@ -16,31 +16,30 @@ There are many packages you can use to format a table in Quarto. This document g
 - [flextable](https://ardata-fr.github.io/flextable-book/)
 - [gt](https://gt.rstudio.com/)
 - [kable and kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
-- [tinytable](https://vincentarelbundock.github.io/tinytable/) 
+- [tinytable](https://vincentarelbundock.github.io/tinytable/)
 - [DT](https://rstudio.github.io/DT/)
 
-In each section below, a different package is used to format the `palmerpenguins::penguins` data set. The code will go over how to: 
+In each section below, a different package is used to format the `palmerpenguins::penguins` data set. The code will go over how to:
 
-  - change the font type, font size and whether the font is regular, **bold** or *italic*
-  - set column widths and heights
-  - change the font color and the background of the cell
-  - change the color and thickness of lines separating cells
-  - format the header of the table
-  - align text in a column (text should always be left aligned, numbers should always be right aligned)
-  - merge cells vertically and horizontally. 
+- change the font type, font size and whether the font is regular, **bold** or *italic*
+- set column widths and heights
+- change the font color and the background of the cell
+- change the color and thickness of lines separating cells
+- format the header of the table
+- align text in a column (text should always be left aligned, numbers should always be right aligned)
+- merge cells vertically and horizontally.
 
 ### Compatible formats
 
 Generally, this is how when you should use these packages:
 
-| package | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
-| ------- | ----------- | ----------- | ---------------- | ----------- |
-| `flextable` |     x    |             |       x          |     x       |
-| `gt` |          |     x      |                  |             |
-| `kableExtra` | ... | ... | ... | ... |
-| `tinytable` | ... | ... | ... | ... |
-| `DT` | ... | ... | ... | ... |
-
+| package      | save as PDF | HTML Quarto | PDF/Typst Quarto | Word Quarto |
+|--------------|-------------|-------------|------------------|-------------|
+| `flextable`  | x           |             | x                | x           |
+| `gt`         |             | x           |                  |             |
+| `kableExtra` | ...         | ...         | ...              | ...         |
+| `tinytable`  | x           | x           | x                | x           |
+| `DT`         | ...         | ...         | ...              | ...         |
 
 ```{r}
 
@@ -75,7 +74,7 @@ penguins_table <- penguins %>%
 
 ### Change font type, size, bold, italics
 
-For each of the following functions, use `i = ` to change the font parameters of a specific row and use `j = ` to change the font parameters of a specific column.
+For each of the following functions, use `i =` to change the font parameters of a specific row and use `j =` to change the font parameters of a specific column.
 
 ```{r}
 
@@ -86,10 +85,10 @@ penguins_table %>%
   italic(italic = TRUE, part = "header") 
 
 ```
-  
+
 ### Set cell width & height
 
-For `width()`, use `j = ` to adjust the width of a specific column. For `height()`, use `i = ` to adjust the height of a specific row. 
+For `width()`, use `j =` to adjust the width of a specific column. For `height()`, use `i =` to adjust the height of a specific row.
 
 ```{r}
   
@@ -99,7 +98,7 @@ penguins_table %>%
 
 ```
 
-### Set font color 
+### Set font color
 
 The `officer` package is required to change the color of the font and background of cells and the thickness of the lines separating the cells.
 
@@ -145,7 +144,7 @@ penguins_table %>%
   align(j = c(4:7), align = "right")
 
 ```
-  
+
 ### Merge cells vertically
 
 ```{r}
@@ -203,7 +202,7 @@ penguins_table_gt <- penguins %>%
 
 ### Change font type, size, bold, italics
 
-The `opt_table_font()` function can be used to change font type, size, bold, and italics for the entire table. 
+The `opt_table_font()` function can be used to change font type, size, bold, and italics for the entire table.
 
 ```{r, eval = FALSE}
 
@@ -259,7 +258,7 @@ penguins_table_gt %>%
 
 ```
 
-### Set font color 
+### Set font color
 
 The `tab_style()` and `locations()` functions can be used to change font or background color for specific rows/columns and cells.
 
@@ -297,7 +296,7 @@ penguins_table_gt %>%
 
 ### Add row of labels to header and titles
 
-Use the `tab_header()` function to add table titles. Use the `tab_spanner()` function to create grouped column headers (spanners). 
+Use the `tab_header()` function to add table titles. Use the `tab_spanner()` function to create grouped column headers (spanners).
 
 ```{r, eval = FALSE}
 
@@ -356,10 +355,10 @@ penguins_kable %>%
   row_spec(1:3, bold = TRUE, font_size = 10) %>%
   column_spec(4:6, italic = TRUE)
 ```
-  
+
 ### Set column widths & heights
 
-You can easily set column widths with the `width` argument. Making the columns taller is a bit less straightforward but using the `extra_css = "padding: 10px"` works. You can change the "10px" to however many pixels or inches you want. 
+You can easily set column widths with the `width` argument. Making the columns taller is a bit less straightforward but using the `extra_css = "padding: 10px"` works. You can change the "10px" to however many pixels or inches you want.
 
 ```{r}
 penguins_kable %>%
@@ -371,7 +370,7 @@ penguins_kable %>%
 
 ### Change font color and background of a cell
 
-`row_spec()` and `column_spec()` allow you to color specific rows and columns by position. 
+`row_spec()` and `column_spec()` allow you to color specific rows and columns by position.
 
 ```{r}
 penguins_kable %>%
@@ -382,18 +381,18 @@ penguins_kable %>%
 
 ### Change color and thickness of lines separating cells
 
-The easiest way to do this is by using the different themes (`kable_minimal`, `kable_paper`, etc) that are built into the `kableExtra` package. If you want to change the lines on a specific cell, you can try playing around with LaTeX as proposed [here](https://stackoverflow.com/questions/77647118/how-to-add-horizontal-lines-in-kable-and-the-bottom-line-being-thicker-and-orang). 
+The easiest way to do this is by using the different themes (`kable_minimal`, `kable_paper`, etc) that are built into the `kableExtra` package. If you want to change the lines on a specific cell, you can try playing around with LaTeX as proposed [here](https://stackoverflow.com/questions/77647118/how-to-add-horizontal-lines-in-kable-and-the-bottom-line-being-thicker-and-orang).
 
 ### Format the header of a the table
 
-In `kableExtra` you can format the header with the `row_spec()` function by referring to the top row as 0. 
+In `kableExtra` you can format the header with the `row_spec()` function by referring to the top row as 0.
 
 ```{r}
 penguins_kable %>%
   row_spec(0, font_size = 18, bold = T, italic = T)
 ```
 
-Here's how to add an additional header above the table. 
+Here's how to add an additional header above the table.
 
 ```{r}
 penguins_kable %>%
@@ -402,13 +401,13 @@ penguins_kable %>%
 
 ### Align contents within cell
 
-By default, `kableExtra` aligns text to the left and numbers to the right, which is excellent!! If you want to align all of the cells in the table, you can use `align = "c"` (or `"l"` or `"r"`) in the `kbl()` function. 
+By default, `kableExtra` aligns text to the left and numbers to the right, which is excellent!! If you want to align all of the cells in the table, you can use `align = "c"` (or `"l"` or `"r"`) in the `kbl()` function.
 
 ```{r}
 penguins[1:4, 1:4] %>%
   kable(align = 'rccl')
 ```
-  
+
 ### Merge cells vertically
 
 The `collapse_rows()` function makes this super easy!
@@ -422,7 +421,7 @@ penguins_kable %>%
 
 ### Merge cells horizontally
 
-It doesn't seem like you can merge columns in `kableExtra` but you can group sets of rows with `pack_rows()` which might come in handy. 
+It doesn't seem like you can merge columns in `kableExtra` but you can group sets of rows with `pack_rows()` which might come in handy.
 
 ```{r}
 penguins_kable %>%
@@ -431,19 +430,128 @@ penguins_kable %>%
                       "Group 3" = 2),
             label_row_css = "background-color: #666; color: #fff;")
 ```
-  
+
 ### Bonus: adding plots into the table
 
-`kableExtra` makes it pretty easy to add tiny plots to your table! See [here](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html#Insert_Images_into_Columns) (you need to scroll down a bit to the section just before `Row Spec`) for an example! 
+`kableExtra` makes it pretty easy to add tiny plots to your table! See [here](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html#Insert_Images_into_Columns) (you need to scroll down a bit to the section just before `Row Spec`) for an example!
 
 ## `tinytable`
 
+`tinytable` can be considered a lightweight, highly customizable and rather minimalist package. It involves a quick installation as it does not require any dependencies (i.e. does not depend on, and therefore does not load, other packages for its functionality). It is compatible with HTML, LaTeX, Typst, PDF, and Word. Lastly, it just requires a handful of functions for its capabilities.
+
+### Clean data and create table with `tinytable`
+
 ```{r}
+library(tinytable)
+
+penguins_tinytable <- penguins %>%
+  filter(!if_any(everything(), is.na)) %>%
+  select(island, species, sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
+  mutate(sex = str_to_title(sex)) %>%
+  head() %>%
+  arrange(sex) %>% 
+  tt()
+```
+
+### Change font type, size, bold, italics
+
+Several formatting options can be done with the `style_tt()` function. Similar to other table packages, use `i =` when referring to rows and `j =` when referring to columns.
+
+```{r}
+penguins_tinytable %>%
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  style_tt(fontname = "Calibri", fontsize = 11) %>% 
+  style_tt(i = 0, bold = TRUE, italic = TRUE)  # affects only header
+```
+
+### Set column widths & heights
+
+`tinytable` handles widths and heights by default. However, if you want to set these parameters, you can use `tt()`. For width, the parameter should be expressed as a value between 0 and 1 (i.e. proportion of the table width). To render in HTML (e.g. as a Quarto document), you can use `style_tt()` within the Bootstrap framework. Mre details in this [guide](https://vincentarelbundock.github.io/tinytable/vignettes/tinytable_tutorial.pdf).
+
+### Change font color and background of a cell
+
+color and background arguments within the `style_tt()` function can be used to set the font color and background color for cells.
+
+```{r}
+penguins_tinytable %>%
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>% 
+  style_tt(i = 0, j = 1:7, color = "#000080") %>% 
+  style_tt(i = 0, j = 1:7, background = "lightgray") %>% 
+  style_tt(i = 4, j = 5, background = "magenta") 
+```
+
+### Change color and thickness of lines separating cells
+
+line, line_color, and line_width arguments within the `style_tt()` function can be used to set the color and thickness of the cell borders. For syntax: "t" = top, "b" = bottom, "l" = left, and "r" = right 
+
+```{r}
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  style_tt(i = 0, line = "tblr", line_color = "midnightblue", line_width = 0.3) %>% 
+  style_tt(i = 1:6, line = "blr", line_color = "midnightblue", line_width = 0.1)
+```
+
+### Format the header of the table
+
+Formatting the header can be done with the `style_tt()` function, using `i = 0` argument. 
+
+```{r}
+#| eval: false
+penguins_tinytable %>% 
+  style_tt(i = 0, color = "white", background = "black")
+```
+
+To group header labels under an additional header, use the `group_tt()` function
+
+```{r}
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  group_tt(j = list("Species & Sex" = 2:3, "Measurements" = 4:7))
+```
+
+### Align contents within cell
+
+For syntax: "l" = left, "r" = right, and "c" = center to align text using the `style_tt()` function.
+
+```{r}
+#| eval: false
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r")
+```
+
+### Merge cells vertically
+
+To merge cells vertically, use the rowspan argument within the `style_tt()` function. For vertical alignment syntax: "t" = top, "m" = middle, and "b" = bottom. 
+
+```{r}
+penguins_tinytable %>% 
+  style_tt(i = 1, j = 1,
+           rowspan = 6,
+           alignv = "t") %>% #alignv controls vertical alignment
+  style_tt(i = 1, j = 2,
+           rowspan = 6,
+           alignv = "t")
+```
+
+### Merge cells horizontally
+
+To merge cells horizontally, use the colspan argument within the `style_tt()` function.
+
+```{r}
+penguins_tinytable %>% 
+  style_tt(i = 3, j = 4,
+           colspan = 3,
+           align = "c") #align controls horizontal alignment
 ```
 
 ## `DT`
 
-The `DT` package creates interactive tables that the end user can search, filter and sort. These don't render in a GitHub-flavored markdown so I've just displayed the code below. If you want to test these out, you can render this on your local machine and you'll be able to see the tables. 
+The `DT` package creates interactive tables that the end user can search, filter and sort. These don't render in a GitHub-flavored markdown so I've just displayed the code below. If you want to test these out, you can render this on your local machine and you'll be able to see the tables.
 
 ```{r}
 #| eval: false
@@ -463,7 +571,7 @@ penguins_dt <- penguins %>%
 
 ### Change font type, size, bold, italics
 
-You can change font size, weight and italics using the `formatStyle()` function. You need to use JavaScript notation to change the font (see `list(initComplete())`). 
+You can change font size, weight and italics using the `formatStyle()` function. You need to use JavaScript notation to change the font (see `list(initComplete())`).
 
 You can try to do any of these things with JavaScript notation. See [here](https://stackoverflow.com/questions/44101055/changing-font-size-in-r-datatables-dt) for how to change font size using Javascript.
 
@@ -512,9 +620,9 @@ penguins_dt %>%
 
 ### Change color and thickness of lines separating cells
 
-I couldn't find an easy way to edit the color and thickness of lines separating cells. Instead I've included information on how to generally style a table. 
+I couldn't find an easy way to edit the color and thickness of lines separating cells. Instead I've included information on how to generally style a table.
 
-Here is a [guide](https://datatables.net/manual/styling/classes) to the options available for styling a DT table. Just list all of the options you want to enable in the `class` argument. Options should be separated by a space, not a comma. In the example below our table has cell borders, is compact and striped. 
+Here is a [guide](https://datatables.net/manual/styling/classes) to the options available for styling a DT table. Just list all of the options you want to enable in the `class` argument. Options should be separated by a space, not a comma. In the example below our table has cell borders, is compact and striped.
 
 ```{r}
 #| eval: false
@@ -525,7 +633,7 @@ penguins_dt %>%
 
 ### Format the header of the table
 
-Here is how to change the text color and background and make the font bold using JavaScript notation. 
+Here is how to change the text color and background and make the font bold using JavaScript notation.
 
 ```{r}
 #| eval: false
@@ -571,7 +679,7 @@ penguins_dt %>%
 
 ### Align contents within cell
 
-Here we're centering all (`_all`) headers, left aligning text columns and right aligning numerical columns. 
+Here we're centering all (`_all`) headers, left aligning text columns and right aligning numerical columns.
 
 ```{r}
 #| eval: false
@@ -582,12 +690,12 @@ penguins_dt %>%
     list(targets = 1:3, className = 'dt-left'),
     list(targets = 4:6, className = 'dt-right'))))
 ```
-  
+
 ### Merge cells horizontally
 
-Here's how to use values from a column to group output by value. Note: the grouping column is specified by the number here, `list(dataSrc = c(1))`. Unlike normal R things, the indexing here starts at 0, not 1. So if you wanted to group by the first column you'd use a 0, the second column you'd use a 1, etc. 
+Here's how to use values from a column to group output by value. Note: the grouping column is specified by the number here, `list(dataSrc = c(1))`. Unlike normal R things, the indexing here starts at 0, not 1. So if you wanted to group by the first column you'd use a 0, the second column you'd use a 1, etc.
 
-I haven't figured out how to change the column alignment of the grouped variable. 
+I haven't figured out how to change the column alignment of the grouped variable.
 
 ```{r}
 #| eval: false
@@ -602,7 +710,7 @@ penguins_dt %>%
 
 ### Merge cells horizontally
 
-This [stack overflow](https://stackoverflow.com/questions/39484118/shiny-merge-cells-in-dtdatatable) post goes over how to do this in Shiny but I don't fully get it. 
+This [stack overflow](https://stackoverflow.com/questions/39484118/shiny-merge-cells-in-dtdatatable) post goes over how to do this in Shiny but I don't fully get it.
 
 ### Bonus: exporting `datatable` data
 

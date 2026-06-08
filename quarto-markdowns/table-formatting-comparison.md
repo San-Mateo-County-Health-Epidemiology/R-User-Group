@@ -39,7 +39,7 @@ Generally, this is how when you should use these packages:
 | `flextable`  | x           |             | x                | x           |
 | `gt`         |             | x           |                  |             |
 | `kableExtra` | …           | …           | …                | …           |
-| `tinytable`  | …           | …           | …                | …           |
+| `tinytable`  | x           | x           | x                | x           |
 | `DT`         | …           | …           | …                | …           |
 
 ``` r
@@ -608,18 +608,102 @@ penguins_kable %>%
   collapse_rows(columns = 1:2, valign = "top")
 ```
 
-| island    | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|:----------|:----------|:-------|--------------:|--------------:|---------------:|
-| Biscoe    | Adelie    | female |      37.35909 |      187.1818 |       3369.318 |
-|           |           | male   |      40.59091 |      190.4091 |       4050.000 |
-|           | Gentoo    | female |      45.56379 |      212.7069 |       4679.741 |
-|           |           | male   |      49.47377 |      221.5410 |       5484.836 |
-| Dream     | Adelie    | female |      36.91111 |      187.8519 |       3344.444 |
-|           |           | male   |      40.07143 |      191.9286 |       4045.536 |
-|           | Chinstrap | female |      46.57353 |      191.7353 |       3527.206 |
-|           |           | male   |      51.09412 |      199.9118 |       3938.971 |
-| Torgersen | Adelie    | female |      37.55417 |      188.2917 |       3395.833 |
-|           |           | male   |      40.58696 |      194.9130 |       4034.783 |
+<table class="lightable-paper" data-quarto-postprocess="true"
+style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align: left;"
+data-quarto-table-cell-role="th">island</th>
+<th style="text-align: left;"
+data-quarto-table-cell-role="th">species</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_bill_len</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_flip_len</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_body_mass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="4"
+style="text-align: left; font-weight: bold; vertical-align: top !important;">Biscoe</td>
+<td rowspan="2"
+style="text-align: left; vertical-align: top !important;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">37.35909</td>
+<td style="text-align: right;">187.1818</td>
+<td style="text-align: right;">3369.318</td>
+</tr>
+<tr>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.59091</td>
+<td style="text-align: right;">190.4091</td>
+<td style="text-align: right;">4050.000</td>
+</tr>
+<tr>
+<td rowspan="2"
+style="text-align: left; vertical-align: top !important;">Gentoo</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">45.56379</td>
+<td style="text-align: right;">212.7069</td>
+<td style="text-align: right;">4679.741</td>
+</tr>
+<tr>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">49.47377</td>
+<td style="text-align: right;">221.5410</td>
+<td style="text-align: right;">5484.836</td>
+</tr>
+<tr>
+<td rowspan="4"
+style="text-align: left; font-weight: bold; vertical-align: top !important;">Dream</td>
+<td rowspan="2"
+style="text-align: left; vertical-align: top !important;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">36.91111</td>
+<td style="text-align: right;">187.8519</td>
+<td style="text-align: right;">3344.444</td>
+</tr>
+<tr>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.07143</td>
+<td style="text-align: right;">191.9286</td>
+<td style="text-align: right;">4045.536</td>
+</tr>
+<tr>
+<td rowspan="2"
+style="text-align: left; vertical-align: top !important;">Chinstrap</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">46.57353</td>
+<td style="text-align: right;">191.7353</td>
+<td style="text-align: right;">3527.206</td>
+</tr>
+<tr>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">51.09412</td>
+<td style="text-align: right;">199.9118</td>
+<td style="text-align: right;">3938.971</td>
+</tr>
+<tr>
+<td rowspan="2"
+style="text-align: left; font-weight: bold; vertical-align: top !important;">Torgersen</td>
+<td rowspan="2"
+style="text-align: left; vertical-align: top !important;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">37.55417</td>
+<td style="text-align: right;">188.2917</td>
+<td style="text-align: right;">3395.833</td>
+</tr>
+<tr>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.58696</td>
+<td style="text-align: right;">194.9130</td>
+<td style="text-align: right;">4034.783</td>
+</tr>
+</tbody>
+</table>
 
 ### Merge cells horizontally
 
@@ -634,21 +718,130 @@ penguins_kable %>%
             label_row_css = "background-color: #666; color: #fff;")
 ```
 
-| island      | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|-------------|-----------|--------|---------------|---------------|----------------|
-| **Group 1** |           |        |               |               |                |
-| Biscoe      | Adelie    | female | 37.35909      | 187.1818      | 3369.318       |
-| Biscoe      | Adelie    | male   | 40.59091      | 190.4091      | 4050.000       |
-| Biscoe      | Gentoo    | female | 45.56379      | 212.7069      | 4679.741       |
-| Biscoe      | Gentoo    | male   | 49.47377      | 221.5410      | 5484.836       |
-| **Group 2** |           |        |               |               |                |
-| Dream       | Adelie    | female | 36.91111      | 187.8519      | 3344.444       |
-| Dream       | Adelie    | male   | 40.07143      | 191.9286      | 4045.536       |
-| Dream       | Chinstrap | female | 46.57353      | 191.7353      | 3527.206       |
-| Dream       | Chinstrap | male   | 51.09412      | 199.9118      | 3938.971       |
-| **Group 3** |           |        |               |               |                |
-| Torgersen   | Adelie    | female | 37.55417      | 188.2917      | 3395.833       |
-| Torgersen   | Adelie    | male   | 40.58696      | 194.9130      | 4034.783       |
+<table data-quarto-postprocess="true">
+<thead>
+<tr>
+<th style="text-align: left;"
+data-quarto-table-cell-role="th">island</th>
+<th style="text-align: left;"
+data-quarto-table-cell-role="th">species</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_bill_len</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_flip_len</th>
+<th style="text-align: right;"
+data-quarto-table-cell-role="th">mean_body_mass</th>
+</tr>
+</thead>
+<tbody>
+<tr data-grouplength="4">
+<td colspan="6"
+style="background-color: #666; color: #fff"><strong>Group
+1</strong></td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Biscoe</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">37.35909</td>
+<td style="text-align: right;">187.1818</td>
+<td style="text-align: right;">3369.318</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Biscoe</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.59091</td>
+<td style="text-align: right;">190.4091</td>
+<td style="text-align: right;">4050.000</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Biscoe</td>
+<td style="text-align: left;">Gentoo</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">45.56379</td>
+<td style="text-align: right;">212.7069</td>
+<td style="text-align: right;">4679.741</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Biscoe</td>
+<td style="text-align: left;">Gentoo</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">49.47377</td>
+<td style="text-align: right;">221.5410</td>
+<td style="text-align: right;">5484.836</td>
+</tr>
+<tr data-grouplength="4">
+<td colspan="6"
+style="background-color: #666; color: #fff"><strong>Group
+2</strong></td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Dream</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">36.91111</td>
+<td style="text-align: right;">187.8519</td>
+<td style="text-align: right;">3344.444</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Dream</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.07143</td>
+<td style="text-align: right;">191.9286</td>
+<td style="text-align: right;">4045.536</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Dream</td>
+<td style="text-align: left;">Chinstrap</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">46.57353</td>
+<td style="text-align: right;">191.7353</td>
+<td style="text-align: right;">3527.206</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Dream</td>
+<td style="text-align: left;">Chinstrap</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">51.09412</td>
+<td style="text-align: right;">199.9118</td>
+<td style="text-align: right;">3938.971</td>
+</tr>
+<tr data-grouplength="2">
+<td colspan="6"
+style="background-color: #666; color: #fff"><strong>Group
+3</strong></td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Torgersen</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">37.55417</td>
+<td style="text-align: right;">188.2917</td>
+<td style="text-align: right;">3395.833</td>
+</tr>
+<tr>
+<td style="text-align: left; padding-left: 2em;"
+data-indentlevel="1">Torgersen</td>
+<td style="text-align: left;">Adelie</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">40.58696</td>
+<td style="text-align: right;">194.9130</td>
+<td style="text-align: right;">4034.783</td>
+</tr>
+</tbody>
+</table>
 
 ### Bonus: adding plots into the table
 
@@ -658,6 +851,334 @@ penguins_kable %>%
 for an example!
 
 ## `tinytable`
+
+`tinytable` can be considered a lightweight, highly customizable and
+rather minimalist package. It involves a quick installation as it does
+not require any dependencies (i.e. does not depend on, and therefore
+does not load, other packages for its functionality). It is compatible
+with HTML, LaTeX, Typst, PDF, and Word. Lastly, it just requires a
+handful of functions for its capabilities.
+
+### Clean data and create table with `tinytable`
+
+``` r
+library(tinytable)
+
+penguins_tinytable <- penguins %>%
+  filter(!if_any(everything(), is.na)) %>%
+  select(island, species, sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
+  mutate(sex = str_to_title(sex)) %>%
+  head() %>%
+  arrange(sex) %>% 
+  tt()
+```
+
+### Change font type, size, bold, italics
+
+Several formatting options can be done with the `style_tt()` function.
+Similar to other table packages, use `i =` when referring to rows and
+`j =` when referring to columns.
+
+``` r
+penguins_tinytable %>%
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  style_tt(fontname = "Calibri", fontsize = 11) %>% 
+  style_tt(i = 0, bold = TRUE, italic = TRUE)  # affects only header
+```
+
+| ***island*** | ***species*** | ***sex*** | ***bill_length_mm*** | ***bill_depth_mm*** | ***flipper_length_mm*** | ***body_mass_g*** |
+|----|----|----|----|----|----|----|
+| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
+| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
+| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
+| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
+| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
+| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
+
+### Set column widths & heights
+
+`tinytable` handles widths and heights by default. However, if you want
+to set these parameters, you can use `tt()`. For width, the parameter
+should be expressed as a value between 0 and 1 (i.e. proportion of the
+table width). To render in HTML (e.g. as a Quarto document), you can use
+`style_tt()` within the Bootstrap framework. Mre details in this
+[guide](https://vincentarelbundock.github.io/tinytable/vignettes/tinytable_tutorial.pdf).
+
+### Change font color and background of a cell
+
+color and background arguments within the `style_tt()` function can be
+used to set the font color and background color for cells.
+
+``` r
+penguins_tinytable %>%
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>% 
+  style_tt(i = 0, j = 1:7, color = "#000080") %>% 
+  style_tt(i = 0, j = 1:7, background = "lightgray") %>% 
+  style_tt(i = 4, j = 5, background = "magenta") 
+```
+
+| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+|----|----|----|----|----|----|----|
+| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
+| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
+| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
+| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
+| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
+| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
+
+### Change color and thickness of lines separating cells
+
+line, line_color, and line_width arguments within the `style_tt()`
+function can be used to set the color and thickness of the cell borders.
+For syntax: “t” = top, “b” = bottom, “l” = left, and “r” = right
+
+``` r
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  style_tt(i = 0, line = "tblr", line_color = "midnightblue", line_width = 0.3) %>% 
+  style_tt(i = 1:6, line = "blr", line_color = "midnightblue", line_width = 0.1)
+```
+
+| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+|----|----|----|----|----|----|----|
+| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
+| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
+| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
+| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
+| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
+| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
+
+### Format the header of the table
+
+Formatting the header can be done with the `style_tt()` function, using
+`i = 0` argument.
+
+``` r
+penguins_tinytable %>% 
+  style_tt(i = 0, color = "white", background = "black")
+```
+
+To group header labels under an additional header, use the `group_tt()`
+function
+
+``` r
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r") %>%
+  group_tt(j = list("Species & Sex" = 2:3, "Measurements" = 4:7))
+```
+
+<table style="width:95%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 9%" />
+<col style="width: 8%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th colspan="2">Species &amp; Sex</th>
+<th colspan="4">Measurements</th>
+</tr>
+<tr>
+<th>island</th>
+<th>species</th>
+<th>sex</th>
+<th>bill_length_mm</th>
+<th>bill_depth_mm</th>
+<th>flipper_length_mm</th>
+<th>body_mass_g</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>39.5</td>
+<td>17.4</td>
+<td>186</td>
+<td>3800</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>40.3</td>
+<td>18.0</td>
+<td>195</td>
+<td>3250</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>36.7</td>
+<td>19.3</td>
+<td>193</td>
+<td>3450</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>38.9</td>
+<td>17.8</td>
+<td>181</td>
+<td>3625</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Male</td>
+<td>39.1</td>
+<td>18.7</td>
+<td>181</td>
+<td>3750</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Male</td>
+<td>39.3</td>
+<td>20.6</td>
+<td>190</td>
+<td>3650</td>
+</tr>
+</tbody>
+</table>
+
+### Align contents within cell
+
+For syntax: “l” = left, “r” = right, and “c” = center to align text
+using the `style_tt()` function.
+
+``` r
+penguins_tinytable %>% 
+  style_tt(j = 1:3, align = "l") %>%  
+  style_tt(j = 4:7, align = "r")
+```
+
+### Merge cells vertically
+
+To merge cells vertically, use the rowspan argument within the
+`style_tt()` function. For vertical alignment syntax: “t” = top, “m” =
+middle, and “b” = bottom.
+
+``` r
+penguins_tinytable %>% 
+  style_tt(i = 1, j = 1,
+           rowspan = 6,
+           alignv = "t") %>% #alignv controls vertical alignment
+  style_tt(i = 1, j = 2,
+           rowspan = 6,
+           alignv = "t")
+```
+
+| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+|----|----|----|----|----|----|----|
+| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
+|  |  | Female | 40.3 | 18.0 | 195 | 3250 |
+|  |  | Female | 36.7 | 19.3 | 193 | 3450 |
+|  |  | Female | 38.9 | 17.8 | 181 | 3625 |
+|  |  | Male | 39.1 | 18.7 | 181 | 3750 |
+|  |  | Male | 39.3 | 20.6 | 190 | 3650 |
+
+### Merge cells horizontally
+
+To merge cells horizontally, use the colspan argument within the
+`style_tt()` function.
+
+``` r
+penguins_tinytable %>% 
+  style_tt(i = 3, j = 4,
+           colspan = 3,
+           align = "c") #align controls horizontal alignment
+```
+
+<table style="width:95%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 9%" />
+<col style="width: 8%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>island</th>
+<th>species</th>
+<th>sex</th>
+<th>bill_length_mm</th>
+<th>bill_depth_mm</th>
+<th>flipper_length_mm</th>
+<th>body_mass_g</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>39.5</td>
+<td>17.4</td>
+<td>186</td>
+<td>3800</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>40.3</td>
+<td>18.0</td>
+<td>195</td>
+<td>3250</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td colspan="3">36.7</td>
+<td>3450</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Female</td>
+<td>38.9</td>
+<td>17.8</td>
+<td>181</td>
+<td>3625</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Male</td>
+<td>39.1</td>
+<td>18.7</td>
+<td>181</td>
+<td>3750</td>
+</tr>
+<tr>
+<td>Torgersen</td>
+<td>Adelie</td>
+<td>Male</td>
+<td>39.3</td>
+<td>20.6</td>
+<td>190</td>
+<td>3650</td>
+</tr>
+</tbody>
+</table>
 
 ## `DT`
 
