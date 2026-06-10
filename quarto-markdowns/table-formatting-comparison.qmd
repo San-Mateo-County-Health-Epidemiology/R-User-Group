@@ -537,6 +537,7 @@ penguins_tinytable %>%
 To merge cells vertically, use the rowspan argument within the `style_tt()` function. For vertical alignment syntax: "t" = top, "m" = middle, and "b" = bottom. 
 
 ```{r}
+#| eval: false
 penguins_tinytable %>% 
   style_tt(i = 1, j = 1,
            rowspan = 6,
@@ -551,6 +552,7 @@ penguins_tinytable %>%
 To merge cells horizontally, use the colspan argument within the `style_tt()` function.
 
 ```{r}
+#| eval: false
 penguins_tinytable %>% 
   style_tt(i = 3, j = 4,
            colspan = 3,
