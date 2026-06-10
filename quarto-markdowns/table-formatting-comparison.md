@@ -881,29 +881,30 @@ Similar to other table packages, use `i =` when referring to rows and
 
 ``` r
 penguins_tinytable %>%
-  style_tt(j = 1:3, align = "l") %>%  
-  style_tt(j = 4:7, align = "r") %>%
   style_tt(fontname = "Calibri", fontsize = 11) %>% 
   style_tt(i = 0, bold = TRUE, italic = TRUE)  # affects only header
 ```
-
-| ***island*** | ***species*** | ***sex*** | ***bill_length_mm*** | ***bill_depth_mm*** | ***flipper_length_mm*** | ***body_mass_g*** |
-|----|----|----|----|----|----|----|
-| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
-| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
-| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
-| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
-| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
-| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
 
 ### Set column widths & heights
 
 `tinytable` handles widths and heights by default. However, if you want
 to set these parameters, you can use `tt()`. For width, the parameter
 should be expressed as a value between 0 and 1 (i.e. proportion of the
-table width). To render in HTML (e.g. as a Quarto document), you can use
-`style_tt()` within the Bootstrap framework. Mre details in this
+table width). For height, the measurement is in em units. To render in
+HTML (e.g. as a Quarto document), you can use `style_tt()` within the
+Bootstrap framework. More details in this
 [guide](https://vincentarelbundock.github.io/tinytable/vignettes/tinytable_tutorial.pdf).
+
+``` r
+penguins_tinytable <- penguins %>%
+  filter(!if_any(everything(), is.na)) %>%
+  select(island, species, sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
+  mutate(sex = str_to_title(sex)) %>%
+  head() %>%
+  arrange(sex) %>% 
+  tt(width = c(0.1, 0.1, 0.1, 0.15, 0.15, 0.15, 0.15), # either vector length of 1 or x (# number of columns)
+     height = 2)
+```
 
 ### Change font color and background of a cell
 
@@ -912,44 +913,22 @@ used to set the font color and background color for cells.
 
 ``` r
 penguins_tinytable %>%
-  style_tt(j = 1:3, align = "l") %>%  
-  style_tt(j = 4:7, align = "r") %>% 
   style_tt(i = 0, j = 1:7, color = "#000080") %>% 
   style_tt(i = 0, j = 1:7, background = "lightgray") %>% 
   style_tt(i = 4, j = 5, background = "magenta") 
 ```
 
-| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
-|----|----|----|----|----|----|----|
-| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
-| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
-| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
-| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
-| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
-| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
-
 ### Change color and thickness of lines separating cells
 
 line, line_color, and line_width arguments within the `style_tt()`
 function can be used to set the color and thickness of the cell borders.
-For syntax: “t” = top, “b” = bottom, “l” = left, and “r” = right
+For syntax: “t” = top, “b” = bottom, “l” = left, and “r” = right.
 
 ``` r
 penguins_tinytable %>% 
-  style_tt(j = 1:3, align = "l") %>%  
-  style_tt(j = 4:7, align = "r") %>%
   style_tt(i = 0, line = "tblr", line_color = "midnightblue", line_width = 0.3) %>% 
   style_tt(i = 1:6, line = "blr", line_color = "midnightblue", line_width = 0.1)
 ```
-
-| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
-|----|----|----|----|----|----|----|
-| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
-| Torgersen | Adelie | Female | 40.3 | 18.0 | 195 | 3250 |
-| Torgersen | Adelie | Female | 36.7 | 19.3 | 193 | 3450 |
-| Torgersen | Adelie | Female | 38.9 | 17.8 | 181 | 3625 |
-| Torgersen | Adelie | Male | 39.1 | 18.7 | 181 | 3750 |
-| Torgersen | Adelie | Male | 39.3 | 20.6 | 190 | 3650 |
 
 ### Format the header of the table
 
