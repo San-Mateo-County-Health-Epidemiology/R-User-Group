@@ -1061,15 +1061,6 @@ penguins_tinytable %>%
            alignv = "t")
 ```
 
-| island | species | sex | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
-|----|----|----|----|----|----|----|
-| Torgersen | Adelie | Female | 39.5 | 17.4 | 186 | 3800 |
-|  |  | Female | 40.3 | 18.0 | 195 | 3250 |
-|  |  | Female | 36.7 | 19.3 | 193 | 3450 |
-|  |  | Female | 38.9 | 17.8 | 181 | 3625 |
-|  |  | Male | 39.1 | 18.7 | 181 | 3750 |
-|  |  | Male | 39.3 | 20.6 | 190 | 3650 |
-
 ### Merge cells horizontally
 
 To merge cells horizontally, use the colspan argument within the
@@ -1081,83 +1072,6 @@ penguins_tinytable %>%
            colspan = 3,
            align = "c") #align controls horizontal alignment
 ```
-
-<table style="width:95%;">
-<colgroup>
-<col style="width: 11%" />
-<col style="width: 9%" />
-<col style="width: 8%" />
-<col style="width: 16%" />
-<col style="width: 15%" />
-<col style="width: 19%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr>
-<th>island</th>
-<th>species</th>
-<th>sex</th>
-<th>bill_length_mm</th>
-<th>bill_depth_mm</th>
-<th>flipper_length_mm</th>
-<th>body_mass_g</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Female</td>
-<td>39.5</td>
-<td>17.4</td>
-<td>186</td>
-<td>3800</td>
-</tr>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Female</td>
-<td>40.3</td>
-<td>18.0</td>
-<td>195</td>
-<td>3250</td>
-</tr>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Female</td>
-<td colspan="3">36.7</td>
-<td>3450</td>
-</tr>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Female</td>
-<td>38.9</td>
-<td>17.8</td>
-<td>181</td>
-<td>3625</td>
-</tr>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Male</td>
-<td>39.1</td>
-<td>18.7</td>
-<td>181</td>
-<td>3750</td>
-</tr>
-<tr>
-<td>Torgersen</td>
-<td>Adelie</td>
-<td>Male</td>
-<td>39.3</td>
-<td>20.6</td>
-<td>190</td>
-<td>3650</td>
-</tr>
-</tbody>
-</table>
 
 ## `DT`
 
