@@ -56,8 +56,9 @@ isolate the effects of ambient temperature on incident stroke.
 Therefore, in this example we will set the variables as follows (this is
 a selected list):
 
-A (Exposure): Daily mean temperature Y (Outcome) : Incident stroke C
-(Covariates): Age, housing status
+- A (Exposure): Daily mean temperature
+- Y (Outcome) : Incident stroke
+- C (Covariates): Age, housing status
 
 ``` r
 # Daily mean temp -> Incident stroke as main exposure-outcome of interest
