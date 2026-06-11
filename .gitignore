@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 .positai
+
+data/raw/
+data/intermediate/
+data/prepared/
