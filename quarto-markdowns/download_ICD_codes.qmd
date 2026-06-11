@@ -9,7 +9,7 @@ execute:
 
 This tutorial uses the example of downloading ICD codes from the CDC website to show how to download txt and xml files from internet sources. This code has been made specific for these particular files, but you can adapt it for other websites and file types, or more recent updates of the data. 
 
-We will build some functions to streamline parts of the process, as well. 
+We will also build some functions to streamline parts of the process. 
 
 Note that this code uses the **here** package. More on that package can be found in this tutorial: https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/here_package.md,
 
@@ -20,7 +20,7 @@ This tutorial explains how to:
 3. Pull and clean txt files.
 4. Pull and clean XML files. 
 
-# 0. Set up directories
+## 0. Set up directories
 
 Load libraries. 
 
@@ -41,9 +41,9 @@ p_load(
 
 Set up folder structure - this can be adapted to your preference. 
 
-```{r}
-# This is adapted from Sebastian Rowland (https://github.com/s-rowland/DailyTemp-UTI). 
+This is adapted from Sebastian Rowland (https://github.com/s-rowland/DailyTemp-UTI). 
 
+```{r}
 # Set up folder structure
 project.folder <- paste0(print(here::here()), "/")
 data.folder <- paste0(project.folder, "data/")
@@ -67,7 +67,7 @@ lapply(folder.names, createFolders)
 rm(list = ls(pattern = "folder"))
 ```
 
-# 1. Download ICD codes from CDC for 2026 (update October 2025) - txt file
+## 1. Download ICD codes from CDC for 2026 (update October 2025) - txt file
 
 ### 1a. Functions to pull files
 
@@ -147,7 +147,7 @@ Clean up global environment.
 rm(icd_code_file, url, codes, icd_codes)
 ```
 
-# 2. Download ICD groupings file from CDC for 2026 (update October 2025) - XML file
+## 2. Download ICD groupings file from CDC for 2026 (update October 2025) - XML file
 
 ### 2a. Check for presence of ICD code file - if not present, pull from CDC 
 
@@ -200,6 +200,46 @@ Clean up global environment.
 rm(url, icd_group_file, tabular, chapters, icd_groups)
 ```
 
-# 3. Next steps
+## 3. Next steps
 
 From here, you can further clean the files, merge them, etc. 
+
+## 4. Download netCDF files
+
+These are commonly used file formats for climate and environmental data. This code can be adapted to download multiple individual files from a website with similar url structure in one clean function, rather than manually doing so for many files. The data in this example are from https://www.climatologylab.org/gridmet.html.
+
+### 4a. Define function to download netCDF files
+
+```{r}
+download_nc <- function(file_names) {
+  if (!file.exists(here::here('data', 'raw', paste0(file_names[i], '.nc')))) {
+    
+    download.file(url = paste0("https://www.northwestknowledge.net/metdata/data/", file_names[i], ".nc"), 
+                  destfile = here::here('data', 
+                                        'raw',  
+                                        paste0(file_names[i], '.nc')
+                  )
+    )
+  }
+}
+```
+
+### 4b. Define file names and download files
+
+```{r}
+# Define maximum temperature file names
+tmax_file_names <- c('tmmx_2024', 
+                     'tmmx_2025')
+
+# Download maximum temperature files
+for(i in 1:length(tmax_file_names)) {
+  download_gridmet(tmax_file_names)
+}
+```
+
+### 4c. Clean global environment
+
+```{r}
+rm(list = ls())
+```
+
