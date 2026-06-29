@@ -1,7 +1,7 @@
 ---
 format: gfm
 prefer-html: true
-title: "formatting tables - `DT"
+title: "formatting tables - `DT`"
 author: "Beth Jump"
 date: "2026-07-09"
 execute: 

@@ -1,4 +1,4 @@
-# formatting tables - \`DT
+# formatting tables - `DT`
 Beth Jump
 2026-07-09
 
