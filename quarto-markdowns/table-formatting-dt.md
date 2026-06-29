@@ -2,6 +2,10 @@
 Beth Jump
 2026-07-09
 
+See
+[here](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-comparison.md)
+for information about other packages for formatting tables.
+
 ``` r
 library(palmerpenguins)
 library(tidyverse)
