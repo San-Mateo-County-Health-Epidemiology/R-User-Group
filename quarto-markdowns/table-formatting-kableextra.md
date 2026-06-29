@@ -2,9 +2,6 @@
 Beth Jump
 2026-06-25
 
-<script src="table-formatting-kableextra_files/libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="table-formatting-kableextra_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-
 See
 [here](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-comparison.md)
 for information about other packages for formatting tables.
@@ -60,25 +57,14 @@ columns taller is a bit less straightforward but using the
 however many pixels or inches you want.
 
 ``` r
-penguins_kable %>%
+k2 <- penguins_kable %>%
   kable_classic() %>%
   column_spec(1:2, width = c('30%', '30%')) %>%
   row_spec(1:4,
            extra_css = "padding: 10px")
 ```
 
-| island    | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|:----------|:----------|:-------|--------------:|--------------:|---------------:|
-| Biscoe    | Adelie    | female |      37.35909 |      187.1818 |       3369.318 |
-| Biscoe    | Adelie    | male   |      40.59091 |      190.4091 |       4050.000 |
-| Biscoe    | Gentoo    | female |      45.56379 |      212.7069 |       4679.741 |
-| Biscoe    | Gentoo    | male   |      49.47377 |      221.5410 |       5484.836 |
-| Dream     | Adelie    | female |      36.91111 |      187.8519 |       3344.444 |
-| Dream     | Adelie    | male   |      40.07143 |      191.9286 |       4045.536 |
-| Dream     | Chinstrap | female |      46.57353 |      191.7353 |       3527.206 |
-| Dream     | Chinstrap | male   |      51.09412 |      199.9118 |       3938.971 |
-| Torgersen | Adelie    | female |      37.55417 |      188.2917 |       3395.833 |
-| Torgersen | Adelie    | male   |      40.58696 |      194.9130 |       4034.783 |
+![](table-formatting-images/kableextra2.png)
 
 ### Change font color and background of a cell
 
@@ -86,24 +72,13 @@ penguins_kable %>%
 columns by position.
 
 ``` r
-penguins_kable %>%
+k3 <- penguins_kable %>%
   kable_minimal() %>%
   row_spec(1:3, color = "#2C92B8") %>%
   column_spec(4:6, background = "darkgrey", color = "white")
 ```
 
-| island    | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|:----------|:----------|:-------|--------------:|--------------:|---------------:|
-| Biscoe    | Adelie    | female |      37.35909 |      187.1818 |       3369.318 |
-| Biscoe    | Adelie    | male   |      40.59091 |      190.4091 |       4050.000 |
-| Biscoe    | Gentoo    | female |      45.56379 |      212.7069 |       4679.741 |
-| Biscoe    | Gentoo    | male   |      49.47377 |      221.5410 |       5484.836 |
-| Dream     | Adelie    | female |      36.91111 |      187.8519 |       3344.444 |
-| Dream     | Adelie    | male   |      40.07143 |      191.9286 |       4045.536 |
-| Dream     | Chinstrap | female |      46.57353 |      191.7353 |       3527.206 |
-| Dream     | Chinstrap | male   |      51.09412 |      199.9118 |       3938.971 |
-| Torgersen | Adelie    | female |      37.55417 |      188.2917 |       3395.833 |
-| Torgersen | Adelie    | male   |      40.58696 |      194.9130 |       4034.783 |
+![](table-formatting-images/kableextra3.png)
 
 ### Change color and thickness of lines separating cells
 
@@ -119,151 +94,20 @@ In `kableExtra` you can format the header with the `row_spec()` function
 by referring to the top row as 0.
 
 ``` r
-penguins_kable %>%
+k4 <- penguins_kable %>%
   row_spec(0, font_size = 18, bold = T, italic = T)
 ```
 
-| island    | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|:----------|:----------|:-------|--------------:|--------------:|---------------:|
-| Biscoe    | Adelie    | female |      37.35909 |      187.1818 |       3369.318 |
-| Biscoe    | Adelie    | male   |      40.59091 |      190.4091 |       4050.000 |
-| Biscoe    | Gentoo    | female |      45.56379 |      212.7069 |       4679.741 |
-| Biscoe    | Gentoo    | male   |      49.47377 |      221.5410 |       5484.836 |
-| Dream     | Adelie    | female |      36.91111 |      187.8519 |       3344.444 |
-| Dream     | Adelie    | male   |      40.07143 |      191.9286 |       4045.536 |
-| Dream     | Chinstrap | female |      46.57353 |      191.7353 |       3527.206 |
-| Dream     | Chinstrap | male   |      51.09412 |      199.9118 |       3938.971 |
-| Torgersen | Adelie    | female |      37.55417 |      188.2917 |       3395.833 |
-| Torgersen | Adelie    | male   |      40.58696 |      194.9130 |       4034.783 |
+![](table-formatting-images/kableextra4.png)
 
 Here’s how to add an additional header above the table.
 
 ``` r
-penguins_kable %>%
+k5 <- penguins_kable %>%
   add_header_above(c("", "Species & sex" = 2, "Avg measurements" = 3), bold = TRUE)
 ```
 
-<table style="width:100%;" data-quarto-postprocess="true">
-<colgroup>
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr>
-<th data-quarto-table-cell-role="th"
-style="text-align: left; empty-cells: hide; border-bottom: hidden;"></th>
-<th colspan="2" data-quarto-table-cell-role="th"
-style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div
-style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-Species &amp; sex
-</div></th>
-<th colspan="3" data-quarto-table-cell-role="th"
-style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px; font-weight: bold;"><div
-style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-Avg measurements
-</div></th>
-</tr>
-<tr>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">island</th>
-<th style="text-align: left;"
-data-quarto-table-cell-role="th">species</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
-<th style="text-align: right;"
-data-quarto-table-cell-role="th">mean_bill_len</th>
-<th style="text-align: right;"
-data-quarto-table-cell-role="th">mean_flip_len</th>
-<th style="text-align: right;"
-data-quarto-table-cell-role="th">mean_body_mass</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">Biscoe</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">37.35909</td>
-<td style="text-align: right;">187.1818</td>
-<td style="text-align: right;">3369.318</td>
-</tr>
-<tr>
-<td style="text-align: left;">Biscoe</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">40.59091</td>
-<td style="text-align: right;">190.4091</td>
-<td style="text-align: right;">4050.000</td>
-</tr>
-<tr>
-<td style="text-align: left;">Biscoe</td>
-<td style="text-align: left;">Gentoo</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">45.56379</td>
-<td style="text-align: right;">212.7069</td>
-<td style="text-align: right;">4679.741</td>
-</tr>
-<tr>
-<td style="text-align: left;">Biscoe</td>
-<td style="text-align: left;">Gentoo</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">49.47377</td>
-<td style="text-align: right;">221.5410</td>
-<td style="text-align: right;">5484.836</td>
-</tr>
-<tr>
-<td style="text-align: left;">Dream</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">36.91111</td>
-<td style="text-align: right;">187.8519</td>
-<td style="text-align: right;">3344.444</td>
-</tr>
-<tr>
-<td style="text-align: left;">Dream</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">40.07143</td>
-<td style="text-align: right;">191.9286</td>
-<td style="text-align: right;">4045.536</td>
-</tr>
-<tr>
-<td style="text-align: left;">Dream</td>
-<td style="text-align: left;">Chinstrap</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">46.57353</td>
-<td style="text-align: right;">191.7353</td>
-<td style="text-align: right;">3527.206</td>
-</tr>
-<tr>
-<td style="text-align: left;">Dream</td>
-<td style="text-align: left;">Chinstrap</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">51.09412</td>
-<td style="text-align: right;">199.9118</td>
-<td style="text-align: right;">3938.971</td>
-</tr>
-<tr>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">female</td>
-<td style="text-align: right;">37.55417</td>
-<td style="text-align: right;">188.2917</td>
-<td style="text-align: right;">3395.833</td>
-</tr>
-<tr>
-<td style="text-align: left;">Torgersen</td>
-<td style="text-align: left;">Adelie</td>
-<td style="text-align: left;">male</td>
-<td style="text-align: right;">40.58696</td>
-<td style="text-align: right;">194.9130</td>
-<td style="text-align: right;">4034.783</td>
-</tr>
-</tbody>
-</table>
+![](table-formatting-images/kableextra5.png)
 
 ### Align contents within cell
 
@@ -273,40 +117,25 @@ table, you can use `align = "c"` (or `"l"` or `"r"`) in the `kbl()`
 function.
 
 ``` r
-penguins[1:4, 1:4] %>%
-  kable(align = 'rccl')
+k6 <- penguins[1:4, 1:4] %>%
+  kable(align = 'rccl') %>%
+  kable_paper()
 ```
 
-| species |  island   | bill_length_mm | bill_depth_mm |
-|--------:|:---------:|:--------------:|:--------------|
-|  Adelie | Torgersen |      39.1      | 18.7          |
-|  Adelie | Torgersen |      39.5      | 17.4          |
-|  Adelie | Torgersen |      40.3      | 18.0          |
-|  Adelie | Torgersen |       NA       | NA            |
+![](table-formatting-images/kableextra6.png)
 
 ### Merge cells vertically
 
 The `collapse_rows()` function makes this super easy!
 
 ``` r
-penguins_kable %>%
+k7 <- penguins_kable %>%
   kable_paper(full_width = F) %>%
   column_spec(1, bold = T) %>%
   collapse_rows(columns = 1:2, valign = "top")
 ```
 
-| island    | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|:----------|:----------|:-------|--------------:|--------------:|---------------:|
-| Biscoe    | Adelie    | female |      37.35909 |      187.1818 |       3369.318 |
-|           |           | male   |      40.59091 |      190.4091 |       4050.000 |
-|           | Gentoo    | female |      45.56379 |      212.7069 |       4679.741 |
-|           |           | male   |      49.47377 |      221.5410 |       5484.836 |
-| Dream     | Adelie    | female |      36.91111 |      187.8519 |       3344.444 |
-|           |           | male   |      40.07143 |      191.9286 |       4045.536 |
-|           | Chinstrap | female |      46.57353 |      191.7353 |       3527.206 |
-|           |           | male   |      51.09412 |      199.9118 |       3938.971 |
-| Torgersen | Adelie    | female |      37.55417 |      188.2917 |       3395.833 |
-|           |           | male   |      40.58696 |      194.9130 |       4034.783 |
+![](table-formatting-images/kableextra7.png)
 
 ### Merge cells horizontally
 
@@ -314,28 +143,14 @@ It doesn’t seem like you can merge columns in `kableExtra` but you can
 group sets of rows with `pack_rows()` which might come in handy.
 
 ``` r
-penguins_kable %>%
+k8 <- penguins_kable %>%
   pack_rows(index = c("Group 1" = 4,
                       "Group 2" = 4, 
                       "Group 3" = 2),
             label_row_css = "background-color: #666; color: #fff;")
 ```
 
-| island      | species   | sex    | mean_bill_len | mean_flip_len | mean_body_mass |
-|-------------|-----------|--------|---------------|---------------|----------------|
-| **Group 1** |           |        |               |               |                |
-| Biscoe      | Adelie    | female | 37.35909      | 187.1818      | 3369.318       |
-| Biscoe      | Adelie    | male   | 40.59091      | 190.4091      | 4050.000       |
-| Biscoe      | Gentoo    | female | 45.56379      | 212.7069      | 4679.741       |
-| Biscoe      | Gentoo    | male   | 49.47377      | 221.5410      | 5484.836       |
-| **Group 2** |           |        |               |               |                |
-| Dream       | Adelie    | female | 36.91111      | 187.8519      | 3344.444       |
-| Dream       | Adelie    | male   | 40.07143      | 191.9286      | 4045.536       |
-| Dream       | Chinstrap | female | 46.57353      | 191.7353      | 3527.206       |
-| Dream       | Chinstrap | male   | 51.09412      | 199.9118      | 3938.971       |
-| **Group 3** |           |        |               |               |                |
-| Torgersen   | Adelie    | female | 37.55417      | 188.2917      | 3395.833       |
-| Torgersen   | Adelie    | male   | 40.58696      | 194.9130      | 4034.783       |
+![](table-formatting-images/kableextra8.png)
 
 ### Bonus: adding plots into the table
 
