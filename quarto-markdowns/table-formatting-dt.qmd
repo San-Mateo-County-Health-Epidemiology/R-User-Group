@@ -54,11 +54,7 @@ penguins_dt %>%
       "}"))) %>%
   formatStyle(columns = 'island', fontSize = '20%') %>%
   formatStyle(columns = 'sex', fontWeight = 'bold') %>%
-  formatStyle(columns = 'species', fontStyle = 'italic') %>%
-  kbl(escape = FALSE) %>%
-  kable_paper() %>%
-  save_kable(file = "table1.html", self_contained = F)
-
+  formatStyle(columns = 'species', fontStyle = 'italic') 
 ```
 
 ### Set column widths & heights
