@@ -69,25 +69,7 @@ each topic.
 | 2022-05-05 | [date basics](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/date-basics.md) |
 | 2022-03-23 | [tidy data](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/tidy-data.md) |
 
-### Upcoming topics
-
-| Date       | Topic                  |
-|------------|------------------------|
-| 2025-10-16 | new `smcepi` functions |
-| 2025-10-30 | special `ggplot2` axes |
-
 ### Future topic ideas
-
-If you want to present but don’t have a topic in mind, feel free to do
-one of these:
-
-- factors: review what they are, go through basic operations including:
-  creating factors, reordering factors and why you might (or might not)
-  want to use factors in `ggplot2` and perhaps go over how to deal with
-  them in `tidyverse` (`forcats` package) vs base R
-- tables in Quarto: go over how to make tables in `kable`, `flextable`
-  and `gt`. Compare outputs and when you might or might not want to use
-  one (ie if one package can’t render to pdf)
 
 ------------------------------------------------------------------------
 
