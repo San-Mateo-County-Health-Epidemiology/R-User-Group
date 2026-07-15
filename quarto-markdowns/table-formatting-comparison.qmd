@@ -13,7 +13,9 @@ execute:
 
 There are many packages you can use to format a table in Quarto. This document goes over 5 of them:
 
-- [flextable](https://ardata-fr.github.io/flextable-book/): 
+- `flextable`
+   - [package info](https://ardata-fr.github.io/flextable-book/)
+   - [quarto with examples](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-flextable.md)
 - [gt](https://gt.rstudio.com/)
 - `kable` and `kableExtra`  
    - [package info](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)  
