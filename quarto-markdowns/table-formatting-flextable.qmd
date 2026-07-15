@@ -1,10 +1,16 @@
 ---
-title: "table-formatting-flextable"
 format: gfm
+prefer-html: true
+title: "formatting tables - `flextable`"
+author: "Eamonn Hartmann"
+date: "2026-07-15"
 editor: visual
+execute: 
+  warning: false
+  message: false
 ---
 
-## `flextable`
+See [here](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-comparison.md) for information about other packages for formatting tables. 
 
 ```{r}
 
@@ -16,6 +22,10 @@ library(officer)
 penguins <- palmerpenguins::penguins
 
 ```
+
+## `flextable`
+
+This [guide](https://ardata-fr.github.io/flextable-book/) includes more details related to table customization with `flextable`.
 
 ### Clean data and create flextable
 
