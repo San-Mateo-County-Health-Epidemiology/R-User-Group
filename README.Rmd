@@ -27,6 +27,7 @@ Each topic has two files: a `.qmd` (Quarto) file and a `.md` (markdown) file. Th
 
 | Date       | Script                                 |
 |------------| -------------------------------------  |
+| 2026-07-15 |  [`flextable` tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-flextable.md) |
 | 2026-07-09 | [`DT` tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-dt.md) |
 | 2026-06-25 | [`tinytable` tables](), [kableExtra tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-kableextra.md) |
 | 2026-06-11 | [download ICD codes](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/download_ICD_codes.md) |
