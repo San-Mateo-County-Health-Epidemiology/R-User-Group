@@ -22,12 +22,11 @@ each topic.
 
 | Date | Script |
 |----|----|
-| 2026-07-15 | [`flextable` tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-flextable.md) |
 | 2026-07-09 | [`DT` tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-dt.md) |
 | 2026-06-25 | [`tinytable` tables](), [kableExtra tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-kableextra.md) |
 | 2026-06-11 | [download ICD codes](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/download_ICD_codes.md) |
 | 2026-06-11 | [DAGitty in R](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dagitty_in_R.md) |
-| 2026-05-28 | [table formatting comparison](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-comparison.md) |
+| 2026-05-28 | [`flextable` tables](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/table-formatting-flextable.md) |
 | 2026-05-14 | [map in ggplot2](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/map_in_ggplot2.md) |
 | 2026-04-16 | [when and how to use factors](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/when-and-how-to-use-factors.md) |
 | 2026-04-02 | [dplyr updates & table overview idea](https://github.com/San-Mateo-County-Health-Epidemiology/R-User-Group/blob/main/quarto-markdowns/dplyr-updates-and-table-idea.md) |
